@@ -7,7 +7,7 @@
 -- 2.4- Todo Trouble not working
 -- 3- Rework keymaps with respect to lsp keymaps
 -- 3.5- LionC/nest.nvim
--- 4- Add recent used files shortcut to which_key
+-- 4- Add recent used files shortcut to which_key, and rework telescope find file feature
 -- 5- zen-mode, yode-nvim,
 -- 6- Add keymaps to treesitter https://alpha2phi.medium.com/neovim-tips-for-a-better-coding-experience-3d0f782f034e
 -- text objects and motions for function (f) and class (c), E.g., daf to delete a function, yaf to yank a function, or dac to delete a class.
@@ -23,40 +23,46 @@
 -- 14- Telescope Image viewer, gkeep
 -- 15- https://alpha2phi.medium.com/vim-neovim-plugins-for-a-better-integrated-experience-6accd4c2a52c browser
 
-local disabled_built_ins = {
-    "netrw",
-    "netrwPlugin",
-    "netrwSettings",
-    "netrwFileHandlers",
-    "gzip",
-    "zip",
-    "zipPlugin",
-    "tar",
-    "tarPlugin",
-    "getscript",
-    "getscriptPlugin",
-    "vimball",
-    "vimballPlugin",
-    "2html_plugin",
-    "logipat",
-    "rrhelper",
-    "spellfile_plugin",
-    "matchit"
-}
+require("impatient")
 
+local disabled_built_ins = {
+	"netrw",
+	"netrwPlugin",
+	"netrwSettings",
+	"netrwFileHandlers",
+	"gzip",
+	"zip",
+	"zipPlugin",
+	"tar",
+	"tarPlugin",
+	"getscript",
+	"getscriptPlugin",
+	"vimball",
+	"vimballPlugin",
+	"2html_plugin",
+	"logipat",
+	"rrhelper",
+	"spellfile_plugin",
+	"matchit",
+}
 for _, plugin in pairs(disabled_built_ins) do
-    vim.g["loaded_" .. plugin] = 1
+	vim.g["loaded_" .. plugin] = 1
 end
 
-vim.opt.shell = "/bin/bash"
+vim.cmd([[
+  " set noshowmode
+  set noruler
+  set laststatus=0
+  " set noshowcmd
+  ]])
+-- vim.opt.shell = "/bin/bash"
 vim.opt.lazyredraw = true
 
 -- Core Configs
 require("user.core.options")
 require("user.core.keymaps")
 require("user.core.plugins")
-require("user.core.colorscheme").setup()
 
 -- Need Reconfiguring
-require("user.configs.lualine")
-require("user.lsp")
+-- require("user.lsp")
+-- require("user.configs.fidget")

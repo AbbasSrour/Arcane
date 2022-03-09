@@ -1,64 +1,6 @@
 local M = {}
 local time = os.date("*t")
 
-M.setup = function()
-	-- 12AM -> 7AM
-	if time.hour >= 0 and time.hour < 7 then
-		require("user.core.colorscheme").onedark()
-		vim.cmd([[
-	try
-	  colorscheme onedark
-	  set background=dark
-	catch /^Vim\%((\a\+)\)\=:E185/
-	  colorscheme default
-	  set background=dark
-	endtry
-	]])
-	end
-
-	-- 7AM -> 1PM
-	if time.hour >= 7 and time.hour < 13 then
-		require("user.core.colorscheme").rose_pine()
-		vim.cmd([[
-	try
-	  colorscheme rose-pine
-	  set background=light
-	catch /^Vim\%((\a\+)\)\=:E185/
-	  colorscheme default
-	  set background=light
-	endtry
-	]])
-	end
-
-	-- 1PM -> 8PM
-	if time.hour >= 13 and time.hour < 23 then
-		require("user.core.colorscheme").tokyonight()
-		vim.cmd([[
-	try
-	  colorscheme tokyonight
-	  set background=dark
-	catch /^Vim\%((\a\+)\)\=:E185/
-	  colorscheme default
-	  set background=dark
-	endtry
-	]])
-	end
-
-	-- 8PM -> 11:59PM
-	if time.hour >= 23 then
-		require("user.core.colorscheme").onedark()
-		vim.cmd([[
-	try
-	  colorscheme onedark
-	  set background=dark
-	catch /^Vim\%((\a\+)\)\=:E185/
-	  colorscheme default
-	  set background=dark
-	endtry
-	]])
-	end
-end
-
 M.tokyonight = function()
 	vim.g.tokyonight_style = "storm"
 	vim.g.tokyonight_cterm_colors = false

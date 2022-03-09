@@ -8,8 +8,11 @@ require("todo-comments").setup({
 		HACK = { icon = " ", color = "warning" },
 		WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
 		PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-		NOTE = { icon = " ", color = "hint", alt = { "INFO", "PLUGINS" } },
+		NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
 		PLUGIN = { color = "info", signs = false },
+		PLUGINS = { color = "hint", signs = false },
+		NOTLAZYPLUGIN = { color = "error", signs = false },
+		PLAZYPLUGIN = { color = "warning", signs = false },
 	},
 	merge_keywords = true, -- when true, custom keywords will be merged with the defaults
 	-- highlighting of the line containing the todo comment
@@ -44,7 +47,7 @@ require("todo-comments").setup({
 			"--line-number",
 			"--column",
 		},
-		-- pattern = [[\b(KEYWORDS):]], -- ripgrep regex
-		pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
+		pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+		-- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
 	},
 })
