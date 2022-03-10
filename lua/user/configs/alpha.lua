@@ -5,10 +5,10 @@ if not status_ok then
 	return
 end
 
-local kind = require("user.lsp_kind")
+local kind = require("user.utils.kind")
 local header = {
 	type = "text",
-	val = require("user.core.banners").dashboard(),
+	val = require("user.utils.banners").dashboard(),
 	opts = {
 		position = "center",
 		hl = "Comment",
@@ -34,7 +34,7 @@ end
 
 local plugin_count = {
 	type = "text",
-	val = "└─ " .. kind.cmp_kind.Module .. " " .. plugins .. " plugins in total ─┘",
+	val = "└─ " .. kind.cmp.Module .. " " .. plugins .. " plugins in total ─┘",
 	opts = {
 		position = "center",
 		hl = "String",
@@ -93,12 +93,12 @@ end
 local buttons = {
 	type = "group",
 	val = {
-		button("e", " " .. kind.cmp_kind.File .. " New file", ":ene <BAR> startinsert <CR>"),
-		button("f", " " .. kind.cmp_kind.Folder .. " Explore", ":Telescope find_files<CR>"),
+		button("e", " " .. kind.cmp.File .. " New file", ":ene <BAR> startinsert <CR>"),
+		button("f", " " .. kind.cmp.Folder .. " Explore", ":Telescope find_files<CR>"),
 		button("p", " " .. kind.nvim_tree_icons.folder.default .. "  Projects", ":Telescope projects<CR>"),
 		button("s", " " .. kind.icons.magic .. " Restore", ":lua require('persistence').load()<cr>"),
 		button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
-		button("g", " " .. kind.icons.git .. " Git Status", "<cmd>lua _LAZYGIT_TOGGLE()<CR>"),
+		button("g", " " .. kind.git.branch .. " Git Status", "<cmd>lua _LAZYGIT_TOGGLE()<CR>"),
 		button("c", " " .. kind.icons.settings .. " Config", ":e ~/.config/nvim/init.lua <CR>"),
 		button("q", " " .. kind.icons.quit .. " Quit", ":qa<CR>"),
 	},

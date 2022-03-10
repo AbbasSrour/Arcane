@@ -36,7 +36,7 @@ packer.init({
 
 return packer.startup(function(use)
 	-----------------------------------------------------------------------------------------------------------------
-	--                                        Plugins                                                              --
+	--  PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
 	-----------------------------------------------------------------------------------------------------------------
@@ -70,18 +70,21 @@ return packer.startup(function(use)
 	-- UI PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
-	-- Popup NOTLAZYPLUGIN: UI Toolkit
+	-- Popup PLUGIN: Implement features from vim popup apis
 	use({
 		requires = { "nvim-lua/plenary.nvim" },
 		"nvim-lua/popup.nvim",
 	})
 
-	-- Dressing NOTLAZYPLUGIN: UI Toolkit
+	-- Dressing PLUGIN: UI Toolkit to select the UI backend (nui, telescope, fzf)
 	use({
 		"stevearc/dressing.nvim",
+		config = function()
+			require("user.configs.dressing")
+		end,
 	})
 
-	-- Web-DevIcons NOTLAZYPLUGIN: Adds Icons To Neovim
+	-- Web-DevIcons PLUGIN: Adds Icons To Neovim
 	use({
 		"kyazdani42/nvim-web-devicons",
 	})
@@ -104,7 +107,7 @@ return packer.startup(function(use)
 		after = "nvim-web-devicons",
 	})
 
-	-- Lualine NOTLAZYPLUGIN: Status Line FIXME:
+	-- Lualine NOTLAZYPLUGIN: Status Line
 	use({
 		"nvim-lualine/lualine.nvim",
 		config = function()
@@ -140,7 +143,7 @@ return packer.startup(function(use)
 		"rose-pine/neovim",
 		as = "rose-pine",
 		config = function()
-			require("user.core.colorscheme").rose_pine()
+			require("user.utils.colorscheme").rose_pine()
 			vim.cmd([[
 	try
 	  colorscheme rose-pine
@@ -161,7 +164,7 @@ return packer.startup(function(use)
 	use({
 		"folke/tokyonight.nvim",
 		config = function()
-			require("user.core.colorscheme").tokyonight()
+			require("user.utils.colorscheme").tokyonight()
 			vim.cmd([[
 	try
 	  colorscheme tokyonight
@@ -182,7 +185,7 @@ return packer.startup(function(use)
 	use({
 		"navarasu/onedark.nvim",
 		config = function()
-			require("user.core.colorscheme").onedark()
+			require("user.utils.colorscheme").onedark()
 			vim.cmd([[
 	try
 	  colorscheme onedark
@@ -215,19 +218,19 @@ return packer.startup(function(use)
 	-- Telescope PLUGIN: Easy Search
 	use({
 		"nvim-telescope/telescope.nvim",
-		requires = { { "nvim-telescope/telescope-media-files.nvim" }, { "ahmedkhalf/project.nvim" } },
+		-- requires = { { "nvim-telescope/telescope-media-files.nvim" }, { "ahmedkhalf/project.nvim" } },
 		config = function()
 			require("user.configs.telescope")
 		end,
 		opt = true,
 		cmd = "Telescope",
+		event = "BufRead",
 	})
 
-	-- Telescope-Media-Supp PLUGIN: View Images with Telescope media_files command
+	-- Telescope-Media-Supp NOTLAZYPLUGIN: View Images with Telescope media_files command
 	use({
 		"nvim-telescope/telescope-media-files.nvim",
 		requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" }, { "nvim-telescope/telescope.nvim" } },
-		opt = true,
 	})
 
 	-- Project NOTLAZYPLUGIN: For All Your uncompleted Projects
@@ -242,56 +245,48 @@ return packer.startup(function(use)
 	-- Lsp PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
-	-- Lsp-Config NOTLAZYPLUGIN: -- enable Lsp FIXME:
+	-- Lsp-Config PLAZYPLUGIN: -- enable Lsp
 	use({
 		"neovim/nvim-lspconfig",
 		config = function()
-			require("user.lsp")
+			require("user.configs.lsp")
 		end,
+		opt = true,
+		event = "BufRead",
 	})
 
-	-- Lsp-Installer NOTLAZYPLUGIN: -- simple to use language server installer
+	-- Lsp-Installer PLAZYPLUGIN: -- simple to use language server installer
 	use({
 		"williamboman/nvim-lsp-installer",
+		opt = true,
+		event = "BufRead",
 	})
 
-	-- Nlsp-Settings NOTLAZYPLUGIN: -- language server settings defined in json
+	-- Nlsp-Settings PLAZYPLUGIN: -- language server settings defined in json
 	use({
 		"tamago324/nlsp-settings.nvim",
+		opt = true,
+		event = "BufRead",
 	})
 
-	-- Null-ls NOTLAZYPLUGIN: -- for formatters and linters
+	-- Null-ls PLAZYPLUGIN: -- for formatters and linters
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
+		opt = true,
+		event = "BufRead",
 	})
 
-	-- Function-Signature NOTLAZYPLUGIN: Function Parameters
+	-- Function-Signature PLAZYPLUGIN: Function Parameters
 	use({
 		"ray-x/lsp_signature.nvim",
 		config = function()
-			require("user.configs.lspsignature")
-		end,
-	})
-
-	-- Lsp-Saga NOTLAZYPLUGIN: Better Lsp UI
-	use({
-		"tami5/lspsaga.nvim",
-		config = function()
-			require("user.configs.lspsaga")
-		end,
-	})
-
-	-- CodeActionMenu PLUGIN: Better Menu for CodeActionMenu
-	use({
-		"weilbith/nvim-code-action-menu",
-		config = function()
-			require("user.configs.codeactions").setup()
+			require("user.configs.lsp.lspsignature")
 		end,
 		opt = true,
-		cmd = "CodeActionMenu",
+		event = "BufRead",
 	})
 
-	-- FIDGET PLUGIN: Lsp Loader Progress
+	-- FIDGET PLAZYPLUGIN: Lsp Loader Progress
 	use({
 		"j-hui/fidget.nvim",
 		config = function()
@@ -301,18 +296,40 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
+	-- Lsp-Saga NOTLAZYPLUGIN: Better Lsp UI
+	-- use({
+	-- 	"tami5/lspsaga.nvim",
+	-- 	config = function()
+	-- 		require("user.configs.lspsaga")
+	-- 	end,
+	-- })
+
+	-- CodeActionMenu PLUGIN: Better Menu for CodeActionMenu
+	-- use({
+	-- 	"weilbith/nvim-code-action-menu",
+	-- 	config = function()
+	-- 		require("user.configs.codeactions").setup()
+	-- 	end,
+	-- 	opt = true,
+	-- 	cmd = "CodeActionMenu",
+	-- })
+
 	-----------------------------------------------------------------------------------------------------------------
 	-- Snippets PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
-	-- LuaSnip NOTLAZYPLUGIN: Snippet engine
+	-- LuaSnip PLAZYPLUGIN: Snippet engine
 	use({
 		"L3MON4D3/LuaSnip",
+		opt = true,
+		event = "BufRead",
 	})
 
-	-- Friendly-Snippets NOTLAZYPLUGIN: A bunch of snippets to use
+	-- Friendly-Snippets PLAZYPLUGIN: A bunch of snippets to use
 	use({
 		"rafamadriz/friendly-snippets",
+		opt = true,
+		event = "BufRead",
 	})
 
 	-- React-Snippets PLUGIN: React Snippets
@@ -325,51 +342,55 @@ return packer.startup(function(use)
 	-----------------------------------------------------------------------------------------------------------------
 	-- Cmp PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
-	-- Cmp-Nvim NOTLAZYPLUGIN: The completion plugin
+	-- Cmp-Nvim PLAZYPLUGIN: The completion plugin
 	use({
 		"hrsh7th/nvim-cmp",
 		requires = {
-			-- Cmp-Buffer NOTLAZYPLUGIN: buffer completions
+			-- Cmp-Buffer PLAZYPLUGIN: buffer completions
 			{ "hrsh7th/cmp-buffer" },
 
-			-- Cmp-Path NOTLAZYPLUGIN: path completions
+			-- Cmp-Path PLAZYPLUGIN: path completions
 			{ "hrsh7th/cmp-path" },
 
-			-- Cmp-Cmdline NOTLAZYPLUGIN: cmdline completions
+			-- Cmp-Cmdline PLAZYPLUGIN: cmdline completions
 			{ "hrsh7th/cmp-cmdline" },
 
-			-- Cmp-LuaSnip NOTLAZYPLUGIN:  snippet completions
+			-- Cmp-LuaSnip PLAZYPLUGIN:  snippet completions
 			{ "saadparwaiz1/cmp_luasnip" },
 
-			-- Cmp-Lsp NOTLAZYPLUGIN:
+			-- Cmp-Lsp PLAZYPLUGIN:
 			{ "hrsh7th/cmp-nvim-lsp" },
 
-			-- Cmp-Lua NOTLAZYPLUGIN:
+			-- Cmp-Lua PLAZYPLUGIN:
 			{ "hrsh7th/cmp-nvim-lua" },
 
-			-- Document-Symbols NOTLAZYPLUGIN:
+			-- Document-Symbols PLAZYPLUGIN:
 			{ "hrsh7th/cmp-nvim-lsp-document-symbol" },
 		},
 		config = function()
 			require("user.configs.cmp")
 		end,
+		opt = true,
+		event = "BufRead",
 	})
 
-	-- TABNINE NOTLAZYPLUGIN:
+	-- TABNINE PLAZYPLUGIN:
 	use({
 		"tzachar/cmp-tabnine",
 		run = "./install.sh",
 		requires = "hrsh7th/nvim-cmp",
 		config = function()
-			require("user.configs.tabnine")
+			require("user.configs.cmp.tabnine")
 		end,
+		opt = true,
+		event = "BufRead",
 	})
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Treesitter PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
-	-- Treesitter PLUGIN: Syntax Highlight
+	-- Treesitter PLAZYPLUGIN: Syntax Highlight
 	use({
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
@@ -418,13 +439,14 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
-	-- AutoTag PLUGIN: Use treesitter to autoclose and autorename html tag
+	-- AutoTag PLAZYPLUGIN: Use treesitter to autoclose and autorename html tag
 	use({
 		"windwp/nvim-ts-autotag",
 		config = function()
 			require("user.configs.autotag")
 		end,
-		event = "InsertEnter",
+		opt = true,
+		event = "BufRead",
 	})
 
 	-- Treesitter-Context PLAZYPLUGIN: FIXME
@@ -552,10 +574,11 @@ return packer.startup(function(use)
 			require("user.configs.hexokinase")
 		end,
 		opt = true,
-		ft = { "css", "scss", "sass", "xml", "conf", "js", "jsx", "conf", "txt" },
+		ft = { "css", "scss", "sass", "xml", "js", "jsx", "conf", "txt", "lua" },
+		cmd = "hexokinase",
 	})
 
-	-- PERSISTANCE PLUGIN: Save current session
+	-- PERSISTANCE PLAZYPLUGIN: Save current session
 	use({
 		"folke/persistence.nvim",
 		module = "persistence",

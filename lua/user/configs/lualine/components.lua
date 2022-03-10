@@ -1,5 +1,6 @@
-local colors = require("user.configs.lualine.colors")
+local colors = require("user.utils.colorscheme").colors
 local conditions = require("user.configs.lualine.conditions")
+local kind = require("user.utils.kind")
 
 local function diff_source()
 	local gitsigns = vim.b.gitsigns_status_dict
@@ -16,10 +17,10 @@ Components = {
 	-- Main icon
 	mainIcon = {
 		function()
-			return " "
+			return kind.icons.mainIcon .. ""
 		end,
 		padding = { left = 1, right = 1 },
-		separator = { right = "" },
+		separator = { right = kind.icons.seperator.triangle.right .. "" },
 		cond = nil,
 	},
 
@@ -27,44 +28,52 @@ Components = {
 	filetype = {
 		"filetype",
 		cond = conditions.hide_in_width,
-		colored = false,
+		colored = true,
 		icon_only = true,
 		padding = { left = 2, right = 0.2 },
-		color = {},
+		color = nil,
 	},
 	filename = {
 		"filename",
 		path = 0,
-		color = {},
+		color = nil,
 		padding = { left = 1, right = 1 },
-		separator = { right = "" },
+		separator = { right = kind.icons.seperator.triangle.right .. "" },
 		cond = nil,
 	},
 	fileformat = {
 		"fileformat",
 		symbols = {
-			unix = "", -- e712
-			dos = "", -- e70f
-			mac = "", -- e711
+			unix = kind.icons.linux .. "",
+			dos = kind.icons.windows .. "",
+			mac = kind.icons.apple .. "",
 		},
+		color = nil,
+		cond = nil,
 	},
 	-- Github
 	branch = {
 		"b:gitsigns_head",
-		icon = " ",
+		icon = kind.git.branch .. "",
 		color = { gui = "bold" },
 		cond = conditions.hide_in_width,
+		padding = { left = 2 },
 	},
 	diff = {
 		"diff",
 		source = diff_source,
-		symbols = { added = "  ", modified = "柳", removed = " " },
-		diff_color = {
-			added = { fg = colors.green },
-			modified = { fg = colors.yellow },
-			removed = { fg = colors.red },
+		symbols = {
+			added = kind.git.added .. " ",
+			modified = kind.git.modified .. "",
+			removed = kind.git.removed .. " ",
 		},
-		color = {},
+		-- diff_color = {
+		-- 	added = { fg = colors.git.add, bg = nil },
+		-- 	modified = { fg = colors.yellow, bg = nil },
+		-- 	removed = { fg = colors.red, bg = nil },
+		-- },
+		padding = { left = 1 },
+		color = nil,
 		cond = nil,
 	},
 
@@ -72,9 +81,14 @@ Components = {
 	diagnostics = {
 		"diagnostics",
 		sources = { "nvim_diagnostic" },
-		symbols = { error = " ", warn = " ", info = " ", hint = " " },
+		symbols = {
+			error = kind.lsp.error .. " ",
+			warn = kind.lsp.warn .. " ",
+			info = kind.lsp.info .. " ",
+			hint = kind.lsp.hint .. " ",
+		},
 		padding = { left = 1, right = 1 },
-		color = {},
+		color = nil,
 		cond = conditions.hide_in_width,
 		update_in_insert = true, -- Update diagnostics in insert mode.
 		always_visible = false,
@@ -99,11 +113,11 @@ Components = {
 		function()
 			local b = vim.api.nvim_get_current_buf()
 			if next(vim.treesitter.highlighter.active[b]) then
-				return "  "
+				return kind.icons.treesitter .. " "
 			end
 			return ""
 		end,
-		padding = { left = 0, right = 1 },
+		padding = { left = 1, right = 1 },
 		color = { fg = colors.green },
 		cond = conditions.hide_in_width,
 	},
@@ -111,36 +125,53 @@ Components = {
 	--LSP
 	lsp = {
 		function(msg)
-			msg = msg or "LS Inactive"
+			msg = msg or kind.lsp.inactive .. "LS Inactive"
 			local buf_clients = vim.lsp.buf_get_clients()
 			if next(buf_clients) == nil then
-				-- TODO: clean up this if statement
 				if type(msg) == "boolean" or #msg == 0 then
-					return "LS Inactive"
+					return kind.icons.ls_inactive .. "LS Inactive"
 				end
 				return msg
 			end
 			local buf_ft = vim.bo.filetype
 			local buf_client_names = {}
+			local trim = vim.fn.winwidth(0) < 120
 
-			-- add client
 			for _, client in pairs(buf_clients) do
 				if client.name ~= "null-ls" then
-					table.insert(buf_client_names, client.name)
+					local _added_client = client.name
+					if trim then
+						_added_client = string.sub(client.name, 1, 4)
+					end
+					table.insert(buf_client_names, _added_client)
 				end
 			end
 
 			-- add formatter
-			-- local formatters = require "lvim.lsp.null-ls.formatters"
-			-- local supported_formatters = formatters.list_registered(buf_ft)
-			-- vim.list_extend(buf_client_names, supported_formatters)
+			local formatters = require("user.utils.null-ls.formatters")
+			local supported_formatters = {}
+			for _, fmt in pairs(formatters.list_registered(buf_ft)) do
+				local _added_formatter = fmt
+				if trim then
+					_added_formatter = string.sub(fmt, 1, 4)
+				end
+				table.insert(supported_formatters, _added_formatter)
+			end
+			vim.list_extend(buf_client_names, supported_formatters)
 
 			-- add linter
-			-- local linters = require "lvim.lsp.null-ls.linters"
-			-- local supported_linters = linters.list_registered(buf_ft)
-			-- vim.list_extend(buf_client_names, supported_linters)
+			local linters = require("user.utils.null-ls.linters")
+			local supported_linters = {}
+			for _, lnt in pairs(linters.list_registered(buf_ft)) do
+				local _added_linter = lnt
+				if trim then
+					_added_linter = string.sub(lnt, 1, 4)
+				end
+				table.insert(supported_linters, _added_linter)
+			end
+			vim.list_extend(buf_client_names, supported_linters)
 
-			return "  " .. table.concat(buf_client_names, ", ")
+			return kind.lsp.active .. " " .. table.concat(buf_client_names, ", ")
 		end,
 		padding = { left = 1, right = 1 },
 		color = { gui = "bold" },
@@ -156,11 +187,11 @@ Components = {
 	},
 	modeIcon = {
 		function()
-			return ""
+			return kind.icons.vim_mode .. ""
 		end,
 		padding = { left = 1, right = 2 },
-		separator = { left = "" },
-		color = {},
+		separator = { left = kind.icons.seperator.circle.left },
+		color = nil,
 		cond = nil,
 	},
 
@@ -169,35 +200,35 @@ Components = {
 		function()
 			local current_line = vim.fn.line(".")
 			local total_lines = vim.fn.line("$")
-			local chars = { "  ", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
+			local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
 			local line_ratio = current_line / total_lines
 			local index = math.ceil(line_ratio * #chars)
 			return chars[index]
 		end,
 		padding = { left = 0, right = 0 },
-		color = { fg = colors.yellow, bg = colors.bg },
+		color = { fg = colors.purple, bg = colors.bg },
 		cond = nil,
 	},
 	progress = {
 		"progress",
 		cond = conditions.hide_in_width,
 		padding = { left = 0.5, right = 1 },
-		color = {},
+		color = nil,
 	},
 	progressIcon = {
 		function()
-			return " "
+			return kind.icons.vim_pos .. " "
 		end,
 		padding = { left = 0, right = 0 },
-		separator = { left = "" },
-		color = {},
+		separator = { left = kind.icons.seperator.circle.left .. "" },
+		color = nil,
 		cond = nil,
 	},
 	location = {
 		"location",
 		cond = conditions.hide_in_width,
 		padding = { left = 0, right = 1 },
-		color = {},
+		color = nil,
 	},
 
 	-- Space
@@ -213,14 +244,14 @@ Components = {
 			return "Spaces: " .. size .. " "
 		end,
 		cond = conditions.hide_in_width,
-		color = {},
+		color = nil,
 	},
 
 	--Encodeing
 	encoding = {
 		"o:encoding",
 		fmt = string.upper,
-		color = {},
+		color = nil,
 		cond = conditions.hide_in_width,
 	},
 

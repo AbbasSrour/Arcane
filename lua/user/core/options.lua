@@ -37,6 +37,7 @@ local options = {
 if vim.g.neovide == true then
 	vim.o.guifont = "Operator Mono Lig Book,Noto Color Emoji,JetBrainsMono Nerd Font:h9"
 	-- vim.o.guifont = "Monolisa,Noto Color Emoji,JetBrainsMono Nerd Font:h8"
+	-- vim.o.guifont = "JetBrainsMono Nerd Font:h8"
 	vim.api.nvim_set_keymap("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>", {})
 end
 
@@ -49,3 +50,9 @@ end
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 vim.cmd([[set iskeyword+=-]])
 vim.cmd([[set formatoptions-=cro]]) -- TODO: this doesn't seem to work
+
+-- Mapping Space as Leader
+local opts = { noremap = true, silent = true }
+vim.api.nvim_set_keymap("", "<Space>", "<Nop>", opts)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
