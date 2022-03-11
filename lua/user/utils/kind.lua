@@ -2,7 +2,7 @@ local M = {}
 
 M.icons = {
 	mainIcon = " ",
-	linux = "", -- "🐧",
+	linux = "🐧", -- ""
 	windows = "",
 	apple = "",
 	treesitter = "",
@@ -50,11 +50,13 @@ M.git = {
 M.lsp = {
 	error = "",
 	warn = "",
-	info = "",
-	hint = "",
-	code_action = "", --' '
+	info = "", -- 
+	hint = "", -- 
+	code_action = "",
 	inactive = "轢",
 	active = "歷",
+	signature = "🐼",
+	virtual = "🦉", --●
 }
 
 M.nvim_tree_icons = {

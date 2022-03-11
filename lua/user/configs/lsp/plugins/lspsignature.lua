@@ -1,22 +1,23 @@
 local M = {}
-
 local status_ok, sig = pcall(require, "lsp_signature")
 if not status_ok then
 	return
 end
 
+local kind = require("user.utils.kind")
+
 local cfg = {
 	bind = true,
 	doc_lines = 10,
-	floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
+	floating_window = false, -- show hint in a floating window, set to false for virtual text only mode
 	floating_window_above_cur_line = true,
-	floating_window_off_x = 50, -- adjust float windows x position.
-	floating_window_off_y = 1, -- adjust float windows y position.
+	floating_window_off_x = 4, -- adjust float windows x position.
+	floating_window_off_y = -1, -- adjust float windows y position.
 	max_height = 12, -- max height of signature floating_window, if content is more than max_height, you can scroll down to view the hidden contents
 	max_width = 90, -- max_width of signature floating_window, line will be wrapped if exceed max_width
 	fix_pos = false, -- set to true, the floating window will not auto-close until finish all parameters
 	hint_enable = true, -- virtual hint enable
-	hint_prefix = "🐼 ", -- 
+	hint_prefix = kind.lsp.signature .. " ",
 	hint_scheme = "markdown",
 	use_lspsaga = false,
 	hi_parameter = "LspSignatureActiveParameter", -- how your parameter will be highlight

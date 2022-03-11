@@ -51,13 +51,14 @@ Components = {
 		color = nil,
 		cond = nil,
 	},
+
 	-- Github
 	branch = {
 		"b:gitsigns_head",
 		icon = kind.git.branch .. "",
 		color = { gui = "bold" },
 		cond = conditions.hide_in_width,
-		padding = { left = 2 },
+		padding = { left = 2, right = 1 },
 	},
 	diff = {
 		"diff",
@@ -75,6 +76,11 @@ Components = {
 		padding = { left = 1 },
 		color = nil,
 		cond = nil,
+	},
+	Github = {
+		function()
+			return require("github-notifications").statusline_notification_count
+		end,
 	},
 
 	-- Diagnostics
@@ -101,11 +107,18 @@ Components = {
 		end,
 	},
 
-	-- Github
-	Github = {
+	--Signature
+	signature = {
 		function()
-			return require("github-notifications").statusline_notification_count
+			if not packer_plugins["lsp_signature.nvim"] or packer_plugins["lsp_signature.nvim"].loaded == false then
+				return ""
+			end
+			local sig = require("lsp_signature").status_line()
+			-- return sig.label .. "🐼" .. sig.hint
+			return " " .. kind.lsp.signature .. " " .. sig.hint
 		end,
+		color = { bg = colors.bg },
+		cond = nil,
 	},
 
 	-- Treesitter

@@ -280,7 +280,7 @@ return packer.startup(function(use)
 	use({
 		"ray-x/lsp_signature.nvim",
 		config = function()
-			require("user.configs.lsp.lspsignature")
+			require("user.configs.lsp.plugins.lspsignature")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -290,7 +290,17 @@ return packer.startup(function(use)
 	use({
 		"j-hui/fidget.nvim",
 		config = function()
-			require("user.configs.fidget")
+			require("user.configs.lsp.plugins.fidget")
+		end,
+		opt = true,
+		event = "BufRead",
+	})
+
+	-- Lightbulb PLAZYPLUGIN:
+	use({
+		"kosayoda/nvim-lightbulb",
+		config = function()
+			require("user.configs.lsp.plugins.lightbulb")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -366,6 +376,9 @@ return packer.startup(function(use)
 
 			-- Document-Symbols PLAZYPLUGIN:
 			{ "hrsh7th/cmp-nvim-lsp-document-symbol" },
+
+			-- Signature-Help PLAZYPLUGIN:
+			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 		},
 		config = function()
 			require("user.configs.cmp")
@@ -578,15 +591,12 @@ return packer.startup(function(use)
 		cmd = "hexokinase",
 	})
 
-	-- PERSISTANCE PLAZYPLUGIN: Save current session
+	-- Session Manager NOTLAZYPLUGIN: Save current session
 	use({
-		"folke/persistence.nvim",
-		module = "persistence",
+		"Shatur/neovim-session-manager",
 		config = function()
-			require("user.configs.persistance")
+			require("user.configs.session-manager")
 		end,
-		event = "BufReadPre",
-		opt = true,
 	})
 
 	-- NUMB PLAZYPLUGIN: Jump to a specific line with :x

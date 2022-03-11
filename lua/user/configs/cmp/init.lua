@@ -88,11 +88,12 @@ cmp.setup({
 
 	sources = {
 		{ name = "path" },
+		{ name = "nvim_lsp_signature_help" },
 		{ name = "nvim_lsp" },
-		{ name = "cmp_tabnine" },
 		{ name = "nvim_lua" },
 		{ name = "luasnip" },
 		{ name = "buffer" },
+		{ name = "cmp_tabnine" },
 	},
 
 	confirm_opts = {

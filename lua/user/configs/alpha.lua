@@ -96,7 +96,7 @@ local buttons = {
 		button("e", " " .. kind.cmp.File .. " New file", ":ene <BAR> startinsert <CR>"),
 		button("f", " " .. kind.cmp.Folder .. " Explore", ":Telescope find_files<CR>"),
 		button("p", " " .. kind.nvim_tree_icons.folder.default .. "  Projects", ":Telescope projects<CR>"),
-		button("s", " " .. kind.icons.magic .. " Restore", ":lua require('persistence').load()<cr>"),
+		button("s", " " .. kind.icons.magic .. " Restore", ":SessionManager load_session<cr>"),
 		button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
 		button("g", " " .. kind.git.branch .. " Git Status", "<cmd>lua _LAZYGIT_TOGGLE()<CR>"),
 		button("c", " " .. kind.icons.settings .. " Config", ":e ~/.config/nvim/init.lua <CR>"),

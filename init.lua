@@ -27,7 +27,6 @@ vim.opt.lazyredraw = true
 
 -- Core Configs
 require("user.core.options")
--- require("user.core.keymaps")
 require("user.core.plugins")
 
 -- TODO:
@@ -55,3 +54,4 @@ require("user.core.plugins")
 -- 16- Take a look at nui
 -- 17- fix onedark colors in colorschemes
 -- 18- Move Lsp Telescope commands to lua functions
+-- 19- folke/lua-dev

@@ -228,39 +228,42 @@ M.themes = {
 
 function onedark_theme()
 	local styles = { dark = 1, darker = 2, cool = 3, deep = 4, warm = 5, warmer = 6, light = 7 }
-	local index = styles[vim.g.onedark_config.style]
+	-- local index = styles[vim.g.onedark_config.style] -- FIXME:
+	local index = styles["cool"]
 	return index
 end
 
 M.current_theme = function()
 	local colors = {}
-	-- if time.hour >= 0 and time.hour < 7 then
-	-- 	colors = {
-	-- 		bg = M.themes.onedark.bg0[onedark_theme()],
-	-- 		fg = M.themes.onedark.fg[onedark_theme()],
-	-- 		red = M.themes.onedark.red[onedark_theme()],
-	-- 		yellow = M.themes.onedark.yellow[onedark_theme()],
-	-- 		cyan = M.themes.onedark.cyan[onedark_theme()],
-	-- 		blue = M.themes.onedark.dark_cyan[onedark_theme()], -- BULLSHIT:
-	-- 		darkblue = M.themes.onedark.blue[onedark_theme()], -- BULLSHIT:
-	-- 		green = M.themes.onedark.green[onedark_theme()],
-	-- 		orange = M.themes.onedark.orange[onedark_theme()],
-	-- 		violet = M.themes.onedark.purple[onedark_theme()], -- BULLSHIT:
-	-- 		magenta = M.themes.tokyonight.magenta, -- BULLSHIT:
-	-- 		purple = M.themes.onedark.dark_purple[onedark_theme()], -- BULLSHIT:
-	-- 		git = {
-	-- 			add = M.themes.onedark.git.add[onedark_theme()],
-	-- 			delete = M.themes.onedark.git.delete[onedark_theme()],
-	-- 			change = M.themes.onedark.git.change[onedark_theme()],
-	-- 			conflict = M.themes.onedark.git.conflict[onedark_theme()],
-	-- 		},
-	-- 	}
-	-- 	return colors
-	-- end
-	if (time.hour >= 13) or (time.hour >= 0 and time.hour < 7) then
+	if time.hour >= 0 and time.hour < 7 then
+		colors = {
+			bg = M.themes.onedark.bg0[onedark_theme()],
+			bg2 = M.themes.onedark.bg1[onedark_theme()],
+			fg = M.themes.onedark.fg[onedark_theme()],
+			red = M.themes.onedark.red[onedark_theme()],
+			yellow = M.themes.onedark.yellow[onedark_theme()],
+			cyan = M.themes.onedark.cyan[onedark_theme()],
+			blue = M.themes.onedark.dark_cyan[onedark_theme()], -- BULLSHIT:
+			darkblue = M.themes.onedark.blue[onedark_theme()], -- BULLSHIT:
+			green = M.themes.onedark.green[onedark_theme()],
+			orange = M.themes.onedark.orange[onedark_theme()],
+			violet = M.themes.onedark.purple[onedark_theme()], -- BULLSHIT:
+			magenta = M.themes.tokyonight.magenta, -- BULLSHIT:
+			purple = M.themes.onedark.dark_purple[onedark_theme()], -- BULLSHIT:
+			git = {
+				add = M.themes.onedark.git.add[onedark_theme()],
+				delete = M.themes.onedark.git.delete[onedark_theme()],
+				change = M.themes.onedark.git.change[onedark_theme()],
+				conflict = M.themes.onedark.git.conflict[onedark_theme()],
+			},
+		}
+		return colors
+	end
+	if time.hour >= 13 then
 		colors = {
 			bg = M.themes.tokyonight.bg,
 			fg = M.themes.tokyonight.fg,
+			bg2 = M.themes.onedark.bg1[onedark_theme()],
 			red = M.themes.tokyonight.red,
 			yellow = M.themes.tokyonight.yellow,
 			cyan = M.themes.tokyonight.cyan,
@@ -283,6 +286,7 @@ M.current_theme = function()
 	if time.hour >= 7 and time.hour < 13 then
 		colors = {
 			bg = M.themes.rose_pine.dawn.base, -- BULLSHIT:
+			bg2 = M.themes.onedark.bg1[onedark_theme()],
 			fg = M.themes.rose_pine.dawn.love, -- BULLSHIT:
 			red = M.themes.rose_pine.moon.red,
 			yellow = M.themes.rose_pine.moon.yellow,

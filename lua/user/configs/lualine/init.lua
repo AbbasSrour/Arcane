@@ -17,7 +17,7 @@ lualine.setup({
 	sections = {
 		lualine_a = { Components.mainIcon },
 		lualine_b = { Components.filetype, Components.filename },
-		lualine_c = { Components.branch, Components.Github, Components.diff, Components.fileformat },
+		lualine_c = { Components.branch, Components.Github, Components.diff }, -- Components.fileformat, Components.signature,
 		lualine_x = { Components.pkginfo, Components.diagnostics, Components.lsp, Components.treesitter },
 		lualine_y = { Components.modeIcon, Components.mode },
 		lualine_z = { Components.progressIcon, Components.progress }, --Components.scrollbar, Components.location

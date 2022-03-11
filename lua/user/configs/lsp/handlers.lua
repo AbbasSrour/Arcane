@@ -1,84 +1,77 @@
 local M = {}
 
+local icons = require("user.utils.kind")
+
 -- Lsp Setup
 M.setup = function()
+	-- Set Sign Icons
 	local signs = {
-		{ name = "DiagnosticSignError", text = "" },
-		{ name = "DiagnosticSignWarn", text = "" },
-		{ name = "DiagnosticSignHint", text = "" },
-		{ name = "DiagnosticSignInfo", text = "" },
+		{ name = "DiagnosticSignError", text = icons.lsp.error },
+		{ name = "DiagnosticSignWarn", text = icons.lsp.warn },
+		{ name = "DiagnosticSignHint", text = icons.lsp.hint },
+		{ name = "DiagnosticSignInfo", text = icons.lsp.info },
 	}
-
 	for _, sign in ipairs(signs) do
 		vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
 	end
 
-	-- local config = {
-	-- 	virtual_text = false,
-	-- 	update_in_insert = true,
-	-- 	underline = true,
-	-- 	severity_sort = true,
-	-- 	float = {
-	-- 		focusable = false,
-	-- 		style = "minimal",
-	-- 		border = "rounded",
-	-- 		source = "always",
-	-- 		header = "",
-	-- 		prefix = "",
-	-- 	},
-	-- }
+	-- Set Completion Icons
+	function M.setup()
+		local kinds = vim.lsp.protocol.CompletionItemKind
+		for i, kind in ipairs(kinds) do
+			kinds[i] = M.icons[kind] or kind
+		end
+	end
 
-	-- vim.diagnostic.config(config)
-
+	-- Configure diagnostics
 	vim.diagnostic.config({
-		virtual_text = true,
+		update_in_insert = true,
+		underline = false,
+		severity_sort = true,
 		signs = true,
-		underline = true,
-		update_in_insert = false,
-		severity_sort = false,
+		virtual_text = {
+			source = "always",
+			prefix = icons.lsp.virtual .. " ",
+		},
+		float = {
+			focusable = false,
+			style = "minimal",
+			border = "rounded",
+			source = "always",
+			header = "",
+			prefix = "",
+		},
 	})
 
+	-- configure dignostic handlers
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 		border = "rounded",
 	})
-
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
 		border = "rounded",
 	})
-
-	-- Get The Progress Of LSP
-	-- if vim.b.self_core_lsp_client_attached and #vim.tbl_keys(vim.lsp.buf_get_clients()) >= 1 then
-	-- 	local lsp_client_name_first = vim.lsp.get_client_by_id(
-	-- 		tonumber(vim.inspect(vim.tbl_keys(vim.lsp.buf_get_clients())):match("%d+"))
-	-- 	).name:match("[%l%p]+")
-	--
-	-- 	if lsp_client_name_first ~= nil then
-	-- 		local lsp_progress_messages = vim.lsp.util.get_progress_messages()[1]
-	--
-	-- 		if lsp_progress_messages then
-	-- 			local lsp_progress_messages_ms = vim.loop.hrtime() / 1000000
-	-- 			local lsp_progress_messages_percentage = lsp_progress_messages.percentage or 0
-	-- 			local lsp_progress_messages_spinners = {
-	-- 				"",
-	-- 				"",
-	-- 				"",
-	-- 			}
-	-- 			local lsp_progress_messages_frame = math.floor(lsp_progress_messages_ms / 120)
-	-- 				% #lsp_progress_messages_spinners
-	--
-	-- 			if lsp_progress_messages_percentage <= 70 then
-	-- 				return lsp_progress_messages_spinners[lsp_progress_messages_frame + 1] .. " "
-	-- 			elseif lsp_progress_messages_percentage >= 70 then
-	-- 				return " "
-	-- 			end
-	-- 		end
-	-- 	end
-	-- end
 end
 
 --------------------------------------------------------------------------------------------------------------------------------------
 -- Configuring lsp servers
 --------------------------------------------------------------------------------------------------------------------------------------
+
+-- Show Diagnostics Automatically On hover
+local function show_diagnostics_automatically()
+	local opts = {
+		focusable = false,
+		close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+		border = "rounded",
+		source = "always",
+		prefix = " ",
+	}
+	-- vim.o.updatetime = 300
+	vim.cmd([[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, opts)]])
+end
+
+local function show_lightbulb()
+	vim.cmd([[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]])
+end
 
 -- add highlighting to functions and variables
 local function lsp_highlight_document(client)
@@ -96,12 +89,27 @@ local function lsp_highlight_document(client)
 	end
 end
 
+-- Get Notification
+local function get_noti(client)
+	if vim.g.logging_level == "debug" then
+		local msg = string.format("Language server %s started!", client.name)
+		vim.notify(msg, "info", { title = "Nvim-config" })
+	end
+end
+
 -- Configure what capabilities the laguage server will have and adding to them (to be used in the installer file)
 M.on_attach = function(client, bufnr)
 	if client.name == "tsserver" then
 		client.resolved_capabilities.document_formatting = false
 	end
+	if client.name == "emmet_ls" then
+		client.resolved_capabilities.document_formatting = false
+	end
+
+	-- show_diagnostics_automatically()
+	show_lightbulb()
 	lsp_highlight_document(client)
+	get_noti(client)
 end
 
 -- Adding Cmp lsp to the client capabilities
@@ -111,7 +119,7 @@ local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_ok then
 	return
 end
-
 M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+-- M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 return M
