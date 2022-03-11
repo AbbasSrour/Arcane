@@ -638,6 +638,20 @@ return packer.startup(function(use)
 		opt = true,
 	})
 
+	-- -- Copilot PLUGIN:
+	-- use({
+	-- 	"github/copilot.vim",
+	-- 	config = function()
+	-- 		vim.cmd([[imap <silent><script><expr> <C-k> copilot#Accept("\<CR>")]])
+	-- 		vim.g.copilot_no_tab_map = true
+	-- 		vim.g.copilot_filetypes = {
+	-- 			["*"] = true,
+	-- 			gitcommit = false,
+	-- 			NeogitCommitMessage = false,
+	-- 		}
+	-- 	end,
+	-- })
+
 	--  -- REFACTORING PLUGIN: The Refactoring library based off the Refactoring book by Martin Fowler
 	-- use({
 	--    "ThePrimeagen/refactoring.nvim",
@@ -742,20 +756,6 @@ return packer.startup(function(use)
 	-- 	"ruifm/gitlinker.nvim",
 	-- 	config = function()
 	-- 		require("user.configs.linker")
-	-- 	end,
-	-- })
-	--
-	--  -- Copilot PLUGIN:
-	-- use({
-	-- 	"github/copilot.vim",
-	-- 	config = function()
-	-- 		vim.cmd([[imap <silent><script><expr> <C-L> copilot#Accept("\<CR>")]])
-	-- 		vim.g.copilot_no_tab_map = true
-	-- 		vim.g.copilot_filetypes = {
-	-- 			["*"] = true,
-	-- 			gitcommit = false,
-	-- 			NeogitCommitMessage = false,
-	-- 		}
 	-- 	end,
 	-- })
 	--
