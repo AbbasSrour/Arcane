@@ -1,3 +1,27 @@
+-- Set Font
+if vim.g.neovide == true then
+	vim.o.guifont = "Operator Mono Lig Book,Noto Color Emoji,JetBrainsMono Nerd Font:h9"
+	-- vim.o.guifont = "Monolisa,Noto Color Emoji,JetBrainsMono Nerd Font:h8"
+	-- vim.o.guifont = "JetBrainsMono Nerd Font:h8"
+	vim.api.nvim_set_keymap("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>", {})
+end
+
+-- Set Leader
+local opts = { noremap = true, silent = true }
+vim.api.nvim_set_keymap("", "<Space>", "<Nop>", opts)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Set Notification Server
+vim.notify = require("notify")
+
+-- Some Shit
+vim.opt.shortmess:append("c")
+vim.cmd("set whichwrap+=<,>,[,],h,l")
+vim.cmd([[set iskeyword+=-]])
+vim.cmd([[set formatoptions-=cro]]) -- this doesn't seem to work
+
+-- Default Options
 local options = {
 	backup = false, -- creates a backup file
 	clipboard = "unnamedplus", -- allows neovim to access the system clipboard
@@ -33,28 +57,6 @@ local options = {
 	scrolloff = 8, -- is one of my fav
 	sidescrolloff = 8,
 }
-
-if vim.g.neovide == true then
-	vim.o.guifont = "Operator Mono Lig Book,Noto Color Emoji,JetBrainsMono Nerd Font:h9"
-	-- vim.o.guifont = "Monolisa,Noto Color Emoji,JetBrainsMono Nerd Font:h8"
-	-- vim.o.guifont = "JetBrainsMono Nerd Font:h8"
-	vim.api.nvim_set_keymap("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>", {})
-end
-
-vim.opt.shortmess:append("c")
-
-vim.cmd("set whichwrap+=<,>,[,],h,l")
-vim.cmd([[set iskeyword+=-]])
-vim.cmd([[set formatoptions-=cro]]) -- this doesn't seem to work
-
--- Set Notification Server
-vim.notify = require("notify")
-
--- Mapping Space as Leader
-local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 
 for k, v in pairs(options) do
 	vim.opt[k] = v
