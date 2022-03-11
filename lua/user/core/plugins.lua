@@ -215,17 +215,20 @@ return packer.startup(function(use)
 	-- Telescope PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
-	-- Telescope PLUGIN: Easy Search
+	-- Telescope NOTLAZYPLUGIN: Easy Search
 	use({
 		"nvim-telescope/telescope.nvim",
 		-- requires = { { "nvim-telescope/telescope-media-files.nvim" }, { "ahmedkhalf/project.nvim" } },
 		config = function()
 			require("user.configs.telescope")
 		end,
-		opt = true,
-		cmd = "Telescope",
-		event = "BufRead",
+		-- opt = true,
+		-- cmd = "Telescope",
+		-- event = "BufRead",
 	})
+
+	-- Telescope Fuzy Finder
+	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 
 	-- Telescope-Media-Supp NOTLAZYPLUGIN: View Images with Telescope media_files command
 	use({
@@ -397,16 +400,16 @@ return packer.startup(function(use)
 	})
 
 	-- TABNINE PLAZYPLUGIN:
-	use({
-		"tzachar/cmp-tabnine",
-		run = "./install.sh",
-		requires = "hrsh7th/nvim-cmp",
-		config = function()
-			require("user.configs.cmp.tabnine")
-		end,
-		opt = true,
-		event = "BufRead",
-	})
+	-- use({
+	-- 	"tzachar/cmp-tabnine",
+	-- 	run = "./install.sh",
+	-- 	requires = "hrsh7th/nvim-cmp",
+	-- 	config = function()
+	-- 		require("user.configs.cmp.tabnine")
+	-- 	end,
+	-- 	opt = true,
+	-- 	event = "BufRead",
+	-- })
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Treesitter PLUGINS:
@@ -638,6 +641,20 @@ return packer.startup(function(use)
 		opt = true,
 	})
 
+	-- NEOCLIP PLAZYPLUGIN:
+	use({
+		"AckslD/nvim-neoclip.lua",
+		requires = {
+			{ "tami5/sqlite.lua", module = "sqlite" },
+			{ "nvim-telescope/telescope.nvim" },
+		},
+		config = function()
+			require("user.configs.neoclip")
+		end,
+		-- opt = true,
+		-- event = "BufRead",
+	})
+
 	-- -- Copilot PLUGIN:
 	-- use({
 	-- 	"github/copilot.vim",
@@ -737,18 +754,6 @@ return packer.startup(function(use)
 	-- 	"turbio/bracey.vim",
 	-- 	cmd = { "Bracey", "BracyStop", "BraceyReload", "BraceyEval" },
 	-- 	run = "npm install --prefix server",
-	-- })
-	--
-	--  -- NEOCLIP PLUGIN:
-	-- use({
-	-- 	"AckslD/nvim-neoclip.lua",
-	-- 	requires = {
-	-- 		{ "tami5/sqlite.lua", module = "sqlite" },
-	-- 		{ "nvim-telescope/telescope.nvim" },
-	-- 	},
-	-- 	config = function()
-	-- 		require("user.configs.neoclip")
-	-- 	end,
 	-- })
 	--
 	--  --GITLINKER PLUGIN:

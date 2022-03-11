@@ -3,6 +3,8 @@ if not status_ok then
 	return
 end
 
+local kind = require("user.utils.kind")
+
 lightbulb.setup({
 	-- LSP client names to ignore
 	-- Example: {"sumneko_lua", "null-ls"}
@@ -15,7 +17,7 @@ lightbulb.setup({
 	float = {
 		enabled = false,
 		-- Text to show in the popup float
-		text = "💡",
+		text = kind.lsp.code_action .. " ",
 		-- Available keys for window options:
 		-- - height     of floating window
 		-- - width      of floating window
@@ -35,14 +37,14 @@ lightbulb.setup({
 	virtual_text = {
 		enabled = true,
 		-- Text to show at virtual text
-		text = "💡",
+		text = kind.lsp.code_action .. " ",
 		-- highlight mode to use for virtual text (replace, combine, blend), see :help nvim_buf_set_extmark() for reference
 		hl_mode = "combine",
 	},
 	status_text = {
 		enabled = false,
 		-- Text to provide when code actions are available
-		text = "💡",
+		text = kind.lsp.code_action .. " ",
 		-- Text to provide when no actions are available
 		text_unavailable = "No Code Actions",
 	},

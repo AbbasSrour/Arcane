@@ -114,8 +114,7 @@ Components = {
 				return ""
 			end
 			local sig = require("lsp_signature").status_line()
-			-- return sig.label .. "🐼" .. sig.hint
-			return " " .. kind.lsp.signature .. " " .. sig.hint
+			return " " .. kind.lsp.signature .. " " .. sig.hint -- return sig.label .. "🐼" .. sig.hint
 		end,
 		color = { bg = colors.bg },
 		cond = nil,

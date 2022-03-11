@@ -59,3 +59,4 @@ require("user.core.plugins")
 --  folke/lua-dev
 --  Go to preview
 --  Recheck codeactions when its more mature
+--  Standerize telescope functions abz for inspiration

@@ -52,8 +52,10 @@ M.keymaps = {
 	{ "<C-k>", "<C-\\><C-N><C-w>k", description = "Better Terminal Navigate Up", mode = { "t" }, term_opts },
 	{ "<C-l>", "<C-\\><C-N><C-w>l", description = "Better Terminal Navigate Right", mode = { "t" }, term_opts },
 
-	-- Get Keymaps
-	{ "<C-p>", "<cmd>lua require('legendary').find()<CR>", description = "Search Keymaps", mode = { "n" }, opts },
+	-- Telescope
+	{ "<C-b>", "<cmd>lua require('legendary').find()<CR>", description = "Search Keymaps", mode = { "n" }, opts },
+	{ "<C-p>", "<cmd>Telescope neoclip default<cr>", description = "Clipboard", mode = { "n" }, opts },
+	{ "<C-c>", "<cmd>Telescope commands<cr>", description = "Clipboard", mode = { "n" }, opts },
 
 	-- Hide Search Results
 	{ "<Esc>", "<cmd>noh<CR>", description = "Hide Search Results", mode = { "n" }, opts },
@@ -118,7 +120,7 @@ M.keymaps = {
 
 	{
 		"fi", --gi
-		"<cmd>lua require('telescope.builtin').lsp_implementations()<CR>",
+		"<cmd>Telescope lsp_implementations<CR>",
 		description = "Go To Implementation",
 		mode = { "n" },
 		opts,
@@ -126,7 +128,7 @@ M.keymaps = {
 
 	{
 		"fr",
-		"<cmd>lua require('telescope.builtin').lsp_references()<CR>",
+		"<cmd>Telescope lsp_references<CR>",
 		description = "Get References",
 		mode = { "n" },
 		opts,
@@ -134,7 +136,7 @@ M.keymaps = {
 
 	{
 		"fd", --gd
-		"<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", --"<cmd>lua vim.lsp.buf.definition()<CR>"
+		"<cmd>Telescope lsp_definitions<CR>",
 		description = "Go To Definition",
 		mode = { "n" },
 		opts,
@@ -142,7 +144,7 @@ M.keymaps = {
 
 	{
 		"ft",
-		"<cmd>lua require('telescope.builtin').lsp_type_definitions()<CR>",
+		"<cmd>Telescope lsp_type_definitions<CR>",
 		description = "Get Type Definition",
 		mode = { "n" },
 		opts,
@@ -157,8 +159,8 @@ M.keymaps = {
 	},
 
 	{
-		"fa",
-		"<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>",
+		"<f>-a",
+		"Telescope lsp_code_actions<CR>",
 		description = "Get Code Actions",
 		mode = { "n" },
 		opts,
@@ -190,7 +192,7 @@ M.keymaps = {
 
 	{
 		"fh",
-		"<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>",
+		"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
 		description = "Workspace Symbols",
 		mode = { "n" },
 		opts,
@@ -246,32 +248,41 @@ M.WhichkeyOpts = {
 }
 
 M.WhichkeyMappings = {
+	-- lsp
 	["a"] = { "<cmd>Alpha<cr>", "Alpha" },
-	["b"] = {
-		"<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-		"Buffers",
+	b = {
+		name = "buffers",
+		b = { "<cmd> Telescope buffers<cr>", "Buffers Preview" },
+		c = { "<cmd>Bdelete!<CR>", "Close Buffer" },
 	},
 	["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
-	["w"] = { "<cmd>w!<CR>", "Save" },
-	["q"] = { "<cmd>q!<CR>", "Lsp Diagnostics" },
-	["c"] = { "<cmd>Bdelete!<CR>", "Close Buffer" },
-	["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
-	-- ["f"] = {
-	-- 	"<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
-	-- 	"Find files",
-	-- },
-	["F"] = { "<cmd>Telescope live_grep theme=ivy<cr>", "Find Text" },
-	["P"] = { "<cmd>lua require('telescope').extensions.projects.projects()<cr>", "Projects" },
-
-	p = {
-		name = "Packer",
-		c = { "<cmd>PackerCompile<cr>", "Compile" },
-		i = { "<cmd>PackerInstall<cr>", "Install" },
-		s = { "<cmd>PackerSync<cr>", "Sync" },
-		S = { "<cmd>PackerStatus<cr>", "Status" },
-		u = { "<cmd>PackerUpdate<cr>", "Update" },
+	f = {
+		name = "LSP",
+		e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Line Diagnostic" },
+		n = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Previous Diagnostic" },
+		m = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Next Diagnostic" },
+		k = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Diagnostics" },
+		q = { "<cmd>Trouble document_diagnostics<CR>", "Document Diagnostics" },
+		w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
+		g = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Go To Declaration" },
+		i = { "<cmd>Telescope lsp_implementations<CR>", "Go To implementation" },
+		r = { "<cmd>Telescope lsp_references<CR>", "Go To References" },
+		d = { "<cmd>Telescope lsp_definitions<CR>", "Go To Definition" },
+		t = { "<cmd>Telescope lsp_type_definitions<CR>", "Get Type Definition" },
+		x = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename Object" },
+		a = { "<cmd>Telescope lsp_code_actions<CR>", "Get Code Actions" },
+		l = { "<cmd>lua vim.lsp.codelens.run()<CR>", "Get Code Lens" },
+		p = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
+		s = { "<cmd>SymbolsOutline<cr>", "Document Symbols" },
+		h = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Workspace Symbols" },
+		F = { "<cmd>lua vim.lsp.buf.formatting()<CR>", "Format Document" },
+		W = {
+			name = "Workspace Folders",
+			a = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Add Workspace Folder" },
+			l = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List Workspace Folders" },
+			r = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Workspace Folder" },
+		},
 	},
-
 	g = {
 		name = "Git",
 		g = { "<cmd>lua _LAZYGIT_TOGGLE()<CR>", "Lazygit" },
@@ -294,45 +305,29 @@ M.WhichkeyMappings = {
 			"Diff",
 		},
 	},
-
-	f = {
-		name = "LSP",
-		e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Line Diagnostic" },
-		n = { "<cmd>lua vim.diagnostic.goto_prev()<CR>", "Previous Diagnostic" },
-		m = { "<cmd>lua vim.diagnostic.goto_next()<CR>", "Next Diagnostic" },
-		k = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Diagnostics" },
-		q = { "<cmd>Trouble document_diagnostics<CR>", "Document Diagnostics" },
-		w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
-		g = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Go To Declaration" },
-		i = { "<cmd>lua require('telescope.builtin').lsp_implementations()<CR>", "Go To implementation" },
-		r = { "<cmd>lua require('telescope.builtin').lsp_references()<CR>", "Go To References" },
-		d = { "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", "Go To Definition" },
-		t = { "<cmd>lua require('telescope.builtin').lsp_type_definitions()<CR>", "Get Type Definition" },
-		x = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename Object" },
-		a = { "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>", "Get Code Actions" },
-		l = { "<cmd>lua vim.lsp.codelens.run()<CR>", "Get Code Lens" },
-		p = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-		s = { "<cmd>SymbolsOutline<cr>", "Document Symbols" },
-		h = { "<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>", "Workspace Symbols" },
-		F = { "<cmd>lua vim.lsp.buf.formatting()<CR>", "Format Document" },
-		W = {
-			name = "Workspace Folders",
-			a = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Add Workspace Folder" },
-			l = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List Workspace Folders" },
-			r = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Workspace Folder" },
-		},
-	},
+	["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
 	s = {
 		name = "Search",
-		b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
-		c = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
-		h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
-		M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+		b = { "<cmd>Legendary<cr>", "Keymaps" },
+		c = { "<cmd>Telescope commands<cr>", "Commands" },
+		C = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+		f = { "<cmd>Telescope find_files<cr>", "Find files" },
+		t = { "<cmd>Telescope live_grep<cr>", "Find Text" },
 		r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
-		R = { "<cmd>Telescope registers<cr>", "Registers" },
-		k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
-		C = { "<cmd>Telescope commands<cr>", "Commands" },
+		h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
+		m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+		p = { "<cmd>Telescope neoclip default<cr>", "Clipboard" },
 	},
+	p = {
+		name = "Packer",
+		c = { "<cmd>PackerCompile<cr>", "Compile" },
+		i = { "<cmd>PackerInstall<cr>", "Install" },
+		s = { "<cmd>PackerSync<cr>", "Sync" },
+		S = { "<cmd>PackerStatus<cr>", "Status" },
+		u = { "<cmd>PackerUpdate<cr>", "Update" },
+	},
+	["P"] = { "<cmd>Telescope projects<cr>", "Projects" },
+	["q"] = { "<cmd>q!<CR>", "Lsp Diagnostics" },
 	t = {
 		name = "Terminal",
 		n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
@@ -343,7 +338,8 @@ M.WhichkeyMappings = {
 		h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" },
 		v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
 	},
-	T = {
+	["w"] = { "<cmd>w!<CR>", "Save" },
+	z = {
 		name = "Trouble",
 		t = { "<cmd>Trouble<cr>", "Trouble" },
 		d = { "<cmd>Trouble document_diagnostics<cr>", "Document Diagnostics" },

@@ -226,7 +226,7 @@ M.themes = {
 	},
 }
 
-function onedark_theme()
+local function onedark_theme()
 	local styles = { dark = 1, darker = 2, cool = 3, deep = 4, warm = 5, warmer = 6, light = 7 }
 	-- local index = styles[vim.g.onedark_config.style] -- FIXME:
 	local index = styles["cool"]
