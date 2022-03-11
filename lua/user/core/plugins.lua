@@ -296,7 +296,7 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
-	-- Lightbulb PLAZYPLUGIN:
+	-- Lightbulb PLAZYPLUGIN: Adds code action indicator when code actions are available
 	use({
 		"kosayoda/nvim-lightbulb",
 		config = function()
@@ -342,17 +342,26 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
+	use({
+		"SirVer/ultisnips",
+		config = function()
+			vim.g.UltiSnipsExpandTrigger = "<c-l>"
+			vim.g.UltiSnipsJumpForwardTrigger = "<c-b>"
+			vim.g.UltiSnipsJumpBackwardTrigger = "<c-z>"
+		end,
+	})
+
 	-- React-Snippets PLUGIN: React Snippets
 	use({
 		"mlaursen/vim-react-snippets",
-		opt = true,
-		ft = { "js", "jsx" },
+		-- opt = true,
+		-- ft = { "js", "jsx" },
 	})
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Cmp PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
-	-- Cmp-Nvim PLAZYPLUGIN: The completion plugin
+	-- Cmp-Nvim PLAZYPLUGIN: The completion engine plugin
 	use({
 		"hrsh7th/nvim-cmp",
 		requires = {
@@ -368,16 +377,16 @@ return packer.startup(function(use)
 			-- Cmp-LuaSnip PLAZYPLUGIN:  snippet completions
 			{ "saadparwaiz1/cmp_luasnip" },
 
-			-- Cmp-Lsp PLAZYPLUGIN:
+			-- Cmp-Lsp PLAZYPLUGIN: Bettter completions than builtin lsp omnifunc
 			{ "hrsh7th/cmp-nvim-lsp" },
 
-			-- Cmp-Lua PLAZYPLUGIN:
+			-- Cmp-Lua PLAZYPLUGIN: Add completion for lua vim apis
 			{ "hrsh7th/cmp-nvim-lua" },
 
-			-- Document-Symbols PLAZYPLUGIN:
+			-- Document-Symbols PLAZYPLUGIN: Add document symbols like functions to / search reasults
 			{ "hrsh7th/cmp-nvim-lsp-document-symbol" },
 
-			-- Signature-Help PLAZYPLUGIN:
+			-- Signature-Help PLAZYPLUGIN: Add signature help to cmp
 			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 		},
 		config = function()
@@ -619,6 +628,16 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
+	-- SYMBOLS_OUTLINE PLUGIN:
+	use({
+		"simrat39/symbols-outline.nvim",
+		config = function()
+			require("user.configs.symbolsOutline").setup()
+		end,
+		cmd = "SymbolsOutline",
+		opt = true,
+	})
+
 	--  -- REFACTORING PLUGIN: The Refactoring library based off the Refactoring book by Martin Fowler
 	-- use({
 	--    "ThePrimeagen/refactoring.nvim",
@@ -654,13 +673,6 @@ return packer.startup(function(use)
 	--  --INSTANT PLUGIN:
 	-- use("jbyuki/instant.nvim")
 	--
-	--  -- SYMBOLS_OUTLINE PLUGIN:
-	-- use({
-	-- 	"simrat39/symbols-outline.nvim",
-	-- 	config = function()
-	-- 		require("user.configs.symbolsOutline").setup()
-	-- 	end,
-	-- })
 	--
 	--
 	--  -- TS-RAINBOW-BRACKETS PLUGIN:

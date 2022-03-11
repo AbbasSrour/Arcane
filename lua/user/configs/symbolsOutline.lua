@@ -1,11 +1,11 @@
 local M = {}
 
 M.setup = function()
-	local kind = require("user.lsp_kind").symbols_outline
+	local kind = require("user.utils.kind").symbols_outline
 	vim.g.symbols_outline = {
 		highlight_hovered_item = true,
 		show_guides = true,
-		auto_preview = false,
+		auto_preview = true,
 		position = "right",
 		relative_width = true,
 		width = 35,

@@ -2,13 +2,14 @@ local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
 	return
 end
-
 local snip_status_ok, luasnip = pcall(require, "luasnip")
 if not snip_status_ok then
 	return
 end
 
 require("luasnip/loaders/from_vscode").lazy_load()
+-- require("luasnip").filetype_extend("javascript", { "javascriptreact" })
+-- require("luasnip").filetype_extend("javascript", { "html" })
 
 local check_backspace = function()
 	local col = vim.fn.col(".") - 1
@@ -16,14 +17,46 @@ local check_backspace = function()
 end
 
 local icons = require("user.utils.kind").cmp
-
 local compare = require("cmp.config.compare")
 
 cmp.setup({
+	sources = {
+		{ name = "path" },
+		{ name = "nvim_lsp_signature_help" },
+		{ name = "nvim_lsp" },
+		{ name = "nvim_lua" },
+		{ name = "luasnip" },
+		{
+			name = "buffer",
+			option = {
+				-- keyword_length = 3, number of characters to trigger auto completion
+				--keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%([\-.]\w*\)*\)]],  vim iskeyword [[\k\+]]
+				get_bufnrs = function()
+					return vim.api.nvim_list_bufs()
+				end,
+				--indexing_interval = 100, less means faster indexing, but more cpu usage
+				--indexing_batch_size = 1000, more means faster indexing, but more cpu usage
+				--max_indexed_line_length  = 1024*40, for very long lines, will take a small part of a line
+			},
+		},
+		{ name = "cmp_tabnine" },
+	},
+
 	snippet = {
 		expand = function(args)
 			luasnip.lsp_expand(args.body) -- For `luasnip` users.
 		end,
+	},
+
+	sorting = {
+		-- comparators = {
+		-- 	--A comparator function which uses information from the word indexer to sort completion results
+		-- 	--based on the distance of the word from the cursor line. It will also sort completion
+		-- 	-- results coming from other sources,which might improve accuracy of their suggestions too
+		-- 	function(...)
+		-- 		return cmp_buffer:compare_locality(...)
+		-- 	end,
+		-- },
 	},
 
 	mapping = {
@@ -86,16 +119,6 @@ cmp.setup({
 		end,
 	},
 
-	sources = {
-		{ name = "path" },
-		{ name = "nvim_lsp_signature_help" },
-		{ name = "nvim_lsp" },
-		{ name = "nvim_lua" },
-		{ name = "luasnip" },
-		{ name = "buffer" },
-		{ name = "cmp_tabnine" },
-	},
-
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
 		select = false,
@@ -110,20 +133,20 @@ cmp.setup({
 		native_menu = false,
 	},
 
-	sorting = {
-		priority_weight = 2,
-		comparators = {
-			require("cmp_tabnine.compare"),
-			compare.offset,
-			compare.exact,
-			compare.score,
-			compare.recently_used,
-			compare.kind,
-			compare.sort_text,
-			compare.length,
-			compare.order,
-		},
-	},
+	-- sorting = {
+	-- 	priority_weight = 2,
+	-- 	comparators = {
+	-- 		require("cmp_tabnine.compare"),
+	-- 		compare.offset,
+	-- 		compare.exact,
+	-- 		compare.score,
+	-- 		compare.recently_used,
+	-- 		compare.kind,
+	-- 		compare.sort_text,
+	-- 		compare.length,
+	-- 		compare.order,
+	-- 	},
+	-- },
 })
 
 -- cmdline
@@ -135,11 +158,11 @@ cmp.setup.cmdline(":", {
 
 -- lsp_document_symbols
 cmp.setup.cmdline("/", {
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp_document_symbol" },
-	}, {
-		{ name = "buffer" },
-	}),
+	sources = cmp.config.sources(
+		{ { name = "nvim_lsp_document_symbol" } },
+		{ { name = "buffer" } },
+		{ { name = "nvim_lsp_document_symbol" } }
+	),
 })
 
 vim.api.nvim_exec(

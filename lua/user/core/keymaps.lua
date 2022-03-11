@@ -52,8 +52,11 @@ M.keymaps = {
 	{ "<C-k>", "<C-\\><C-N><C-w>k", description = "Better Terminal Navigate Up", mode = { "t" }, term_opts },
 	{ "<C-l>", "<C-\\><C-N><C-w>l", description = "Better Terminal Navigate Right", mode = { "t" }, term_opts },
 
+	-- Get Keymaps
 	{ "<C-p>", "<cmd>lua require('legendary').find()<CR>", description = "Search Keymaps", mode = { "n" }, opts },
 
+	-- Hide Search Results
+	{ "<Esc>", "<cmd>noh<CR>", description = "Hide Search Results", mode = { "n" }, opts },
 	---------------------------------------------------------------------------------------------------------------------------------
 	--Lsp
 	---------------------------------------------------------------------------------------------------------------------------------
@@ -115,7 +118,7 @@ M.keymaps = {
 
 	{
 		"fi", --gi
-		"<cmd>lua vim.lsp.buf.implementation()<CR>",
+		"<cmd>lua require('telescope.builtin').lsp_implementations()<CR>",
 		description = "Go To Implementation",
 		mode = { "n" },
 		opts,
@@ -123,7 +126,7 @@ M.keymaps = {
 
 	{
 		"fr",
-		"<cmd>Telescope lsp_references<CR>",
+		"<cmd>lua require('telescope.builtin').lsp_references()<CR>",
 		description = "Get References",
 		mode = { "n" },
 		opts,
@@ -131,7 +134,7 @@ M.keymaps = {
 
 	{
 		"fd", --gd
-		"<cmd>Telescope lsp_definitions<CR>", --"<cmd>lua vim.lsp.buf.definition()<CR>"
+		"<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", --"<cmd>lua vim.lsp.buf.definition()<CR>"
 		description = "Go To Definition",
 		mode = { "n" },
 		opts,
@@ -139,7 +142,7 @@ M.keymaps = {
 
 	{
 		"ft",
-		"<cmd>Telescope lsp_type_definitions<CR>",
+		"<cmd>lua require('telescope.builtin').lsp_type_definitions()<CR>",
 		description = "Get Type Definition",
 		mode = { "n" },
 		opts,
@@ -155,7 +158,7 @@ M.keymaps = {
 
 	{
 		"fa",
-		"<cmd>lua vim.lsp.buf.code_action()<CR>",
+		"<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>",
 		description = "Get Code Actions",
 		mode = { "n" },
 		opts,
@@ -179,16 +182,16 @@ M.keymaps = {
 
 	{
 		"fs",
-		"<cmd>Telescope lsp_document_symbols<cr>",
+		"<cmd>SymbolsOutline<cr>",
 		description = "Document Symbols",
 		mode = { "n" },
 		opts,
 	},
 
 	{
-		"fS",
-		"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-		description = "Document Symbols",
+		"fh",
+		"<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>",
+		description = "Workspace Symbols",
 		mode = { "n" },
 		opts,
 	},
@@ -301,18 +304,19 @@ M.WhichkeyMappings = {
 		q = { "<cmd>Trouble document_diagnostics<CR>", "Document Diagnostics" },
 		w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
 		g = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Go To Declaration" },
-		i = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Go To implementation" },
-		r = { "<cmd>Telescope lsp_references<CR>", "Go To References" },
-		d = { "<cmd>Telescope lsp_definitions<CR>", "Go To Definition" },
-		t = { "<cmd>Telescope lsp_type_definitions<CR>", "Get Type Definition" },
+		i = { "<cmd>lua require('telescope.builtin').lsp_implementations()<CR>", "Go To implementation" },
+		r = { "<cmd>lua require('telescope.builtin').lsp_references()<CR>", "Go To References" },
+		d = { "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", "Go To Definition" },
+		t = { "<cmd>lua require('telescope.builtin').lsp_type_definitions()<CR>", "Get Type Definition" },
 		x = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename Object" },
-		a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Get Code Actions" },
+		a = { "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>", "Get Code Actions" },
 		l = { "<cmd>lua vim.lsp.codelens.run()<CR>", "Get Code Lens" },
 		p = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
-		s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-		S = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Workspace Symbols" },
+		s = { "<cmd>SymbolsOutline<cr>", "Document Symbols" },
+		h = { "<cmd>lua require('telescope.builtin').lsp_dynamic_workspace_symbols()<cr>", "Workspace Symbols" },
 		F = { "<cmd>lua vim.lsp.buf.formatting()<CR>", "Format Document" },
 		W = {
+			name = "Workspace Folders",
 			a = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Add Workspace Folder" },
 			l = { "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List Workspace Folders" },
 			r = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Workspace Folder" },
