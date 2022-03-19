@@ -2,36 +2,13 @@ local minimap_status_ok, scrollbar = pcall(require, "scrollbar")
 if not minimap_status_ok then
 	return
 end
-
-local colors = require("tokyonight.colors").setup()
-local time = os.date("*t")
-local scrollbarColor
-if time.hour < 13 then
-	scrollbarColor = "white"
-end
-if time.hour >= 13 then
-	scrollbarColor = colors.bg_highlight
-end
-
-scrollbar.setup({
-	handle = {
-		color = scrollbarColor,
-	},
-	marks = {
-		Search = { color = colors.orange },
-		Error = { color = colors.error },
-		Warn = { color = colors.warning },
-		Info = { color = colors.info },
-		Hint = { color = colors.hint },
-		Misc = { color = colors.purple },
-	},
-})
+local colors = require("user.utils.colorscheme").colors
 
 scrollbar.setup({
 	show = true,
 	handle = {
 		text = " ",
-		-- color = scrollbarColor,
+		color = colors.scrollbar,
 		hide_if_all_visible = true, -- Hides handle if all lines are visible
 	},
 	marks = {

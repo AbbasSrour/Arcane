@@ -4,6 +4,8 @@ local status_ok, lualine = pcall(require, "lualine")
 if not status_ok then
 	return
 end
+local NvimTreeExt = { sections = { lualine_a = { Components.NvimTree } }, filetypes = { "NvimTree" } }
+local SymbolsOutlineExt = { sections = { lualine_z = { Components.SyOutline } }, filetypes = { "Outline" } }
 
 lualine.setup({
 	options = {
@@ -11,13 +13,13 @@ lualine.setup({
 		theme = "auto",
 		component_separators = { left = "", right = "" },
 		section_separators = { left = "", right = "" },
-		disabled_filetypes = { "alpha", "dashboard", "NvimTree", "Outline" },
+		disabled_filetypes = { "alpha", "dashboard" }, --"NvimTree", "Outline"
 		always_divide_middle = true,
 	},
 	sections = {
 		lualine_a = { Components.mainIcon },
 		lualine_b = { Components.filetype, Components.filename },
-		lualine_c = { Components.branch, Components.Github, Components.diff }, -- Components.fileformat, Components.signature,
+		lualine_c = { Components.branch, Components.Github, Components.diff, Components.gps }, -- Components.fileformat, Components.signature,
 		lualine_x = { Components.pkginfo, Components.diagnostics, Components.lsp, Components.treesitter },
 		lualine_y = { Components.modeIcon, Components.mode },
 		lualine_z = { Components.progressIcon, Components.progress }, --Components.scrollbar, Components.location
@@ -31,5 +33,5 @@ lualine.setup({
 		lualine_z = {},
 	},
 	tabline = {},
-	extensions = { "nvim-tree" },
+	extensions = { NvimTreeExt, SymbolsOutlineExt },
 })

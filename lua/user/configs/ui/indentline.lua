@@ -50,7 +50,7 @@ bl.setup({
 		"dashboard",
 		"packer",
 		"neogitstatus",
-		"NvimTree",
+		-- "NvimTree",
 		"Outline",
 		"Trouble",
 		"lspinfo",

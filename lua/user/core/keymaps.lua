@@ -59,6 +59,7 @@ M.keymaps = {
 
 	-- Hide Search Results
 	{ "<Esc>", "<cmd>noh<CR>", description = "Hide Search Results", mode = { "n" }, opts },
+
 	---------------------------------------------------------------------------------------------------------------------------------
 	--Lsp
 	---------------------------------------------------------------------------------------------------------------------------------
@@ -159,7 +160,7 @@ M.keymaps = {
 	},
 
 	{
-		"<f>-a",
+		"fa",
 		"Telescope lsp_code_actions<CR>",
 		description = "Get Code Actions",
 		mode = { "n" },
@@ -250,12 +251,14 @@ M.WhichkeyOpts = {
 M.WhichkeyMappings = {
 	-- lsp
 	["a"] = { "<cmd>Alpha<cr>", "Alpha" },
+	["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
 	b = {
 		name = "buffers",
 		b = { "<cmd> Telescope buffers<cr>", "Buffers Preview" },
 		c = { "<cmd>Bdelete!<CR>", "Close Buffer" },
+		w = { "<cmd>w!<CR>", "Save" },
+		q = { "<cmd>q<CR>", "Quit" },
 	},
-	["e"] = { "<cmd>NvimTreeToggle<cr>", "Explorer" },
 	f = {
 		name = "LSP",
 		e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Line Diagnostic" },
@@ -276,6 +279,7 @@ M.WhichkeyMappings = {
 		s = { "<cmd>SymbolsOutline<cr>", "Document Symbols" },
 		h = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Workspace Symbols" },
 		F = { "<cmd>lua vim.lsp.buf.formatting()<CR>", "Format Document" },
+		u = { "<cmd>Telescope ultisnips<cr>", "UtilSnip Search" },
 		W = {
 			name = "Workspace Folders",
 			a = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Add Workspace Folder" },
@@ -305,7 +309,6 @@ M.WhichkeyMappings = {
 			"Diff",
 		},
 	},
-	["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
 	s = {
 		name = "Search",
 		b = { "<cmd>Legendary<cr>", "Keymaps" },
@@ -317,6 +320,8 @@ M.WhichkeyMappings = {
 		h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
 		m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
 		p = { "<cmd>Telescope neoclip default<cr>", "Clipboard" },
+		o = { "<cmd>TodoTrouble<cr>", "Get Todos" },
+		P = { "<cmd>Telescope projects<cr>", "Projects" },
 	},
 	p = {
 		name = "Packer",
@@ -326,8 +331,6 @@ M.WhichkeyMappings = {
 		S = { "<cmd>PackerStatus<cr>", "Status" },
 		u = { "<cmd>PackerUpdate<cr>", "Update" },
 	},
-	["P"] = { "<cmd>Telescope projects<cr>", "Projects" },
-	["q"] = { "<cmd>q!<CR>", "Lsp Diagnostics" },
 	t = {
 		name = "Terminal",
 		n = { "<cmd>lua _NODE_TOGGLE()<cr>", "Node" },
@@ -337,16 +340,6 @@ M.WhichkeyMappings = {
 		f = { "<cmd>ToggleTerm direction=float<cr>", "Float" },
 		h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" },
 		v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
-	},
-	["w"] = { "<cmd>w!<CR>", "Save" },
-	z = {
-		name = "Trouble",
-		t = { "<cmd>Trouble<cr>", "Trouble" },
-		d = { "<cmd>Trouble document_diagnostics<cr>", "Document Diagnostics" },
-		w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
-		l = { "<cmd>Trouble loclist<cr>", "Lock List" },
-		q = { "<cmd>Trouble quickfix<cr>", "Quick Fix" },
-		r = { "<cmd>Trouble lsp_references<cr>", "Lsp References" },
 	},
 }
 

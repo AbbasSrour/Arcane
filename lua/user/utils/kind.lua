@@ -1,7 +1,8 @@
 local M = {}
 
 M.icons = {
-	mainIcon = " ",
+	mainIcon = "", --" ",
+	symbolsOutline = "",
 	linux = "🐧", -- ""
 	windows = "",
 	apple = "",
@@ -46,6 +47,7 @@ M.git = {
 	added = "",
 	modified = "柳",
 	removed = "", --""
+	github = "",
 }
 
 M.lsp = {
@@ -60,9 +62,13 @@ M.lsp = {
 	virtual = "🦉", --●
 }
 
+--
 M.nvim_tree_icons = {
+	explorer = "פּ",
 	default = "",
 	symlink = "",
+	read_only = "",
+	not_saved = "",
 	folder = {
 		arrow_closed = "",
 		arrow_open = "",

@@ -46,9 +46,6 @@ return packer.startup(function(use)
 	-- Impatient PLUGIN: Speed up loading Lua modules in Neovim to improve startup time.
 	use({
 		"lewis6991/impatient.nvim",
-		config = function()
-			require("user.configs.impatient")
-		end,
 	})
 
 	-- FileType PLUGIN: Easily speed up your neovim startup time!
@@ -70,21 +67,21 @@ return packer.startup(function(use)
 	-- UI PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
-	-- Popup PLUGIN: Implement features from vim popup apis
+	-- Popup NOTLAZYPLUGIN: Implement features from vim popup apis
 	use({
 		requires = { "nvim-lua/plenary.nvim" },
 		"nvim-lua/popup.nvim",
 	})
 
-	-- Dressing PLUGIN: UI Toolkit to select the UI backend (nui, telescope, fzf)
+	-- Dressing NOTLAZYPLUGIN: UI Toolkit to select the UI backend (nui, telescope, fzf)
 	use({
 		"stevearc/dressing.nvim",
 		config = function()
-			require("user.configs.dressing")
+			require("user.configs.ui.dressing")
 		end,
 	})
 
-	-- Web-DevIcons PLUGIN: Adds Icons To Neovim
+	-- Web-DevIcons NOTLAZYPLUGIN: Adds Icons To Neovim
 	use({
 		"kyazdani42/nvim-web-devicons",
 	})
@@ -93,18 +90,16 @@ return packer.startup(function(use)
 	use({
 		"goolord/alpha-nvim",
 		config = function()
-			require("user.configs.alpha")
+			require("user.configs.ui.alpha")
 		end,
-		after = "nvim-web-devicons",
 	})
 
 	-- BufferLine NOTLAZYPLUGIN: As the Name Implies Buffer Line
 	use({
 		"akinsho/bufferline.nvim",
 		config = function()
-			require("user.configs.bufferline")
+			require("user.configs.ui.bufferline")
 		end,
-		after = "nvim-web-devicons",
 	})
 
 	-- Lualine NOTLAZYPLUGIN: Status Line
@@ -113,26 +108,51 @@ return packer.startup(function(use)
 		config = function()
 			require("user.configs.lualine")
 		end,
-		after = "nvim-web-devicons",
 	})
 
 	-- Scrollbar NOTLAZYPLUGIN: Side Scrollbar
 	use({
 		"petertriho/nvim-scrollbar",
 		config = function()
-			require("user.configs.scrollbar")
+			require("user.configs.ui.scrollbar")
 		end,
-		after = "nvim-web-devicons",
 	})
 
 	-- NOTIFICATIONS NOTLAZYPLUGIN: Fancy Notifications
 	use({
 		"rcarriga/nvim-notify",
 		config = function()
-			require("user.configs.notification")
+			require("user.configs.ui.notify")
 		end,
-		after = "nvim-web-devicons",
 	})
+
+	-- Indent-Backline PLAZYPLUGIN: Indents to make out code better
+	use({
+		"lukas-reineke/indent-blankline.nvim",
+		config = function()
+			require("user.configs.ui.indentline")
+		end,
+		opt = true,
+		event = "BufRead",
+	})
+
+	-- Nvim-Gps PLAZYPLUGIN:
+	use({
+		"SmiteshP/nvim-gps",
+		config = function()
+			require("user.configs.ui.gps")
+		end,
+		opt = true,
+		event = "BufRead",
+	})
+
+	--  -- TS-RAINBOW-BRACKETS PLUGIN:
+	-- -- use({
+	-- -- 	"p00f/nvim-ts-rainbow",
+	-- -- 	config = function()
+	-- -- 		require("user.configs.rainbow")
+	-- -- 	end,
+	-- -- })
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Colorscheme PLUGINS:
@@ -166,14 +186,14 @@ return packer.startup(function(use)
 		config = function()
 			require("user.utils.colorscheme").tokyonight()
 			vim.cmd([[
-	try
-	  colorscheme tokyonight
-	  set background=dark
-	catch /^Vim\%((\a\+)\)\=:E185/
-	  colorscheme default
-	  set background=dark
-	endtry
-	]])
+			try
+			  colorscheme tokyonight
+			  set background=dark
+			catch /^Vim\%((\a\+)\)\=:E185/
+			  colorscheme default
+			  set background=dark
+			endtry
+			]])
 		end,
 		cond = function()
 			local time = os.date("*t")
@@ -218,17 +238,18 @@ return packer.startup(function(use)
 	-- Telescope NOTLAZYPLUGIN: Easy Search
 	use({
 		"nvim-telescope/telescope.nvim",
-		-- requires = { { "nvim-telescope/telescope-media-files.nvim" }, { "ahmedkhalf/project.nvim" } },
 		config = function()
-			require("user.configs.telescope")
+			require("user.configs.telescope.setup")
 		end,
 		-- opt = true,
-		-- cmd = "Telescope",
-		-- event = "BufRead",
+		-- cmd = { "Telescope" },
 	})
 
-	-- Telescope Fuzy Finder
-	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
+	-- Telescope Fuzy Finder NOTLAZYPLUGIN:
+	use({
+		"nvim-telescope/telescope-fzf-native.nvim",
+		run = "make",
+	})
 
 	-- Telescope-Media-Supp NOTLAZYPLUGIN: View Images with Telescope media_files command
 	use({
@@ -244,6 +265,24 @@ return packer.startup(function(use)
 		end,
 	})
 
+	-- UtilSnip Telescope Extension NOTLAZYPLUGIN:
+	use({
+		"fhill2/telescope-ultisnips.nvim",
+	})
+
+	-- NEOCLIP PLAZYPLUGIN:
+	use({
+		"AckslD/nvim-neoclip.lua",
+		requires = {
+			{ "tami5/sqlite.lua", module = "sqlite" },
+			{ "nvim-telescope/telescope.nvim" },
+		},
+		config = function()
+			require("user.configs.telescope.neoclip")
+		end,
+		opt = true,
+		event = "BufRead",
+	})
 	-----------------------------------------------------------------------------------------------------------------
 	-- Lsp PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
@@ -309,29 +348,11 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
-	-- Lsp-Saga NOTLAZYPLUGIN: Better Lsp UI
-	-- use({
-	-- 	"tami5/lspsaga.nvim",
-	-- 	config = function()
-	-- 		require("user.configs.lspsaga")
-	-- 	end,
-	-- })
-
-	-- CodeActionMenu PLUGIN: Better Menu for CodeActionMenu
-	-- use({
-	-- 	"weilbith/nvim-code-action-menu",
-	-- 	config = function()
-	-- 		require("user.configs.codeactions").setup()
-	-- 	end,
-	-- 	opt = true,
-	-- 	cmd = "CodeActionMenu",
-	-- })
-
 	-----------------------------------------------------------------------------------------------------------------
 	-- Snippets PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
-	-- LuaSnip PLAZYPLUGIN: Snippet engine
+	-- LuaSnip PLAZYPLUGIN: Snippet Engine
 	use({
 		"L3MON4D3/LuaSnip",
 		opt = true,
@@ -345,20 +366,14 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
+	-- ULtiSnips NOTLAZYPLUGIN: Snippet Engine
 	use({
 		"SirVer/ultisnips",
-		config = function()
-			vim.g.UltiSnipsExpandTrigger = "<c-l>"
-			vim.g.UltiSnipsJumpForwardTrigger = "<c-b>"
-			vim.g.UltiSnipsJumpBackwardTrigger = "<c-z>"
-		end,
 	})
 
-	-- React-Snippets PLUGIN: React Snippets
+	-- React-Snippets NOTLAZYPLUGIN: React Snippets
 	use({
 		"mlaursen/vim-react-snippets",
-		-- opt = true,
-		-- ft = { "js", "jsx" },
 	})
 
 	-----------------------------------------------------------------------------------------------------------------
@@ -391,25 +406,27 @@ return packer.startup(function(use)
 
 			-- Signature-Help PLAZYPLUGIN: Add signature help to cmp
 			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
+			-- Ultisnips PLAZYPLUGIN:
+			{ "quangnguyen30192/cmp-nvim-ultisnips" },
 		},
 		config = function()
-			require("user.configs.cmp")
+			require("user.configs.cmp.setup")
 		end,
 		opt = true,
 		event = "BufRead",
 	})
 
 	-- TABNINE PLAZYPLUGIN:
-	-- use({
-	-- 	"tzachar/cmp-tabnine",
-	-- 	run = "./install.sh",
-	-- 	requires = "hrsh7th/nvim-cmp",
-	-- 	config = function()
-	-- 		require("user.configs.cmp.tabnine")
-	-- 	end,
-	-- 	opt = true,
-	-- 	event = "BufRead",
-	-- })
+	use({
+		"tzachar/cmp-tabnine",
+		run = "./install.sh",
+		requires = "hrsh7th/nvim-cmp",
+		config = function()
+			require("user.configs.cmp.tabnine")
+		end,
+		opt = true,
+		event = "BufRead",
+	})
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Treesitter PLUGINS:
@@ -420,10 +437,10 @@ return packer.startup(function(use)
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
 		config = function()
-			require("user.configs.treesitter")
+			require("user.configs.treesitter.setup")
 		end,
-		opt = true,
-		event = "BufRead",
+		-- opt = true,
+		-- event = "BufRead",
 	})
 
 	-- Treesitter-TextObj PLAZYPLUGIN: Syntax aware text-objects, select, move, swap, and peek support.
@@ -458,7 +475,7 @@ return packer.startup(function(use)
 	use({
 		"windwp/nvim-autopairs",
 		config = function()
-			require("user.configs.autopairs")
+			require("user.configs.treesitter.autopairs")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -468,7 +485,7 @@ return packer.startup(function(use)
 	use({
 		"windwp/nvim-ts-autotag",
 		config = function()
-			require("user.configs.autotag")
+			require("user.configs.treesitter.autotag")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -478,17 +495,48 @@ return packer.startup(function(use)
 	use({
 		"romgrk/nvim-treesitter-context",
 		config = function()
-			require("user.configs.tscontext")
+			require("user.configs.treesitter.tscontext")
 		end,
 		opt = true,
 		event = "BufRead",
 	})
 
-	--  -- VR-COMMENTS-CONTEXT PLAZYPLUGIN: Vr Function Context as Comments
+	-- VR-COMMENTS-CONTEXT PLAZYPLUGIN: Vr Function Context as Comments
 	use({
 		"haringsrob/nvim_context_vt",
 		config = function()
-			require("user.configs.vrcontext")
+			require("user.configs.treesitter.vrcontext")
+		end,
+		opt = true,
+		event = "BufRead",
+	})
+
+	-- SYMBOLS_OUTLINE PLUGIN:
+	use({
+		"simrat39/symbols-outline.nvim",
+		config = function()
+			require("user.configs.treesitter.symbolsOutline").setup()
+		end,
+		cmd = "SymbolsOutline",
+		opt = true,
+	})
+
+	-- Todo-Comments PLAZYPLUGIN: Highlight comments and notes
+	use({
+		"folke/todo-comments.nvim",
+		requires = "nvim-lua/plenary.nvim",
+		config = function()
+			require("user.configs.treesitter.todo")
+		end,
+		opt = true,
+		event = "BufRead",
+	})
+
+	-- Comments PLAZYPLUGIN: Easier Time Commenting Shit
+	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			require("user.configs.treesitter.comment")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -522,16 +570,6 @@ return packer.startup(function(use)
 		-- keys = "<C-p>",
 	})
 
-	-- Comments PLAZYPLUGIN: Easier Time Commenting Shit
-	use({
-		"numToStr/Comment.nvim",
-		config = function()
-			require("user.configs.comment")
-		end,
-		opt = true,
-		event = "BufRead",
-	})
-
 	-- Nvim-Tree PLUGIN: Tree Explorer
 	use({
 		"kyazdani42/nvim-tree.lua",
@@ -558,27 +596,6 @@ return packer.startup(function(use)
 		opt = true,
 		cmd = { "ToggleTerm", "ToggleTermToggleAll", "TermExec" },
 		keys = "<C-t>",
-	})
-
-	-- Indent-Backline PLAZYPLUGIN: Indents to make out code better
-	use({
-		"lukas-reineke/indent-blankline.nvim",
-		config = function()
-			require("user.configs.indentline")
-		end,
-		opt = true,
-		event = "BufRead",
-	})
-
-	-- Todo-Comments PLAZYPLUGIN: Highlight comments and notes
-	use({
-		"folke/todo-comments.nvim",
-		requires = "nvim-lua/plenary.nvim",
-		config = function()
-			require("user.configs.todo")
-		end,
-		opt = true,
-		event = "BufRead",
 	})
 
 	-- TroubleToggle PLUGIN: Track Bugs and highlights
@@ -621,39 +638,26 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
+	-- Eww Yuck Highlight NOTLAZYPLUGIN
+	use({
+		"elkowar/yuck.vim",
+	})
+
 	-- Surround PLAZYPLUGIN: Surround Characters with brackets and functions FIXME
-	use({
-		"ur4ltz/surround.nvim",
-		config = function()
-			require("user.configs.vim-surround")
-		end,
-		opt = true,
-		event = "BufRead",
-	})
+	-- use({
+	-- 	"ur4ltz/surround.nvim",
+	-- 	config = function()
+	-- 		require("user.configs.vim-surround")
+	-- 	end,
+	-- 	opt = true,
+	-- 	event = "BufRead",
+	-- })
 
-	-- SYMBOLS_OUTLINE PLUGIN:
-	use({
-		"simrat39/symbols-outline.nvim",
-		config = function()
-			require("user.configs.symbolsOutline").setup()
-		end,
-		cmd = "SymbolsOutline",
-		opt = true,
-	})
-
-	-- NEOCLIP PLAZYPLUGIN:
-	use({
-		"AckslD/nvim-neoclip.lua",
-		requires = {
-			{ "tami5/sqlite.lua", module = "sqlite" },
-			{ "nvim-telescope/telescope.nvim" },
-		},
-		config = function()
-			require("user.configs.neoclip")
-		end,
-		-- opt = true,
-		-- event = "BufRead",
-	})
+	-- checkout medium for this
+	-- Dap PLAZYPLUGIN:
+	-- use({
+	-- 	"mfussenegger/nvim-dap",
+	-- })
 
 	-- -- Copilot PLUGIN:
 	-- use({
@@ -705,15 +709,6 @@ return packer.startup(function(use)
 	-- use("jbyuki/instant.nvim")
 	--
 	--
-	--
-	--  -- TS-RAINBOW-BRACKETS PLUGIN:
-	-- -- use({
-	-- -- 	"p00f/nvim-ts-rainbow",
-	-- -- 	config = function()
-	-- -- 		require("user.configs.rainbow")
-	-- -- 	end,
-	-- -- })
-	--
 	--  -- TWILIGHT PLUGIN:
 	-- use({
 	-- 	"folke/twilight.nvim",
@@ -736,7 +731,7 @@ return packer.startup(function(use)
 	-- 	"vuki656/package-info.nvim",
 	-- 	requires = "MunifTanjim/nui.nvim",
 	-- 	config = function()
-	-- 		require("user.configs.pkginfo")
+	-- 		require("user.configs.pkgs.pkginfo")
 	-- 	end,
 	-- })
 	--
@@ -756,23 +751,15 @@ return packer.startup(function(use)
 	-- 	run = "npm install --prefix server",
 	-- })
 	--
-	--  --GITLINKER PLUGIN:
-	-- use({
-	-- 	"ruifm/gitlinker.nvim",
-	-- 	config = function()
-	-- 		require("user.configs.linker")
-	-- 	end,
-	-- })
-	--
 	-----------------------------------------------------------------------------------------------------------------
 	-- Git PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
-	-- -- Git-Signs PLAZYPLUGIN:
+	-- -- Git-Signs NOTPLAZYPLUGIN:
 	use({
 		"lewis6991/gitsigns.nvim",
 		config = function()
-			require("user.configs.gitsigns")
+			require("user.configs.git.gitsigns")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -795,12 +782,12 @@ return packer.startup(function(use)
 	-- -- })
 	--
 	--  -- GH-Notifications PLUGIN:
-	-- use({
-	-- 	"rlch/github-notifications.nvim",
-	-- 	config = function()
-	-- 		require("user.configs.githubnotifications")
-	-- 	end,
-	-- })
+	use({
+		"rlch/github-notifications.nvim",
+		config = function() end,
+		-- opt = "true",
+		-- event = "BufRead",
+	})
 	--
 	--  -- Neogit PLUGIN:
 	-- -- use({
@@ -819,6 +806,18 @@ return packer.startup(function(use)
 	-- 		require("user.confgs.vgitplug")
 	-- 	end,
 	-- })
+
+	-- Octo PLUGIN PLUGIN:
+	-- use({"pwntester/octo.nvim"})
+	--
+	--  --GITLINKER PLUGIN:
+	-- use({
+	-- 	"ruifm/gitlinker.nvim",
+	-- 	config = function()
+	-- 		require("user.configs.linker")
+	-- 	end,
+	-- })
+	--
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- MISC PLUGINS:

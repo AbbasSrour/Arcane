@@ -1,11 +1,11 @@
 local M = {}
-
 local status_ok, alpha = pcall(require, "alpha")
 if not status_ok then
 	return
 end
-
 local kind = require("user.utils.kind")
+
+-- My Header
 local header = {
 	type = "text",
 	val = require("user.utils.banners").dashboard(),
@@ -14,44 +14,47 @@ local header = {
 		hl = "Comment",
 	},
 }
-local plugins = ""
-local date = ""
-if vim.fn.has("linux") == 1 or vim.fn.has("mac") == 1 then
-	local handle = io.popen(
-		'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer/" | grep pack | head -n -2 | wc -l | tr -d "\n" '
-	)
-	plugins = handle:read("*a")
-	handle:close()
 
-	local thingy = io.popen('echo "$(date +%a) $(date +%d) $(date +%b)" | tr -d "\n"')
-	date = thingy:read("*a")
-	thingy:close()
-	plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
-else
-	plugins = "N/A"
-	date = "  whatever "
+-- My Heading
+local function Info()
+	local plugins = ""
+	local date = ""
+	if vim.fn.has("linux") == 1 or vim.fn.has("mac") == 1 then
+		local handle = io.popen(
+			'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer/" | grep pack | head -n -2 | wc -l | tr -d "\n" '
+		)
+		plugins = handle:read("*a")
+		handle:close()
+
+		local thingy = io.popen('echo "$(date +%a) $(date +%d) $(date +%b)" | tr -d "\n"')
+		date = thingy:read("*a")
+		thingy:close()
+		plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
+	else
+		plugins = "N/A"
+		date = "  whatever "
+	end
+	return { date = date, plugins = plugins }
 end
-
 local plugin_count = {
 	type = "text",
-	val = "└─ " .. kind.cmp.Module .. " " .. plugins .. " plugins in total ─┘",
+	val = "└─ " .. kind.cmp.Module .. "  " .. Info().plugins .. " plugins in total ─┘",
 	opts = {
 		position = "center",
 		hl = "String",
 	},
 }
-
 local heading = {
 	type = "text",
-	val = "┌─ " .. kind.icons.calendar .. " Today is " .. date .. " ─┐",
+	val = "┌─ " .. kind.icons.calendar .. " Today is " .. Info().date .. " ─┐",
 	opts = {
 		position = "center",
 		hl = "String",
 	},
 }
 
+-- My Footer
 local fortune = require("alpha.fortune")()
--- fortune = fortune:gsub("^%s+", ""):gsub("%s+$", "")
 local footer = {
 	type = "text",
 	val = fortune,
@@ -64,7 +67,6 @@ local footer = {
 
 local function button(sc, txt, keybind)
 	local sc_ = sc:gsub("%s", ""):gsub("SPC", "<leader>")
-
 	local opts = {
 		position = "center",
 		text = txt,
@@ -78,7 +80,6 @@ local function button(sc, txt, keybind)
 	if keybind then
 		opts.keymap = { "n", sc_, keybind, { noremap = true, silent = true } }
 	end
-
 	return {
 		type = "button",
 		val = txt,

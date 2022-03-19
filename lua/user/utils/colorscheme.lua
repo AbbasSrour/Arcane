@@ -69,9 +69,7 @@ M.onedark = function()
 		-- toggle_style_key = "<leader>ts", -- Default keybinding to toggle
 		-- toggle_style_list = { "dark", "darker", "cool", "deep", "warm", "warmer", "light" }, -- List of styles to toggle between
 
-		-- Change code style ---
-		-- Options are italic, bold, underline, none
-		-- You can configure multiple style with comma seperated, For e.g., keywords = 'italic,bold'
+		-- Options are italic, bold, underline, none, multiple style with comma seperated  keywords = 'italic,bold'
 		code_style = {
 			comments = "italic",
 			keywords = "italic",
@@ -84,7 +82,6 @@ M.onedark = function()
 		colors = {}, -- Override default colors
 		highlights = {}, -- Override highlight groups
 
-		-- Plugins Config --
 		diagnostics = {
 			darker = true, -- darker colors for diagnostic
 			undercurl = true, -- use undercurl instead of underline for diagnostics
@@ -238,8 +235,9 @@ M.current_theme = function()
 	if time.hour >= 0 and time.hour < 7 then
 		colors = {
 			bg = M.themes.onedark.bg0[onedark_theme()],
-			bg2 = M.themes.onedark.bg1[onedark_theme()],
 			fg = M.themes.onedark.fg[onedark_theme()],
+			black = M.themes.onedark.black[onedark_theme()],
+			scrollbar = M.themes.onedark.bg2[onedark_theme()],
 			red = M.themes.onedark.red[onedark_theme()],
 			yellow = M.themes.onedark.yellow[onedark_theme()],
 			cyan = M.themes.onedark.cyan[onedark_theme()],
@@ -259,35 +257,12 @@ M.current_theme = function()
 		}
 		return colors
 	end
-	if time.hour >= 13 then
-		colors = {
-			bg = M.themes.tokyonight.bg,
-			fg = M.themes.tokyonight.fg,
-			bg2 = M.themes.onedark.bg1[onedark_theme()],
-			red = M.themes.tokyonight.red,
-			yellow = M.themes.tokyonight.yellow,
-			cyan = M.themes.tokyonight.cyan,
-			blue = M.themes.tokyonight.blue,
-			darkblue = M.themes.tokyonight.blue6, -- BULLSHIT:
-			green = M.themes.tokyonight.green,
-			orange = M.themes.tokyonight.orange,
-			violet = M.themes.tokyonight.violet,
-			magenta = M.themes.tokyonight.magenta,
-			purple = M.themes.tokyonight.purple,
-			git = {
-				add = M.themes.tokyonight.gitSigns.add,
-				delete = M.themes.tokyonight.gitSigns.delete,
-				change = M.themes.tokyonight.gitSigns.change,
-				conflict = M.themes.tokyonight.git.conflict,
-			},
-		}
-		return colors
-	end
 	if time.hour >= 7 and time.hour < 13 then
 		colors = {
 			bg = M.themes.rose_pine.dawn.base, -- BULLSHIT:
-			bg2 = M.themes.onedark.bg1[onedark_theme()],
 			fg = M.themes.rose_pine.dawn.love, -- BULLSHIT:
+			black = M.themes.rose_pine.moon.black,
+			scrollbar = M.themes.rose_pine.moon.love,
 			red = M.themes.rose_pine.moon.red,
 			yellow = M.themes.rose_pine.moon.yellow,
 			cyan = M.themes.rose_pine.moon.cyan,
@@ -303,6 +278,31 @@ M.current_theme = function()
 				delete = M.themes.rose_pine.dawn.git.delete,
 				change = M.themes.rose_pine.dawn.git.change,
 				conflict = M.themes.rose_pine.dawn.git.conflict,
+			},
+		}
+		return colors
+	end
+	if time.hour >= 13 then
+		colors = {
+			bg = M.themes.tokyonight.bg,
+			fg = M.themes.tokyonight.fg,
+			black = M.themes.tokyonight.bg,
+			scrollbar = M.themes.tokyonight.terminal_black, -- bg_br
+			red = M.themes.tokyonight.red,
+			yellow = M.themes.tokyonight.yellow,
+			cyan = M.themes.tokyonight.cyan,
+			blue = M.themes.tokyonight.blue,
+			darkblue = M.themes.tokyonight.blue6, -- BULLSHIT:
+			green = M.themes.tokyonight.green,
+			orange = M.themes.tokyonight.orange,
+			violet = M.themes.tokyonight.violet,
+			magenta = M.themes.tokyonight.magenta,
+			purple = M.themes.tokyonight.purple,
+			git = {
+				add = M.themes.tokyonight.gitSigns.add,
+				delete = M.themes.tokyonight.gitSigns.delete,
+				change = M.themes.tokyonight.gitSigns.change,
+				conflict = M.themes.tokyonight.git.conflict,
 			},
 		}
 		return colors

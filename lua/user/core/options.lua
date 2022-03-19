@@ -1,9 +1,10 @@
 -- Set Font
 if vim.g.neovide == true then
 	vim.o.guifont = "Operator Mono Lig Book,Noto Color Emoji,JetBrainsMono Nerd Font:h9"
-	-- vim.o.guifont = "Monolisa,Noto Color Emoji,JetBrainsMono Nerd Font:h8"
-	-- vim.o.guifont = "JetBrainsMono Nerd Font:h8"
-	vim.api.nvim_set_keymap("n", "<F11>", ":let g:neovide_fullscreen = !g:neovide_fullscreen<CR>", {})
+	-- vim.g.neovide_cursor_animation_length = 0.13
+	-- vim.g.neovide_cursor_trail_length = 0.8
+	vim.g.neovide_cursor_antialiasing = true
+	vim.g.neovide_cursor_vfx_mode = "ripple"
 end
 
 -- Set Leader
@@ -12,7 +13,11 @@ vim.api.nvim_set_keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Set Notification Server
+-- One Status line for the win
+-- vim.g.laststatus = 3
+-- highlight WinSeperator guibg=none
+
+-- Set Notifications
 vim.notify = require("notify")
 
 -- Some Shit
@@ -57,7 +62,6 @@ local options = {
 	scrolloff = 8, -- is one of my fav
 	sidescrolloff = 8,
 }
-
 for k, v in pairs(options) do
 	vim.opt[k] = v
 end

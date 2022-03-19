@@ -28,7 +28,7 @@ null_ls.setup({
 		-- C C++ Java And Co
 		-- formatting.clang_format, -- Tool to format C/C++/… code according to a set of rules and heuristics.
 		-- formatting.uncrustify, -- A source code beautifier for C, C++, C#, ObjectiveC, D, java, pawn and VALA.
-		-- formatting.google_java_format, -- Reformats Java source code according to Google Java Style.
+		formatting.google_java_format, -- Reformats Java source code according to Google Java Style.
 		-- diagnostics.cppcheck, -- A tool for fast static analysis of C/C++ code.
 
 		-- Lua
@@ -114,7 +114,7 @@ null_ls.setup({
 			vim.cmd([[
 	       augroup LspFormatting
 	            autocmd! * <buffer>
-	            autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+	            autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()
 	       augroup END
 	     ]])
 		end

@@ -66,15 +66,9 @@ telescope.setup({
 		},
 		help_tags = {
 			theme = "ivy",
-			layout_config = {
-				preview_cutoff = 120,
-			},
 		},
 		man_pages = {
 			theme = "ivy",
-			layout_config = {
-				preview_cutoff = 120,
-			},
 		},
 		buffers = {
 			theme = "dropdown",
@@ -88,7 +82,6 @@ telescope.setup({
 		},
 	},
 	defaults = {
-		-- default layout config
 		layout_strategy = "horizontal",
 		layout_config = {
 			width = 0.75,
@@ -96,6 +89,7 @@ telescope.setup({
 			horizontal = { mirror = false },
 			vertical = { mirror = false },
 		},
+
 		sorting_strategy = "descending",
 		prompt_prefix = kind.icons.telescope .. " ",
 		selection_caret = kind.icons.prompt .. " ",
@@ -123,8 +117,8 @@ telescope.setup({
 		file_previewer = require("telescope.previewers").vim_buffer_cat.new,
 		grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
 		qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-		-- buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
-		buffer_previewer_maker = new_maker,
+		buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
+		-- buffer_previewer_maker = new_maker,
 
 		mappings = {
 			i = {
@@ -208,3 +202,6 @@ telescope.setup({
 
 require("telescope").load_extension("media_files")
 require("telescope").load_extension("fzf")
+require("telescope").load_extension("ultisnips")
+require("telescope").load_extension("notify")
+require("telescope").load_extension("ghn")

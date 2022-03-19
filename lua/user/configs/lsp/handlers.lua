@@ -69,6 +69,7 @@ local function show_diagnostics_automatically()
 	vim.cmd([[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, opts)]])
 end
 
+-- Add LightBulb For Code Actions
 local function show_lightbulb()
 	vim.cmd([[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]])
 end
@@ -93,16 +94,23 @@ end
 local function get_noti(client)
 	if vim.g.logging_level == "debug" then
 		local msg = string.format("Language server %s started!", client.name)
-		vim.notify(msg, "info", { title = "Nvim-config" })
+		vim.notify(msg, "info", { title = "LSP" })
 	end
 end
 
 -- Configure what capabilities the laguage server will have and adding to them (to be used in the installer file)
+---@diagnostic disable-next-line: unused-local
 M.on_attach = function(client, bufnr)
 	if client.name == "tsserver" then
 		client.resolved_capabilities.document_formatting = false
 	end
 	if client.name == "emmet_ls" then
+		client.resolved_capabilities.document_formatting = false
+	end
+	if client.name == "html" then
+		client.resolved_capabilities.document_formatting = false
+	end
+	if client.name == "jdtls" then
 		client.resolved_capabilities.document_formatting = false
 	end
 
@@ -112,13 +120,12 @@ M.on_attach = function(client, bufnr)
 	get_noti(client)
 end
 
--- Adding Cmp lsp to the client capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
 local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_ok then
 	return
 end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 
