@@ -279,7 +279,6 @@ M.WhichkeyMappings = {
 		s = { "<cmd>SymbolsOutline<cr>", "Document Symbols" },
 		h = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Workspace Symbols" },
 		F = { "<cmd>lua vim.lsp.buf.formatting()<CR>", "Format Document" },
-		u = { "<cmd>Telescope ultisnips<cr>", "UtilSnip Search" },
 		W = {
 			name = "Workspace Folders",
 			a = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Add Workspace Folder" },
@@ -322,6 +321,7 @@ M.WhichkeyMappings = {
 		p = { "<cmd>Telescope neoclip default<cr>", "Clipboard" },
 		o = { "<cmd>TodoTrouble<cr>", "Get Todos" },
 		P = { "<cmd>Telescope projects<cr>", "Projects" },
+		u = { "<cmd>Telescope ultisnips<cr>", "UtilSnip Search" },
 	},
 	p = {
 		name = "Packer",

@@ -18,7 +18,10 @@ vim.g.maplocalleader = " "
 -- highlight WinSeperator guibg=none
 
 -- Set Notifications
-vim.notify = require("notify")
+local status_ok, notify = pcall(require, "notify")
+if status_ok then
+	vim.notify = notify
+end
 
 -- Some Shit
 vim.opt.shortmess:append("c")

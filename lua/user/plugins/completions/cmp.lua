@@ -8,8 +8,8 @@ if not snip_status_ok then
 end
 
 require("luasnip/loaders/from_vscode").lazy_load()
--- require("luasnip").filetype_extend("javascript", { "javascriptreact" })
--- require("luasnip").filetype_extend("javascript", { "html" })
+require("luasnip").filetype_extend("javascript", { "javascriptreact" })
+require("luasnip").filetype_extend("javascript", { "html" })
 
 local check_backspace = function()
 	local col = vim.fn.col(".") - 1
@@ -35,9 +35,9 @@ cmp.setup({
 				get_bufnrs = function()
 					return vim.api.nvim_list_bufs()
 				end,
-				--indexing_interval = 100, less means faster indexing, but more cpu usage
-				--indexing_batch_size = 1000, more means faster indexing, but more cpu usage
-				--max_indexed_line_length  = 1024*40, for very long lines, will take a small part of a line
+				indexing_interval = 100, --less means faster indexing, but more cpu usage
+				indexing_batch_size = 1000, --more means faster indexing, but more cpu usage
+				max_indexed_line_length = 1024 * 40, --for very long lines, will take a small part of a line
 			},
 		},
 		{ name = "cmp_tabnine" },
@@ -59,6 +59,21 @@ cmp.setup({
 		-- 	end,
 		-- },
 	},
+
+	-- sorting = {
+	-- 	priority_weight = 2,
+	-- 	comparators = {
+	-- 		require("cmp_tabnine.compare"),
+	-- 		compare.offset,
+	-- 		compare.exact,
+	-- 		compare.score,
+	-- 		compare.recently_used,
+	-- 		compare.kind,
+	-- 		compare.sort_text,
+	-- 		compare.length,
+	-- 		compare.order,
+	-- 	},
+	-- },
 
 	mapping = {
 		["<C-k>"] = cmp.mapping.select_prev_item(),
@@ -105,16 +120,16 @@ cmp.setup({
 	},
 
 	formatting = {
-		fields = { "kind", "abbr", "menu" },
+		fields = { "abbr", "kind", "menu" },
 		format = function(entry, vim_item)
 			vim_item.kind = string.format("%s", icons[vim_item.kind])
 			vim_item.menu = ({
-				nvim_lsp = "[LSP]",
-				nvim_lua = "[NVIM_LUA]",
-				luasnip = "[Snippet]",
-				buffer = "[Buffer]",
-				cmp_tabnine = "[TN]",
-				path = "[Path]",
+				nvim_lsp = " (LSP)",
+				nvim_lua = " (LUA)",
+				luasnip = " (SNP)",
+				buffer = " (BUF)",
+				cmp_tabnine = " (TBN)",
+				path = " (PATH)",
 			})[entry.source.name]
 			return vim_item
 		end,
@@ -125,29 +140,17 @@ cmp.setup({
 		select = false,
 	},
 
-	documentation = {
-		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+	window = {
+		documentation = {
+			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+		},
+		-- documentation = "native",
 	},
 
 	experimental = {
 		ghost_text = false,
 		native_menu = false,
 	},
-
-	-- sorting = {
-	-- 	priority_weight = 2,
-	-- 	comparators = {
-	-- 		require("cmp_tabnine.compare"),
-	-- 		compare.offset,
-	-- 		compare.exact,
-	-- 		compare.score,
-	-- 		compare.recently_used,
-	-- 		compare.kind,
-	-- 		compare.sort_text,
-	-- 		compare.length,
-	-- 		compare.order,
-	-- 	},
-	-- },
 })
 
 -- cmdline

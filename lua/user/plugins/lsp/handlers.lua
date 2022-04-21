@@ -113,6 +113,9 @@ M.on_attach = function(client, bufnr)
 	if client.name == "jdtls" then
 		client.resolved_capabilities.document_formatting = false
 	end
+	if client.name == "sumneko_lua" then
+		client.resolved_capabilities.document_formatting = false
+	end
 
 	-- show_diagnostics_automatically()
 	show_lightbulb()

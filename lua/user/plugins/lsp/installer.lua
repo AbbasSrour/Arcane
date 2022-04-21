@@ -10,8 +10,8 @@ local MyServers = {
 	pyright = {},
 	sumneko_lua = {},
 	tsserver = {},
-	cssls = {},
-	emmet_ls = {},
+	-- cssls = {},
+	-- emmet_ls = {},
 	clangd = {},
 	jdtls = {},
 }
@@ -31,15 +31,15 @@ end
 -- Server Setup, servers get opts from the handlers files and can be augmented with opts from the json files
 function Server_Setup(server)
 	local opts = {
-		on_attach = require("user.configs.lsp.handlers").on_attach,
-		capabilities = require("user.configs.lsp.handlers").capabilities,
+		on_attach = require("user.plugins.lsp.handlers").on_attach,
+		capabilities = require("user.plugins.lsp.handlers").capabilities,
 	}
 	if server.name == "jsonls" then
-		local jsonls_opts = require("user.configs.lsp.settings.jsonls")
+		local jsonls_opts = require("user.plugins.lsp.settings.jsonls")
 		opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
 	end
 	if server.name == "sumneko_lua" then
-		local sumneko_opts = require("user.configs.lsp.settings.sumneko_lua")
+		local sumneko_opts = require("user.plugins.lsp.settings.sumneko_lua")
 		opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
 	end
 	-- utils.info("Setting Up " .. server.name)

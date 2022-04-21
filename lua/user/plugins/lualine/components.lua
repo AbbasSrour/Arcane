@@ -1,6 +1,6 @@
 local colors = require("user.utils.colorscheme").colors
-local custom_colors = require("user.configs.lualine.colors")
-local conditions = require("user.configs.lualine.conditions")
+local custom_colors = require("user.plugins.lualine.colors")
+local conditions = require("user.plugins.lualine.conditions")
 local kind = require("user.utils.kind")
 
 local function diff_source()

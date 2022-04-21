@@ -234,6 +234,7 @@ M.current_theme = function()
 	local colors = {}
 	if time.hour >= 0 and time.hour < 7 then
 		colors = {
+			theme = "onedark",
 			bg = M.themes.onedark.bg0[onedark_theme()],
 			fg = M.themes.onedark.fg[onedark_theme()],
 			black = M.themes.onedark.black[onedark_theme()],
@@ -257,8 +258,9 @@ M.current_theme = function()
 		}
 		return colors
 	end
-	if time.hour >= 7 and time.hour < 13 then
+	if time.hour >= 7 and time.hour < 10 then
 		colors = {
+			theme = "rose_pine",
 			bg = M.themes.rose_pine.dawn.base, -- BULLSHIT:
 			fg = M.themes.rose_pine.dawn.love, -- BULLSHIT:
 			black = M.themes.rose_pine.moon.black,
@@ -282,8 +284,9 @@ M.current_theme = function()
 		}
 		return colors
 	end
-	if time.hour >= 13 then
+	if time.hour >= 10 then
 		colors = {
+			theme = "tokyonight",
 			bg = M.themes.tokyonight.bg,
 			fg = M.themes.tokyonight.fg,
 			black = M.themes.tokyonight.bg,

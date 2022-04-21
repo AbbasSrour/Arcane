@@ -1,5 +1,4 @@
 local fn = vim.fn
-
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
 	PACKER_BOOTSTRAP = fn.system({
@@ -52,7 +51,7 @@ return packer.startup(function(use)
 	use({
 		"nathom/filetype.nvim",
 		config = function()
-			require("user.configs.filetype")
+			require("user.plugins.filetype")
 		end,
 	})
 
@@ -77,7 +76,7 @@ return packer.startup(function(use)
 	use({
 		"stevearc/dressing.nvim",
 		config = function()
-			require("user.configs.ui.dressing")
+			require("user.plugins.ui.dressing")
 		end,
 	})
 
@@ -90,7 +89,7 @@ return packer.startup(function(use)
 	use({
 		"goolord/alpha-nvim",
 		config = function()
-			require("user.configs.ui.alpha")
+			require("user.plugins.ui.alpha")
 		end,
 	})
 
@@ -98,7 +97,7 @@ return packer.startup(function(use)
 	use({
 		"akinsho/bufferline.nvim",
 		config = function()
-			require("user.configs.ui.bufferline")
+			require("user.plugins.ui.bufferline")
 		end,
 	})
 
@@ -106,23 +105,25 @@ return packer.startup(function(use)
 	use({
 		"nvim-lualine/lualine.nvim",
 		config = function()
-			require("user.configs.lualine")
+			require("user.plugins.lualine")
 		end,
 	})
 
-	-- Scrollbar NOTLAZYPLUGIN: Side Scrollbar
+	-- Scrollbar PLAZYPLUGIN: Side Scrollbar
 	use({
 		"petertriho/nvim-scrollbar",
 		config = function()
-			require("user.configs.ui.scrollbar")
+			require("user.plugins.ui.scrollbar")
 		end,
+		opt = true,
+		event = "BufRead",
 	})
 
 	-- NOTIFICATIONS NOTLAZYPLUGIN: Fancy Notifications
 	use({
 		"rcarriga/nvim-notify",
 		config = function()
-			require("user.configs.ui.notify")
+			require("user.plugins.ui.notify")
 		end,
 	})
 
@@ -130,7 +131,7 @@ return packer.startup(function(use)
 	use({
 		"lukas-reineke/indent-blankline.nvim",
 		config = function()
-			require("user.configs.ui.indentline")
+			require("user.plugins.ui.indentline")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -140,7 +141,7 @@ return packer.startup(function(use)
 	use({
 		"SmiteshP/nvim-gps",
 		config = function()
-			require("user.configs.ui.gps")
+			require("user.plugins.ui.gps")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -150,7 +151,7 @@ return packer.startup(function(use)
 	-- -- use({
 	-- -- 	"p00f/nvim-ts-rainbow",
 	-- -- 	config = function()
-	-- -- 		require("user.configs.rainbow")
+	-- -- 		require("user.plugins.rainbow")
 	-- -- 	end,
 	-- -- })
 
@@ -165,18 +166,22 @@ return packer.startup(function(use)
 		config = function()
 			require("user.utils.colorscheme").rose_pine()
 			vim.cmd([[
-	try
-	  colorscheme rose-pine
-	  set background=light
-	catch /^Vim\%((\a\+)\)\=:E185/
-	  colorscheme default
-	  set background=light
-	endtry
-	]])
+	      try
+	        colorscheme rose-pine
+	        set background=light
+	      catch /^Vim\%((\a\+)\)\=:E185/
+	        colorscheme default
+	        set background=light
+	      endtry
+	      ]])
 		end,
 		cond = function()
-			local time = os.date("*t")
-			return time.hour >= 7 and time.hour < 13
+			local colorscheme = require("user.utils.colorscheme").current_theme()
+			if colorscheme.theme == "rose_pine" then
+				return true
+			else
+				return false
+			end
 		end,
 	})
 
@@ -196,8 +201,12 @@ return packer.startup(function(use)
 			]])
 		end,
 		cond = function()
-			local time = os.date("*t")
-			return time.hour >= 13
+			local colorscheme = require("user.utils.colorscheme").current_theme()
+			if colorscheme.theme == "tokyonight" then
+				return true
+			else
+				return false
+			end
 		end,
 	})
 
@@ -207,42 +216,47 @@ return packer.startup(function(use)
 		config = function()
 			require("user.utils.colorscheme").onedark()
 			vim.cmd([[
-	try
-	  colorscheme onedark
-	  set background=dark
-	catch /^Vim\%((\a\+)\)\=:E185/
-	  colorscheme default
-	  set background=dark
-	endtry
-	]])
+	    try
+	      colorscheme onedark
+	      set background=dark
+	    catch /^Vim\%((\a\+)\)\=:E185/
+	      colorscheme default
+	      set background=dark
+	    endtry
+	    ]])
 		end,
 		cond = function()
-			local time = os.date("*t")
-			return (time.hour >= 0 and time.hour < 7)
+			local colorscheme = require("user.utils.colorscheme").current_theme()
+			if colorscheme.theme == "onedark" then
+				return true
+			else
+				return false
+			end
 		end,
 	})
 
 	-- Cobalt2 PLUGIN:
-	-- -- use({
-	-- -- 	"lalitmee/cobalt2.nvim",
-	-- -- 	requires = "tjdevries/colorbuddy.nvim",
-	-- -- 	config = function()
-	-- -- 		require("colorbuddy").colorscheme("cobalt2")
-	-- -- 	end,
-	-- -- })
+	-- use({
+	-- 	"lalitmee/cobalt2.nvim",
+	-- 	requires = "tjdevries/colorbuddy.nvim",
+	-- 	config = function()
+	-- 		require("colorbuddy").colorscheme("cobalt2")
+	-- 	end,
+	-- })
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Telescope PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
 
-	-- Telescope NOTLAZYPLUGIN: Easy Search
+	-- Telescope PLUGIN: Easy Search
 	use({
 		"nvim-telescope/telescope.nvim",
 		config = function()
-			require("user.configs.telescope.setup")
+			require("user.plugins.telescope.setup")
 		end,
-		-- opt = true,
-		-- cmd = { "Telescope" },
+		opt = true,
+		cmd = { "Telescope" },
+		event = "BufRead",
 	})
 
 	-- Telescope Fuzy Finder NOTLAZYPLUGIN:
@@ -261,7 +275,7 @@ return packer.startup(function(use)
 	use({
 		"ahmedkhalf/project.nvim",
 		config = function()
-			require("user.configs.project")
+			require("user.plugins.project")
 		end,
 	})
 
@@ -278,11 +292,12 @@ return packer.startup(function(use)
 			{ "nvim-telescope/telescope.nvim" },
 		},
 		config = function()
-			require("user.configs.telescope.neoclip")
+			require("user.plugins.telescope.neoclip")
 		end,
 		opt = true,
 		event = "BufRead",
 	})
+
 	-----------------------------------------------------------------------------------------------------------------
 	-- Lsp PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
@@ -291,7 +306,7 @@ return packer.startup(function(use)
 	use({
 		"neovim/nvim-lspconfig",
 		config = function()
-			require("user.configs.lsp")
+			require("user.plugins.lsp")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -322,7 +337,7 @@ return packer.startup(function(use)
 	use({
 		"ray-x/lsp_signature.nvim",
 		config = function()
-			require("user.configs.lsp.plugins.lspsignature")
+			require("user.plugins.lsp.plugins.lspsignature")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -332,7 +347,7 @@ return packer.startup(function(use)
 	use({
 		"j-hui/fidget.nvim",
 		config = function()
-			require("user.configs.lsp.plugins.fidget")
+			require("user.plugins.lsp.plugins.fidget")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -342,7 +357,7 @@ return packer.startup(function(use)
 	use({
 		"kosayoda/nvim-lightbulb",
 		config = function()
-			require("user.configs.lsp.plugins.lightbulb")
+			require("user.plugins.lsp.plugins.lightbulb")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -366,14 +381,18 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
-	-- ULtiSnips NOTLAZYPLUGIN: Snippet Engine
+	-- ULtiSnips PLAZYPLUGIN: Snippet Engine
 	use({
 		"SirVer/ultisnips",
+		opt = true,
+		event = "BufRead",
 	})
 
-	-- React-Snippets NOTLAZYPLUGIN: React Snippets
+	-- React-Snippets PLAZYPLUGIN: React Snippets
 	use({
 		"mlaursen/vim-react-snippets",
+		opt = true,
+		event = "BufRead",
 	})
 
 	-----------------------------------------------------------------------------------------------------------------
@@ -406,11 +425,12 @@ return packer.startup(function(use)
 
 			-- Signature-Help PLAZYPLUGIN: Add signature help to cmp
 			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
-			-- Ultisnips PLAZYPLUGIN:
+
+			-- Ultisnips PLAZYPLUGIN: Get suggestions from ultisnips snippets
 			{ "quangnguyen30192/cmp-nvim-ultisnips" },
 		},
 		config = function()
-			require("user.configs.cmp.setup")
+			require("user.plugins.completions.cmp")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -422,7 +442,7 @@ return packer.startup(function(use)
 		run = "./install.sh",
 		requires = "hrsh7th/nvim-cmp",
 		config = function()
-			require("user.configs.cmp.tabnine")
+			require("user.plugins.completions.tabnine")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -437,10 +457,10 @@ return packer.startup(function(use)
 		"nvim-treesitter/nvim-treesitter",
 		run = ":TSUpdate",
 		config = function()
-			require("user.configs.treesitter.setup")
+			require("user.plugins.treesitter.setup")
 		end,
-		-- opt = true,
-		-- event = "BufRead",
+		opt = true,
+		event = "BufRead",
 	})
 
 	-- Treesitter-TextObj PLAZYPLUGIN: Syntax aware text-objects, select, move, swap, and peek support.
@@ -475,7 +495,7 @@ return packer.startup(function(use)
 	use({
 		"windwp/nvim-autopairs",
 		config = function()
-			require("user.configs.treesitter.autopairs")
+			require("user.plugins.treesitter.autopairs")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -485,7 +505,7 @@ return packer.startup(function(use)
 	use({
 		"windwp/nvim-ts-autotag",
 		config = function()
-			require("user.configs.treesitter.autotag")
+			require("user.plugins.treesitter.autotag")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -495,7 +515,7 @@ return packer.startup(function(use)
 	use({
 		"romgrk/nvim-treesitter-context",
 		config = function()
-			require("user.configs.treesitter.tscontext")
+			require("user.plugins.treesitter.tscontext")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -505,7 +525,7 @@ return packer.startup(function(use)
 	use({
 		"haringsrob/nvim_context_vt",
 		config = function()
-			require("user.configs.treesitter.vrcontext")
+			require("user.plugins.treesitter.vrcontext")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -515,7 +535,7 @@ return packer.startup(function(use)
 	use({
 		"simrat39/symbols-outline.nvim",
 		config = function()
-			require("user.configs.treesitter.symbolsOutline").setup()
+			require("user.plugins.treesitter.symbolsOutline").setup()
 		end,
 		cmd = "SymbolsOutline",
 		opt = true,
@@ -526,7 +546,7 @@ return packer.startup(function(use)
 		"folke/todo-comments.nvim",
 		requires = "nvim-lua/plenary.nvim",
 		config = function()
-			require("user.configs.treesitter.todo")
+			require("user.plugins.treesitter.todo")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -536,7 +556,7 @@ return packer.startup(function(use)
 	use({
 		"numToStr/Comment.nvim",
 		config = function()
-			require("user.configs.treesitter.comment")
+			require("user.plugins.treesitter.comment")
 		end,
 		opt = true,
 		event = "BufRead",
@@ -550,7 +570,7 @@ return packer.startup(function(use)
 	use({
 		"folke/which-key.nvim",
 		config = function()
-			require("user.configs.whichkey")
+			require("user.plugins.whichkey")
 		end,
 	})
 
@@ -558,23 +578,15 @@ return packer.startup(function(use)
 	use({
 		"mrjones2014/legendary.nvim",
 		config = function()
-			require("user.configs.legendarykeys")
+			require("user.plugins.legendarykeys")
 		end,
-		-- cmd = {
-		-- 	"Legendary",
-		-- 	"require('legendary').find()",
-		-- 	"require('legendary').find('keymaps')",
-		-- 	"require('legendary').find('keymaps')",
-		-- 	"require('legendary').find('autocmds')",
-		-- },
-		-- keys = "<C-p>",
 	})
 
 	-- Nvim-Tree PLUGIN: Tree Explorer
 	use({
 		"kyazdani42/nvim-tree.lua",
 		config = function()
-			require("user.configs.nvim-tree")
+			require("user.plugins.ui.nvim-tree")
 		end,
 		opt = true,
 		cmd = {
@@ -591,7 +603,7 @@ return packer.startup(function(use)
 	use({
 		"akinsho/toggleterm.nvim",
 		config = function()
-			require("user.configs.toggleterm")
+			require("user.plugins.ui.toggleterm")
 		end,
 		opt = true,
 		cmd = { "ToggleTerm", "ToggleTermToggleAll", "TermExec" },
@@ -602,7 +614,7 @@ return packer.startup(function(use)
 	use({
 		"folke/trouble.nvim",
 		config = function()
-			require("user.configs.trouble")
+			require("user.plugins.ui.trouble")
 		end,
 		opt = true,
 		cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TroubleRefresh" },
@@ -613,7 +625,7 @@ return packer.startup(function(use)
 		"rrethy/vim-hexokinase",
 		run = "make hexokinase",
 		config = function()
-			require("user.configs.hexokinase")
+			require("user.plugins.hexokinase")
 		end,
 		opt = true,
 		ft = { "css", "scss", "sass", "xml", "js", "jsx", "conf", "txt", "lua" },
@@ -624,7 +636,7 @@ return packer.startup(function(use)
 	use({
 		"Shatur/neovim-session-manager",
 		config = function()
-			require("user.configs.session-manager")
+			require("user.plugins.session-manager")
 		end,
 	})
 
@@ -632,45 +644,29 @@ return packer.startup(function(use)
 	use({
 		"nacro90/numb.nvim",
 		config = function()
-			require("user.configs.numbpeek")
+			require("user.plugins.numbpeek")
 		end,
 		opt = true,
 		event = "BufRead",
 	})
 
-	-- Eww Yuck Highlight NOTLAZYPLUGIN
+	-- -- Copilot PLUGIN:
 	use({
-		"elkowar/yuck.vim",
+		"github/copilot.vim",
+		config = function()
+			vim.cmd([[imap <silent><script><expr> <C-k> copilot#Accept("\<CR>")]])
+			vim.g.copilot_no_tab_map = true
+			vim.g.copilot_filetypes = {
+				["*"] = true,
+				gitcommit = false,
+				NeogitCommitMessage = false,
+			}
+		end,
 	})
 
-	-- Surround PLAZYPLUGIN: Surround Characters with brackets and functions FIXME
-	-- use({
-	-- 	"ur4ltz/surround.nvim",
-	-- 	config = function()
-	-- 		require("user.configs.vim-surround")
-	-- 	end,
-	-- 	opt = true,
-	-- 	event = "BufRead",
-	-- })
-
-	-- checkout medium for this
 	-- Dap PLAZYPLUGIN:
 	-- use({
 	-- 	"mfussenegger/nvim-dap",
-	-- })
-
-	-- -- Copilot PLUGIN:
-	-- use({
-	-- 	"github/copilot.vim",
-	-- 	config = function()
-	-- 		vim.cmd([[imap <silent><script><expr> <C-k> copilot#Accept("\<CR>")]])
-	-- 		vim.g.copilot_no_tab_map = true
-	-- 		vim.g.copilot_filetypes = {
-	-- 			["*"] = true,
-	-- 			gitcommit = false,
-	-- 			NeogitCommitMessage = false,
-	-- 		}
-	-- 	end,
 	-- })
 
 	--  -- REFACTORING PLUGIN: The Refactoring library based off the Refactoring book by Martin Fowler
@@ -679,6 +675,131 @@ return packer.startup(function(use)
 	--    opt = true,
 	--    event = "BufRead"
 	--  })
+	--  --PKGINFO PLUGIN:
+	-- use({
+	-- 	"vuki656/package-info.nvim",
+	-- 	requires = "MunifTanjim/nui.nvim",
+	-- 	config = function()
+	-- 		require("user.plugins.pkgs.pkginfo")
+	-- 	end,
+	-- })
+
+	-----------------------------------------------------------------------------------------------------------------
+	-- Git PLUGINS:
+	-----------------------------------------------------------------------------------------------------------------
+
+	-- Git-Signs PLAZYPLUGIN:
+	use({
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("user.plugins.git.gitsigns")
+		end,
+		opt = true,
+		event = "BufRead",
+	})
+
+	--  -- GH-Notifications PLUGIN:
+	use({
+		"rlch/github-notifications.nvim",
+		config = function() end,
+		opt = "true",
+		event = "BufRead",
+	})
+
+	--  -- Diff-View PLUGIN:
+	-- use({
+	-- 	"sindrets/diffview.nvim",
+	-- 	config = function()
+	-- 		require("user.plugins.gitdiff")
+	-- 	end,
+	-- })
+	--
+	--  -- Git-Messenger PLUGIN:
+	-- -- use({
+	-- -- 	"rhysd/git-messenger.vim",
+	-- -- 	config = function()
+	-- -- 		require("user.plugins.gitmessenger")
+	-- -- 	end,
+	-- -- })
+	--
+	--
+	--  -- Neogit PLUGIN:
+	-- -- use({
+	-- -- 	"TimUntersberger/neogit",
+	-- -- 	cmd = "Neogit",
+	-- -- 	config = function()
+	-- -- 		require("user.plugins.neogitplug")
+	-- -- 	end,
+	-- -- })
+	--
+	--  -- Vgit PLUGIN:
+	-- use({
+	-- 	"tanvirtin/vgit.nvim",
+	-- 	event = "BufWinEnter",
+	-- 	config = function()
+	-- 		require("user.confgs.vgitplug")
+	-- 	end,
+	-- })
+
+	-- Octo PLUGIN:
+	-- use({"pwntester/octo.nvim"})
+	--
+	--  --GITLINKER PLUGIN:
+	-- use({
+	-- 	"ruifm/gitlinker.nvim",
+	-- 	config = function()
+	-- 		require("user.plugins.linker")
+	-- 	end,
+	-- })
+	--
+
+	-----------------------------------------------------------------------------------------------------------------
+	-- MISC PLUGINS:
+	-----------------------------------------------------------------------------------------------------------------
+
+	-- Packer NOTLAZYPLUGIN: The Plugin Manager
+	use({
+		"wbthomason/packer.nvim",
+	})
+
+	-- Plenary NOTLAZYPLUGIN: All the lua functions I don't want to write twice.
+	use({
+		"nvim-lua/plenary.nvim",
+	})
+
+	-- Vim-bbye NOTLAZYPLUGIN: Close Buffers
+	use({
+		"moll/vim-bbye",
+	})
+
+	-- FixCursorHold NOTLAZYPLUGIN: Result in more snappiness for some plugins
+	use({
+		"antoinemadec/FixCursorHold.nvim",
+		config = function()
+			vim.g.cursorhold_updatetime = 100
+		end,
+	})
+
+	-----------------------------------------------------------------------------------------------------------------
+	-- To-Check PLUGINS:
+	-----------------------------------------------------------------------------------------------------------------
+
+	-- Eww Yuck Highlight NOTLAZYPLUGIN:
+	-- use({
+	-- 	"elkowar/yuck.vim",
+	-- })
+
+	-- Surround PLAZYPLUGIN: Surround Characters with brackets and functions FIXME
+	-- use({
+	-- 	"ur4ltz/surround.nvim",
+	-- 	config = function()
+	-- 		require("user.plugins.vim-surround")
+	-- 	end,
+	-- 	opt = true,
+	-- 	event = "BufRead",
+	-- })
+
+	-- checkout medium for this
 
 	--  -- JSON-SCHEME-STORE PLUGIN:
 	-- use("b0o/schemastore.nvim")
@@ -713,7 +834,7 @@ return packer.startup(function(use)
 	-- use({
 	-- 	"folke/twilight.nvim",
 	-- 	config = function()
-	-- 		require("user.configs.twilight")
+	-- 		require("user.plugins.twilight")
 	-- 	end,
 	-- })
 	--
@@ -722,18 +843,10 @@ return packer.startup(function(use)
 	-- 	"saecki/crates.nvim",
 	-- 	event = { "BufRead Cargo.toml" },
 	-- 	config = function()
-	-- 		require("user.configs.crates")
+	-- 		require("user.plugins.crates")
 	-- 	end,
 	-- })
 	--
-	--  --PKGINFO PLUGIN:
-	-- use({
-	-- 	"vuki656/package-info.nvim",
-	-- 	requires = "MunifTanjim/nui.nvim",
-	-- 	config = function()
-	-- 		require("user.configs.pkgs.pkginfo")
-	-- 	end,
-	-- })
 	--
 	--  -- SNIPRUN PLUGIN:
 	-- -- use {
@@ -751,100 +864,6 @@ return packer.startup(function(use)
 	-- 	run = "npm install --prefix server",
 	-- })
 	--
-	-----------------------------------------------------------------------------------------------------------------
-	-- Git PLUGINS:
-	-----------------------------------------------------------------------------------------------------------------
-
-	-- -- Git-Signs NOTPLAZYPLUGIN:
-	use({
-		"lewis6991/gitsigns.nvim",
-		config = function()
-			require("user.configs.git.gitsigns")
-		end,
-		opt = true,
-		event = "BufRead",
-	})
-
-	--  -- Diff-View PLUGIN:
-	-- use({
-	-- 	"sindrets/diffview.nvim",
-	-- 	config = function()
-	-- 		require("user.configs.gitdiff")
-	-- 	end,
-	-- })
-	--
-	--  -- Git-Messenger PLUGIN:
-	-- -- use({
-	-- -- 	"rhysd/git-messenger.vim",
-	-- -- 	config = function()
-	-- -- 		require("user.configs.gitmessenger")
-	-- -- 	end,
-	-- -- })
-	--
-	--  -- GH-Notifications PLUGIN:
-	use({
-		"rlch/github-notifications.nvim",
-		config = function() end,
-		-- opt = "true",
-		-- event = "BufRead",
-	})
-	--
-	--  -- Neogit PLUGIN:
-	-- -- use({
-	-- -- 	"TimUntersberger/neogit",
-	-- -- 	cmd = "Neogit",
-	-- -- 	config = function()
-	-- -- 		require("user.configs.neogitplug")
-	-- -- 	end,
-	-- -- })
-	--
-	--  -- Vgit PLUGIN:
-	-- use({
-	-- 	"tanvirtin/vgit.nvim",
-	-- 	event = "BufWinEnter",
-	-- 	config = function()
-	-- 		require("user.confgs.vgitplug")
-	-- 	end,
-	-- })
-
-	-- Octo PLUGIN PLUGIN:
-	-- use({"pwntester/octo.nvim"})
-	--
-	--  --GITLINKER PLUGIN:
-	-- use({
-	-- 	"ruifm/gitlinker.nvim",
-	-- 	config = function()
-	-- 		require("user.configs.linker")
-	-- 	end,
-	-- })
-	--
-
-	-----------------------------------------------------------------------------------------------------------------
-	-- MISC PLUGINS:
-	-----------------------------------------------------------------------------------------------------------------
-
-	-- Packer NOTLAZYPLUGIN: The Plugin Manager
-	use({
-		"wbthomason/packer.nvim",
-	})
-
-	-- Plenary NOTLAZYPLUGIN: All the lua functions I don't want to write twice.
-	use({
-		"nvim-lua/plenary.nvim",
-	})
-
-	-- Vim-bbye NOTLAZYPLUGIN: Close Buffers
-	use({
-		"moll/vim-bbye",
-	})
-
-	-- FixCursorHold NOTLAZYPLUGIN: Result in more snappiness for some plugins
-	use({
-		"antoinemadec/FixCursorHold.nvim",
-		config = function()
-			vim.g.cursorhold_updatetime = 100
-		end,
-	})
 
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()

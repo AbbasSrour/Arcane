@@ -1,4 +1,4 @@
-require("user.configs.lualine.components")
+require("user.plugins.lualine.components")
 
 local status_ok, lualine = pcall(require, "lualine")
 if not status_ok then

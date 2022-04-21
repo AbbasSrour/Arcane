@@ -1,5 +1,5 @@
 -- Load impatient to speed up the config
-require("impatient")
+local status_ok = pcall(require, "impatient")
 
 -- Disable Builtin Plugins
 local disabled_built_ins = {
@@ -46,9 +46,7 @@ require("user.core.plugins")
 --  schemestore, neogen, harpoon, gkeep
 --  Floating file explorer: tamago324/lir.nvim
 --  https://alpha2phi.medium.com/vim-neovim-plugins-for-a-better-integrated-experience-6accd4c2a52c browser
---  Take a look at nui
 --  folke/lua-dev
 --  Recheck codeactions when its more mature
 --  Standerize telescope functions abz for inspiration
 --  Rework lualine
---  Change Cmp completion style and add color
