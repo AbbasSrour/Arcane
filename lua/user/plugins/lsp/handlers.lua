@@ -1,8 +1,15 @@
 local M = {}
 
+local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not status_ok then
+	return
+end
+
 local icons = require("user.utils.kind")
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -- Lsp Setup
+--------------------------------------------------------------------------------------------------------------------------------------
 M.setup = function()
 	-- Set Sign Icons
 	local signs = {
@@ -43,7 +50,7 @@ M.setup = function()
 		},
 	})
 
-	-- configure dignostic handlers
+	-- configure dignostic windows
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 		border = "rounded",
 	})
@@ -53,9 +60,8 @@ M.setup = function()
 end
 
 --------------------------------------------------------------------------------------------------------------------------------------
--- Configuring lsp servers
+-- Functionalities
 --------------------------------------------------------------------------------------------------------------------------------------
-
 -- Show Diagnostics Automatically On hover
 local function show_diagnostics_automatically()
 	local opts = {
@@ -76,7 +82,7 @@ end
 
 -- add highlighting to functions and variables
 local function lsp_highlight_document(client)
-	if client.resolved_capabilities.document_highlight then
+	if client.server_capabilities.document_highlight then
 		vim.api.nvim_exec(
 			[[
       augroup lsp_document_highlight
@@ -98,23 +104,26 @@ local function get_noti(client)
 	end
 end
 
+--------------------------------------------------------------------------------------------------------------------------------------
+-- Configuring lsp servers
+--------------------------------------------------------------------------------------------------------------------------------------
 -- Configure what capabilities the laguage server will have and adding to them (to be used in the installer file)
 ---@diagnostic disable-next-line: unused-local
 M.on_attach = function(client, bufnr)
 	if client.name == "tsserver" then
-		client.resolved_capabilities.document_formatting = false
+		client.server_capabilities.document_formatting = false
 	end
 	if client.name == "emmet_ls" then
-		client.resolved_capabilities.document_formatting = false
+		client.server_capabilities.document_formatting = false
 	end
 	if client.name == "html" then
-		client.resolved_capabilities.document_formatting = false
+		client.server_capabilities.document_formatting = false
 	end
 	if client.name == "jdtls" then
-		client.resolved_capabilities.document_formatting = false
+		client.server_capabilities.document_formatting = false
 	end
 	if client.name == "sumneko_lua" then
-		client.resolved_capabilities.document_formatting = false
+		client.server_capabilities.document_formatting = false
 	end
 
 	-- show_diagnostics_automatically()
@@ -123,13 +132,10 @@ M.on_attach = function(client, bufnr)
 	get_noti(client)
 end
 
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_ok then
-	return
-end
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+local lspconfig = require("lspconfig")
 
 return M

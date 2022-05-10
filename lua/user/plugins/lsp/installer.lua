@@ -4,48 +4,44 @@ if not status_ok then
 end
 local utils = require("user.utils.notifications")
 
--- Automatic Installion of Some Servers
-local MyServers = {
-	html = {},
-	pyright = {},
-	sumneko_lua = {},
-	tsserver = {},
-	-- cssls = {},
-	-- emmet_ls = {},
-	clangd = {},
-	jdtls = {},
-}
-for server_name, _ in pairs(MyServers) do
-	local lsp_installer_servers = require("nvim-lsp-installer.servers")
-	local server_available, server = lsp_installer_servers.get_server(server_name)
-	if server_available then
-		if not server:is_installed() then
-			utils.info("Installing " .. server.name)
-			server:install()
-		end
-	else
-		utils.error(server)
-	end
-end
+-- local MyServers = {
+-- }
+-- for server_name, _ in pairs(MyServers) do
+-- 	local lsp_installer_servers = require("nvim-lsp-installer.servers")
+-- 	local server_available, server = lsp_installer_servers.get_server(server_name)
+-- 	if server_available then
+-- 		if not server:is_installed() then
+-- 			utils.info("Installing " .. server.name)
+-- 			server:install()
+-- 		end
+-- 	else
+-- 		utils.error(server)
+-- 	end
+-- end
 
--- Server Setup, servers get opts from the handlers files and can be augmented with opts from the json files
-function Server_Setup(server)
-	local opts = {
-		on_attach = require("user.plugins.lsp.handlers").on_attach,
-		capabilities = require("user.plugins.lsp.handlers").capabilities,
-	}
-	if server.name == "jsonls" then
-		local jsonls_opts = require("user.plugins.lsp.settings.jsonls")
-		opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
-	end
-	if server.name == "sumneko_lua" then
-		local sumneko_opts = require("user.plugins.lsp.settings.sumneko_lua")
-		opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
-	end
-	-- utils.info("Setting Up " .. server.name)
-	server:setup(opts)
-end
+lsp_installer.setup({
+	ensure_installed = {
+		"html",
+		"pyright",
+		"sumneko_lua",
+		"tsserver",
+		"cssls",
+		"emmet_ls",
+		"clangd",
+		"jdtls",
+	},
+})
 
-lsp_installer.on_server_ready(function(server)
-	Server_Setup(server)
-end)
+local on_attach = require("user.plugins.lsp.handlers").on_attach
+local capabilities = require("user.plugins.lsp.handlers").capabilities
+local sumneko_opts = require("user.plugins.lsp.settings.sumneko_lua")
+
+for _, server in ipairs(lsp_installer.get_installed_servers()) do
+	require("lspconfig")[server.name].setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150,
+		},
+	})
+end

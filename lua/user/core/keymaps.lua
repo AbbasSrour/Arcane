@@ -238,6 +238,18 @@ M.commands = {}
 -- Auto Commands
 M.autocmds = {}
 
+-- Format On save, fail safe option while clangd_format is fixed
+-- vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
+-- vim.api.nvim_exec(
+-- 	[[
+-- augroup FormatAutogroup
+--   autocmd!
+--   autocmd BufWritePost *.* Format
+-- augroup END
+-- ]],
+-- 	true
+-- )
+
 -- Which Key
 M.WhichkeyOpts = {
 	mode = "n", -- NORMAL mode
