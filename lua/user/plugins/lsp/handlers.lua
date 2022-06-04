@@ -5,6 +5,7 @@ if not status_ok then
 	return
 end
 
+-- local lspconfig = require("lspconfig")
 local icons = require("user.utils.kind")
 
 --------------------------------------------------------------------------------------------------------------------------------------
@@ -104,6 +105,20 @@ local function get_noti(client)
 	end
 end
 
+-- Format On Save
+local function Format_On_Save(client, bufnr)
+	if client.supports_method("textDocument/formatting") then
+		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			group = augroup,
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format({ bufnr = bufnr })
+			end,
+		})
+	end
+end
+
 --------------------------------------------------------------------------------------------------------------------------------------
 -- Configuring lsp servers
 --------------------------------------------------------------------------------------------------------------------------------------
@@ -130,12 +145,11 @@ M.on_attach = function(client, bufnr)
 	show_lightbulb()
 	lsp_highlight_document(client)
 	get_noti(client)
+	Format_On_Save(client, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-local lspconfig = require("lspconfig")
 
 return M

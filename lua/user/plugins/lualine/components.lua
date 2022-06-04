@@ -1,5 +1,4 @@
-local colors = require("user.utils.colorscheme").colors
-local custom_colors = require("user.plugins.lualine.colors")
+local colors = require("user.utils.colorscheme").current_theme_colors
 local conditions = require("user.plugins.lualine.conditions")
 local kind = require("user.utils.kind")
 
@@ -40,7 +39,7 @@ Components = {
 		path = 0,
 		file_status = true,
 		symbols = {
-			modified = " " .. kind.nvim_tree_icons.not_saved, -- Text to show when the file is modified.
+			modified = " [+]", --" " .. kind.nvim_tree_icons.not_saved, -- Text to show when the file is modified.
 			readonly = " " .. kind.nvim_tree_icons.read_only, -- Text to show when the file is non-modifiable or readonly.
 			unnamed = "[No Name]", -- Text to show for unnamed buffers.
 		},
@@ -70,7 +69,7 @@ Components = {
 		end,
 		padding = { left = 1, right = 1 },
 		cond = nil,
-		color = { fg = colors.black },
+		color = { fg = colors.git.github },
 	},
 	diff = {
 		"diff",
@@ -81,9 +80,9 @@ Components = {
 			removed = kind.git.removed .. " ",
 		},
 		diff_color = {
-			added = { fg = colors.green, bg = nil },
-			modified = { fg = colors.orange, bg = nil },
-			removed = { fg = colors.red, bg = nil },
+			added = { fg = colors.git.add, bg = nil },
+			modified = { fg = colors.git.change, bg = nil },
+			removed = { fg = colors.git.delete, bg = nil },
 		},
 		padding = { left = 1 },
 		color = nil,
@@ -149,9 +148,9 @@ Components = {
 			end
 
 			-- add formatter
-			local formatters = require("user.utils.null-ls.formatters")
+			local formatters = require("user.utils.lsp_providers")
 			local supported_formatters = {}
-			for _, fmt in pairs(formatters.list_registered(buf_ft)) do
+			for _, fmt in pairs(formatters.list_registered_formmaters(buf_ft)) do
 				local _added_formatter = fmt
 				if trim then
 					_added_formatter = string.sub(fmt, 1, 4)
@@ -161,9 +160,9 @@ Components = {
 			vim.list_extend(buf_client_names, supported_formatters)
 
 			-- add linter
-			local linters = require("user.utils.null-ls.linters")
+			local linters = require("user.utils.lsp_providers")
 			local supported_linters = {}
-			for _, lnt in pairs(linters.list_registered(buf_ft)) do
+			for _, lnt in pairs(linters.list_registered_linters(buf_ft)) do
 				local _added_linter = lnt
 				if trim then
 					_added_linter = string.sub(lnt, 1, 4)
@@ -187,7 +186,7 @@ Components = {
 			return ""
 		end,
 		padding = { left = 1, right = 1 },
-		color = { fg = colors.green },
+		color = { fg = colors.treesitter },
 		cond = conditions.hide_in_width,
 	},
 

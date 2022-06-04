@@ -30,6 +30,7 @@ vim.opt.lazyredraw = true
 -- Load Core Configs
 require("user.core.options")
 require("user.core.plugins")
+require("user.utils.colorscheme").current_theme()
 
 -- TODO:
 --  Change All Plugins to get Icons from lsp_kind => nvim-gps
@@ -50,3 +51,4 @@ require("user.core.plugins")
 --  Recheck codeactions when its more mature
 --  Standerize telescope functions abz for inspiration
 --  Rework lualine
+--  Refactor lualine utils.null-ls

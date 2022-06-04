@@ -7,6 +7,7 @@ local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
 local code_actions = null_ls.builtins.code_actions
 local completion = null_ls.builtins.completion
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 null_ls.setup({
 	debug = false,
@@ -16,16 +17,4 @@ null_ls.setup({
 		formatting.prettier,
 		formatting.shfmt, -- A shell parser, formatter, and interpreter with bash support.
 	},
-
-	-- Format on Save
-	on_attach = function(client)
-		if client.server_capabilities.document_formatting then
-			vim.cmd([[
-	       augroup LspFormatting
-	            autocmd! * <buffer>
-	            autocmd BufWritePre <buffer> lua vim.lsp.buf.format({async=true})
-	       augroup END
-	     ]])
-		end
-	end,
 })

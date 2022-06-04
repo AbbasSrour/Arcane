@@ -32,7 +32,6 @@ M.rose_pine = function()
 		disable_background = false,
 		disable_float_background = false,
 		disable_italics = false,
-		---@usage string hex value or named color from rosepinetheme.com/palette
 		groups = {
 			border = "highlight_med",
 			comment = "muted",
@@ -52,7 +51,6 @@ M.rose_pine = function()
 				h5 = "pine",
 				h6 = "foam",
 			},
-			-- or set all headings at once
 			-- headings = 'subtle'
 		},
 	})
@@ -90,7 +88,81 @@ M.onedark = function()
 	})
 end
 
-M.themes = {
+M.catppuccin = function()
+	vim.g.catppuccin_flavor = "latte" -- latte, frappe, macchiato, mocha
+	require("catppuccin").setup({
+		transparent_background = false,
+		term_colors = false,
+		styles = {
+			comments = "italic",
+			conditionals = "italic",
+			loops = "NONE",
+			functions = "NONE",
+			keywords = "NONE",
+			strings = "NONE",
+			variables = "NONE",
+			numbers = "NONE",
+			booleans = "NONE",
+			properties = "NONE",
+			types = "NONE",
+			operators = "NONE",
+		},
+		integrations = {
+			treesitter = true,
+			native_lsp = {
+				enabled = true,
+				virtual_text = {
+					errors = "italic",
+					hints = "italic",
+					warnings = "italic",
+					information = "italic",
+				},
+				underlines = {
+					errors = "underline",
+					hints = "underline",
+					warnings = "underline",
+					information = "underline",
+				},
+			},
+			lsp_trouble = false,
+			cmp = true,
+			lsp_saga = false,
+			gitgutter = false,
+			gitsigns = true,
+			telescope = true,
+			nvimtree = {
+				enabled = true,
+				show_root = false,
+				transparent_panel = false,
+			},
+			neotree = {
+				enabled = false,
+				show_root = false,
+				transparent_panel = false,
+			},
+			which_key = false,
+			indent_blankline = {
+				enabled = true,
+				colored_indent_levels = false,
+			},
+			dashboard = true,
+			neogit = false,
+			vim_sneak = false,
+			fern = false,
+			barbar = false,
+			bufferline = true,
+			markdown = true,
+			lightspeed = false,
+			ts_rainbow = false,
+			hop = false,
+			notify = true,
+			telekasten = true,
+			symbols_outline = true,
+		},
+	})
+end
+
+M.color_palettes = {
 	tokyonight = {
 		none = "NONE",
 		bg_dark = "#1f2335",
@@ -221,6 +293,128 @@ M.themes = {
 			conflict = { "#2c5372", "#274964", "#265478", "#1c4a6e", "#32526c", "#2c485f", "#2c485f" },
 		},
 	},
+	catppuccin = {
+		frappe = {
+			rosewater = "#F2D5CF",
+			flamingo = "#EEBEBE",
+			pink = "#F4B8E4",
+			mauve = "#CA9EE6",
+			red = "#E78284",
+			maroon = "#EA999C",
+			peach = "#EF9F76",
+			yellow = "#E5C890",
+			green = "#A6D189",
+			teal = "#81C8BE",
+			sky = "#99D1DB",
+			sapphire = "#85C1DC",
+			blue = "#8CAAEE",
+			lavender = "#BABBF1",
+
+			text = "#C6D0F5",
+			subtext1 = "#B5BFE2",
+			subtext0 = "#A5ADCE",
+			overlay2 = "#949CBB",
+			overlay1 = "#838BA7",
+			overlay0 = "#737994",
+			surface2 = "#626880",
+			surface1 = "#51576D",
+			surface0 = "#414559",
+
+			base = "#303446",
+			mantle = "#292C3C",
+			crust = "#232634",
+		},
+		latte = {
+			rosewater = "#dc8a78",
+			flamingo = "#DD7878",
+			pink = "#ea76cb",
+			mauve = "#8839EF",
+			red = "#D20F39",
+			maroon = "#E64553",
+			peach = "#FE640B",
+			yellow = "#df8e1d",
+			green = "#40A02B",
+			teal = "#179299",
+			sky = "#04A5E5",
+			sapphire = "#209FB5",
+			blue = "#1e66f5",
+			lavender = "#7287FD",
+
+			text = "#4C4F69",
+			subtext1 = "#5C5F77",
+			subtext0 = "#6C6F85",
+			overlay2 = "#7C7F93",
+			overlay1 = "#8C8FA1",
+			overlay0 = "#9CA0B0",
+			surface2 = "#ACB0BE",
+			surface1 = "#BCC0CC",
+			surface0 = "#CCD0DA",
+
+			crust = "#DCE0E8",
+			mantle = "#E6E9EF",
+			base = "#EFF1F5",
+		},
+		mocchiato = {
+			rosewater = "#F4DBD6",
+			flamingo = "#F0C6C6",
+			pink = "#F5BDE6",
+			mauve = "#C6A0F6",
+			red = "#ED8796",
+			maroon = "#EE99A0",
+			peach = "#F5A97F",
+			yellow = "#EED49F",
+			green = "#A6DA95",
+			teal = "#8BD5CA",
+			sky = "#91D7E3",
+			sapphire = "#7DC4E4",
+			blue = "#8AADF4",
+			lavender = "#B7BDF8",
+
+			text = "#CAD3F5",
+			subtext1 = "#B8C0E0",
+			subtext0 = "#A5ADCB",
+			overlay2 = "#939AB7",
+			overlay1 = "#8087A2",
+			overlay0 = "#6E738D",
+			surface2 = "#5B6078",
+			surface1 = "#494D64",
+			surface0 = "#363A4F",
+
+			base = "#24273A",
+			mantle = "#1E2030",
+			crust = "#181926",
+		},
+		mocha = {
+			rosewater = "#F5E0DC",
+			flamingo = "#F2CDCD",
+			pink = "#F5C2E7",
+			mauve = "#CBA6F7",
+			red = "#F38BA8",
+			maroon = "#EBA0AC",
+			peach = "#FAB387",
+			yellow = "#F9E2AF",
+			green = "#A6E3A1",
+			teal = "#94E2D5",
+			sky = "#89DCEB",
+			sapphire = "#74C7EC",
+			blue = "#89B4FA",
+			lavender = "#B4BEFE",
+
+			text = "#CDD6F4",
+			subtext1 = "#BAC2DE",
+			subtext0 = "#A6ADC8",
+			overlay2 = "#9399B2",
+			overlay1 = "#7F849C",
+			overlay0 = "#6C7086",
+			surface2 = "#585B70",
+			surface1 = "#45475A",
+			surface0 = "#313244",
+
+			base = "#1E1E2E",
+			mantle = "#181825",
+			crust = "#11111B",
+		},
+	},
 }
 
 local function onedark_theme()
@@ -230,88 +424,76 @@ local function onedark_theme()
 	return index
 end
 
+M.component_colors = {
+	onedark = {
+		treesitter = M.color_palettes.onedark.green[onedark_theme()],
+		scrollbar = M.color_palettes.onedark.bg2[onedark_theme()],
+		git = {
+			add = M.color_palettes.onedark.green[onedark_theme()],
+			delete = M.color_palettes.onedark.red[onedark_theme()],
+			change = M.color_palettes.onedark.orange[onedark_theme()],
+			github = M.color_palettes.onedark.black[onedark_theme()],
+		},
+	},
+	rose_pine = {
+		treesitter = M.color_palettes.rose_pine.moon.green,
+		scrollbar = M.color_palettes.rose_pine.moon.love,
+		git = {
+			add = M.color_palettes.rose_pine.moon.green,
+			delete = M.color_palettes.rose_pine.moon.red,
+			change = M.color_palettes.rose_pine.moon.orange,
+			github = M.color_palettes.rose_pine.moon.black,
+		},
+	},
+	tokyonight = {
+		treesitter = M.color_palettes.tokyonight.green,
+		scrollbar = M.color_palettes.tokyonight.terminal_black, -- bg_br
+		git = {
+			add = M.color_palettes.tokyonight.green,
+			delete = M.color_palettes.tokyonight.red,
+			change = M.color_palettes.tokyonight.orange,
+			github = M.color_palettes.tokyonight.bg,
+		},
+	},
+}
+
+M.current_theme_colors = {}
+
 M.current_theme = function()
-	local colors = {}
 	if time.hour >= 0 and time.hour < 7 then
-		colors = {
-			theme = "onedark",
-			bg = M.themes.onedark.bg0[onedark_theme()],
-			fg = M.themes.onedark.fg[onedark_theme()],
-			black = M.themes.onedark.black[onedark_theme()],
-			scrollbar = M.themes.onedark.bg2[onedark_theme()],
-			red = M.themes.onedark.red[onedark_theme()],
-			yellow = M.themes.onedark.yellow[onedark_theme()],
-			cyan = M.themes.onedark.cyan[onedark_theme()],
-			blue = M.themes.onedark.dark_cyan[onedark_theme()], -- BULLSHIT:
-			darkblue = M.themes.onedark.blue[onedark_theme()], -- BULLSHIT:
-			green = M.themes.onedark.green[onedark_theme()],
-			orange = M.themes.onedark.orange[onedark_theme()],
-			violet = M.themes.onedark.purple[onedark_theme()], -- BULLSHIT:
-			magenta = M.themes.tokyonight.magenta, -- BULLSHIT:
-			purple = M.themes.onedark.dark_purple[onedark_theme()], -- BULLSHIT:
-			git = {
-				add = M.themes.onedark.git.add[onedark_theme()],
-				delete = M.themes.onedark.git.delete[onedark_theme()],
-				change = M.themes.onedark.git.change[onedark_theme()],
-				conflict = M.themes.onedark.git.conflict[onedark_theme()],
-			},
-		}
-		return colors
-	end
-	if time.hour >= 7 and time.hour < 10 then
-		colors = {
-			theme = "rose_pine",
-			bg = M.themes.rose_pine.dawn.base, -- BULLSHIT:
-			fg = M.themes.rose_pine.dawn.love, -- BULLSHIT:
-			black = M.themes.rose_pine.moon.black,
-			scrollbar = M.themes.rose_pine.moon.love,
-			red = M.themes.rose_pine.moon.red,
-			yellow = M.themes.rose_pine.moon.yellow,
-			cyan = M.themes.rose_pine.moon.cyan,
-			blue = M.themes.rose_pine.moon.blue,
-			darkblue = M.themes.rose_pine.moon.bg_br, -- BULLSHIT:
-			green = M.themes.rose_pine.moon.green,
-			orange = M.themes.rose_pine.moon.orange,
-			violet = M.themes.rose_pine.moon.violet,
-			magenta = M.themes.rose_pine.moon.magenta,
-			purple = M.themes.rose_pine.dawn.iris,
-			git = {
-				add = M.themes.rose_pine.dawn.git.add,
-				delete = M.themes.rose_pine.dawn.git.delete,
-				change = M.themes.rose_pine.dawn.git.change,
-				conflict = M.themes.rose_pine.dawn.git.conflict,
-			},
-		}
-		return colors
-	end
-	if time.hour >= 10 then
-		colors = {
-			theme = "tokyonight",
-			bg = M.themes.tokyonight.bg,
-			fg = M.themes.tokyonight.fg,
-			black = M.themes.tokyonight.bg,
-			scrollbar = M.themes.tokyonight.terminal_black, -- bg_br
-			red = M.themes.tokyonight.red,
-			yellow = M.themes.tokyonight.yellow,
-			cyan = M.themes.tokyonight.cyan,
-			blue = M.themes.tokyonight.blue,
-			darkblue = M.themes.tokyonight.blue6, -- BULLSHIT:
-			green = M.themes.tokyonight.green,
-			orange = M.themes.tokyonight.orange,
-			violet = M.themes.tokyonight.violet,
-			magenta = M.themes.tokyonight.magenta,
-			purple = M.themes.tokyonight.purple,
-			git = {
-				add = M.themes.tokyonight.gitSigns.add,
-				delete = M.themes.tokyonight.gitSigns.delete,
-				change = M.themes.tokyonight.gitSigns.change,
-				conflict = M.themes.tokyonight.git.conflict,
-			},
-		}
-		return colors
+		M.current_theme_colors = M.component_colors.onedark
+		vim.cmd([[
+	    try
+	      colorscheme onedark
+	      set background=dark
+	    catch /^Vim\%((\a\+)\)\=:E185/
+	      colorscheme default
+	      set background=dark
+	    endtry
+	    ]])
+	elseif time.hour >= 7 and time.hour < 10 then
+		M.current_theme_colors = M.component_colors.rose_pine
+		vim.cmd([[
+	      try
+	        colorscheme rose-pine
+	        set background=light
+	      catch /^Vim\%((\a\+)\)\=:E185/
+	        colorscheme default
+	        set background=light
+	      endtry
+	      ]])
+	elseif time.hour >= 10 then
+		M.current_theme_colors = M.component_colors.tokyonight
+		vim.cmd([[
+			try
+			  colorscheme tokyonight
+			  set background=dark
+			catch /^Vim\%((\a\+)\)\=:E185/
+			  colorscheme default
+			  set background=dark
+			endtry
+			]])
 	end
 end
-
-M.colors = M.current_theme()
 
 return M

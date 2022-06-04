@@ -19,6 +19,9 @@ end
 local icons = require("user.utils.kind").cmp
 local compare = require("cmp.config.compare")
 
+------------------------------------------------------------------------------------------------------------------------------------
+-- Setup
+------------------------------------------------------------------------------------------------------------------------------------
 cmp.setup({
 	sources = {
 		{ name = "path" },
@@ -30,17 +33,33 @@ cmp.setup({
 		{
 			name = "buffer",
 			option = {
-				-- keyword_length = 3, number of characters to trigger auto completion
-				--keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%([\-.]\w*\)*\)]],  vim iskeyword [[\k\+]]
 				get_bufnrs = function()
 					return vim.api.nvim_list_bufs()
 				end,
 				indexing_interval = 100, --less means faster indexing, but more cpu usage
 				indexing_batch_size = 1000, --more means faster indexing, but more cpu usage
 				max_indexed_line_length = 1024 * 40, --for very long lines, will take a small part of a line
+				-- keyword_length = 3, number of characters to trigger auto completion
+				--keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%([\-.]\w*\)*\)]],  vim iskeyword [[\k\+]]
 			},
 		},
 		{ name = "cmp_tabnine" },
+	},
+
+	formatting = {
+		fields = { "kind", "abbr", "menu" },
+		format = function(entry, vim_item)
+			vim_item.kind = string.format("%s ", icons[vim_item.kind])
+			vim_item.menu = ({
+				nvim_lsp = " (LSP)",
+				nvim_lua = " (LUA)",
+				luasnip = " (SNP)",
+				buffer = " (BUF)",
+				cmp_tabnine = " (TBN)",
+				path = " (PATH)",
+			})[entry.source.name]
+			return vim_item
+		end,
 	},
 
 	snippet = {
@@ -49,31 +68,21 @@ cmp.setup({
 		end,
 	},
 
-	sorting = {
-		-- comparators = {
-		-- 	--A comparator function which uses information from the word indexer to sort completion results
-		-- 	--based on the distance of the word from the cursor line. It will also sort completion
-		-- 	-- results coming from other sources,which might improve accuracy of their suggestions too
-		-- 	function(...)
-		-- 		return cmp_buffer:compare_locality(...)
-		-- 	end,
-		-- },
+	experimental = {
+		ghost_text = false,
+		native_menu = false,
 	},
 
-	-- sorting = {
-	-- 	priority_weight = 2,
-	-- 	comparators = {
-	-- 		require("cmp_tabnine.compare"),
-	-- 		compare.offset,
-	-- 		compare.exact,
-	-- 		compare.score,
-	-- 		compare.recently_used,
-	-- 		compare.kind,
-	-- 		compare.sort_text,
-	-- 		compare.length,
-	-- 		compare.order,
-	-- 	},
-	-- },
+	confirm_opts = {
+		behavior = cmp.ConfirmBehavior.Replace,
+		select = false,
+	},
+
+	window = {
+		documentation = { --documentation = "native",
+			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+		},
+	},
 
 	mapping = {
 		["<C-k>"] = cmp.mapping.select_prev_item(),
@@ -119,40 +128,36 @@ cmp.setup({
 		}),
 	},
 
-	formatting = {
-		fields = { "abbr", "kind", "menu" },
-		format = function(entry, vim_item)
-			vim_item.kind = string.format("%s", icons[vim_item.kind])
-			vim_item.menu = ({
-				nvim_lsp = " (LSP)",
-				nvim_lua = " (LUA)",
-				luasnip = " (SNP)",
-				buffer = " (BUF)",
-				cmp_tabnine = " (TBN)",
-				path = " (PATH)",
-			})[entry.source.name]
-			return vim_item
-		end,
+	sorting = {
+		-- comparators = {
+		-- 	--A comparator function which uses information from the word indexer to sort completion results
+		-- 	--based on the distance of the word from the cursor line. It will also sort completion
+		-- 	-- results coming from other sources,which might improve accuracy of their suggestions too
+		-- 	function(...)
+		-- 		return cmp_buffer:compare_locality(...)
+		-- 	end,
+		-- },
 	},
 
-	confirm_opts = {
-		behavior = cmp.ConfirmBehavior.Replace,
-		select = false,
-	},
-
-	window = {
-		documentation = {
-			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-		},
-		-- documentation = "native",
-	},
-
-	experimental = {
-		ghost_text = false,
-		native_menu = false,
-	},
+	-- sorting = {
+	-- 	priority_weight = 2,
+	-- 	comparators = {
+	-- 		require("cmp_tabnine.compare"),
+	-- 		compare.offset,
+	-- 		compare.exact,
+	-- 		compare.score,
+	-- 		compare.recently_used,
+	-- 		compare.kind,
+	-- 		compare.sort_text,
+	-- 		compare.length,
+	-- 		compare.order,
+	-- 	},
+	-- },
 })
 
+------------------------------------------------------------------------------------------------------------------------------------
+-- Plugins
+------------------------------------------------------------------------------------------------------------------------------------
 -- cmdline
 cmp.setup.cmdline(":", {
 	sources = {
@@ -169,6 +174,7 @@ cmp.setup.cmdline("/", {
 	),
 })
 
+-- Crates
 vim.api.nvim_exec(
 	[[
     autocmd FileType toml lua require('cmp').setup.buffer { sources = { { name = 'crates' } } }

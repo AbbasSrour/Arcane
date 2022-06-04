@@ -1,8 +1,8 @@
 -- Set Font
 if vim.g.neovide == true then
 	vim.o.guifont = "Operator Mono Lig Book,Noto Color Emoji,JetBrainsMono Nerd Font:h9"
-	-- vim.g.neovide_cursor_animation_length = 0.13
-	-- vim.g.neovide_cursor_trail_length = 0.8
+	vim.g.neovide_cursor_animation_length = 0.13
+	vim.g.neovide_cursor_trail_length = 0.8
 	vim.g.neovide_cursor_antialiasing = true
 	vim.g.neovide_cursor_vfx_mode = "ripple"
 end
@@ -14,8 +14,8 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- One Status line for the win
--- vim.g.laststatus = 3
--- highlight WinSeperator guibg=none
+vim.opt.laststatus = 3
+vim.cmd([[highlight WinSeperator guibg=none]])
 
 -- Set Notifications
 local status_ok, notify = pcall(require, "notify")
