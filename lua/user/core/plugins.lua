@@ -133,7 +133,7 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
-	-- Nvim-Gps
+	-- Nvim-Gps: statusline component that shows what scope you are working inside
 	use({
 		"SmiteshP/nvim-gps",
 		config = function()
@@ -154,7 +154,6 @@ return packer.startup(function(use)
 	-----------------------------------------------------------------------------------------------------------------
 	-- Colorscheme PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
-
 	-- Rose-Pine
 	use({
 		"rose-pine/neovim",
@@ -201,7 +200,6 @@ return packer.startup(function(use)
 	-----------------------------------------------------------------------------------------------------------------
 	-- Telescope PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
-
 	-- Telescope Easy Search
 	use({
 		"nvim-telescope/telescope.nvim",
@@ -255,7 +253,6 @@ return packer.startup(function(use)
 	-----------------------------------------------------------------------------------------------------------------
 	-- Lsp PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
-
 	-- Lsp-Config -- enable Lsp
 	use({
 		"neovim/nvim-lspconfig",
@@ -273,7 +270,7 @@ return packer.startup(function(use)
 		-- event = "BufRead",
 	})
 
-	-- Nlsp-Settings -- language server settings defined in json
+	-- Nlsp-Settings: language server settings defined in json
 	use({
 		"tamago324/nlsp-settings.nvim",
 		opt = true,
@@ -320,7 +317,6 @@ return packer.startup(function(use)
 	-----------------------------------------------------------------------------------------------------------------
 	-- Snippets PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
-
 	-- LuaSnip Snippet Engine
 	use({
 		"L3MON4D3/LuaSnip",
@@ -355,40 +351,39 @@ return packer.startup(function(use)
 	-- Cmp-Nvim The completion engine plugin
 	use({
 		"hrsh7th/nvim-cmp",
-		requires = {
-			-- Cmp-Buffer buffer completions
-			{ "hrsh7th/cmp-buffer" },
-
-			-- Cmp-Path path completions
-			{ "hrsh7th/cmp-path" },
-
-			-- Cmp-Cmdline cmdline completions
-			{ "hrsh7th/cmp-cmdline" },
-
-			-- Cmp-LuaSnip  snippet completions
-			{ "saadparwaiz1/cmp_luasnip" },
-
-			-- Cmp-Lsp Bettter completions than builtin lsp omnifunc
-			{ "hrsh7th/cmp-nvim-lsp" },
-
-			-- Cmp-Lua Add completion for lua vim apis
-			{ "hrsh7th/cmp-nvim-lua" },
-
-			-- Document-Symbols Add document symbols like functions to / search reasults
-			{ "hrsh7th/cmp-nvim-lsp-document-symbol" },
-
-			-- Signature-Help Add signature help to cmp
-			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
-
-			-- Ultisnips Get suggestions from ultisnips snippets
-			{ "quangnguyen30192/cmp-nvim-ultisnips" },
-		},
 		config = function()
 			require("user.plugins.completions.cmp")
 		end,
 		-- opt = true,
 		-- event = "BufRead",
 	})
+
+	-- Cmp-Buffer buffer completions
+	use({ "hrsh7th/cmp-buffer" })
+
+	-- Cmp-Path path completions
+	use({ "hrsh7th/cmp-path" })
+
+	-- Cmp-Cmdline cmdline completions
+	use({ "hrsh7th/cmp-cmdline" })
+
+	-- Cmp-LuaSnip snippet completions
+	use({ "saadparwaiz1/cmp_luasnip" })
+
+	-- Cmp-Lsp Bettter completions than builtin lsp omnifunc
+	use({ "hrsh7th/cmp-nvim-lsp" })
+
+	-- Cmp-Lua Add completion for lua vim apis
+	use({ "hrsh7th/cmp-nvim-lua" })
+
+	-- Document-Symbols Add document symbols like functions to / search reasults
+	use({ "hrsh7th/cmp-nvim-lsp-document-symbol" })
+
+	-- Signature-Help Add signature help to cmp
+	use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
+
+	-- Ultisnips Get suggestions from ultisnips snippets
+	use({ "quangnguyen30192/cmp-nvim-ultisnips" })
 
 	-- TABNINE
 	use({
@@ -402,10 +397,23 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
+	-- Copilot
+	use({
+		"github/copilot.vim",
+		config = function()
+			vim.cmd([[imap <silent><script><expr> <C-k> copilot#Accept("\<CR>")]])
+			vim.g.copilot_no_tab_map = true
+			vim.g.copilot_filetypes = {
+				["*"] = true,
+				gitcommit = false,
+				NeogitCommitMessage = false,
+			}
+		end,
+	})
+
 	-----------------------------------------------------------------------------------------------------------------
 	-- Treesitter PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
-
 	-- Treesitter Syntax Highlight
 	use({
 		"nvim-treesitter/nvim-treesitter",
@@ -465,7 +473,7 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
-	-- Treesitter-Context FIXME
+	-- Treesitter-Context: Show code context FIXME
 	use({
 		"romgrk/nvim-treesitter-context",
 		config = function()
@@ -475,7 +483,7 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
-	-- VR-COMMENTS-CONTEXT Vr Function Context as Comments
+	-- VR-COMMENTS-CONTEXT : Vr Function Context as Comments
 	use({
 		"haringsrob/nvim_context_vt",
 		config = function()
@@ -514,6 +522,39 @@ return packer.startup(function(use)
 		end,
 		opt = true,
 		event = "BufRead",
+	})
+
+	-----------------------------------------------------------------------------------------------------------------
+	-- Debugging PLUGINS:
+	-----------------------------------------------------------------------------------------------------------------
+	-- Dap: Debug Adapter Protocol client
+	use({
+		"mfussenegger/nvim-dap",
+	})
+
+	-- Dap-ui: A UI for nvim-dap
+	use({
+		"rcarriga/nvim-dap-ui",
+	})
+
+	-- Nvim-Dap-VR-text: adds virtual text support to nvim-dap.
+	use({
+		"theHamsta/nvim-dap-virtual-text",
+	})
+
+	-- Telescope-Dap: Integration for nvim-dap with telescope.nvim
+	use({
+		"nvim-telescope/telescope-dap.nvim",
+	})
+
+	-- fzf-lua: Improved fzf.vim written in lua
+	use({
+		"ibhagwan/fzf-lua",
+	})
+
+	-- Cmp-Dap: nvim-cmp source for nvim-dap REPL and nvim-dap-ui buffers
+	use({
+		"rcarriga/cmp-dap",
 	})
 
 	-----------------------------------------------------------------------------------------------------------------
@@ -604,31 +645,13 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
-	-- Copilot
-	use({
-		"github/copilot.vim",
-		config = function()
-			vim.cmd([[imap <silent><script><expr> <C-k> copilot#Accept("\<CR>")]])
-			vim.g.copilot_no_tab_map = true
-			vim.g.copilot_filetypes = {
-				["*"] = true,
-				gitcommit = false,
-				NeogitCommitMessage = false,
-			}
-		end,
-	})
-
-	-- Dap
-	-- use({
-	-- 	"mfussenegger/nvim-dap",
-	-- })
-
 	--  -- REFACTORING The Refactoring library based off the Refactoring book by Martin Fowler
 	-- use({
 	--    "ThePrimeagen/refactoring.nvim",
 	--    opt = true,
 	--    event = "BufRead"
 	--  })
+	--
 	--  --PKGINFO
 	-- use({
 	-- 	"vuki656/package-info.nvim",
@@ -641,7 +664,6 @@ return packer.startup(function(use)
 	-----------------------------------------------------------------------------------------------------------------
 	-- Git PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
-
 	-- Git-Signs
 	use({
 		"lewis6991/gitsigns.nvim",
@@ -714,7 +736,6 @@ return packer.startup(function(use)
 	-----------------------------------------------------------------------------------------------------------------
 	-- MISC PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
-
 	-- Packer The Plugin Manager
 	use({
 		"wbthomason/packer.nvim",
