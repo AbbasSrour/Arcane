@@ -1,4 +1,4 @@
-local colors = require("user.utils.colorscheme").current_theme_colors
+local colors = require("user.utils.colorscheme").current_theme_component_colors
 local conditions = require("user.plugins.lualine.conditions")
 local kind = require("user.utils.kind")
 

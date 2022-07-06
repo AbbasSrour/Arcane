@@ -2,7 +2,7 @@ local minimap_status_ok, scrollbar = pcall(require, "scrollbar")
 if not minimap_status_ok then
 	return
 end
-local colors = require("user.utils.colorscheme").current_theme_colors
+local colors = require("user.utils.colorscheme").current_theme_component_colors
 
 scrollbar.setup({
 	show = true,

@@ -41,6 +41,7 @@ M.setup = function()
 			source = "always",
 			prefix = icons.lsp.virtual .. " ",
 		},
+		-- virtual_text = false,
 		float = {
 			focusable = false,
 			style = "minimal",
@@ -125,27 +126,30 @@ end
 -- Configure what capabilities the laguage server will have and adding to them (to be used in the installer file)
 ---@diagnostic disable-next-line: unused-local
 M.on_attach = function(client, bufnr)
-	if client.name == "tsserver" then
+	if client.name == "tsserver" then -- gonna use prettier instead
 		client.server_capabilities.document_formatting = false
 	end
-	if client.name == "emmet_ls" then
+	if client.name == "emmet_ls" then -- gonna use prettier instead
 		client.server_capabilities.document_formatting = false
 	end
-	if client.name == "html" then
+	if client.name == "html" then -- gonna use prettier instead
 		client.server_capabilities.document_formatting = false
 	end
-	if client.name == "jdtls" then
+	if client.name == "jdtls" then -- gonna use prettier google
 		client.server_capabilities.document_formatting = false
 	end
-	if client.name == "sumneko_lua" then
+	if client.name == "sumneko_lua" then -- gonna use stylua
+		client.server_capabilities.document_formatting = false
+	end
+	if client.name == "jsonls" then -- gonna use prettier
 		client.server_capabilities.document_formatting = false
 	end
 
-	-- show_diagnostics_automatically()
 	show_lightbulb()
 	lsp_highlight_document(client)
 	get_noti(client)
-	Format_On_Save(client, bufnr)
+	show_diagnostics_automatically()
+	-- Format_On_Save(client, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()

@@ -206,9 +206,6 @@ return packer.startup(function(use)
 		config = function()
 			require("user.plugins.search.telescope")
 		end,
-		-- opt = true,
-		-- cmd = { "Telescope" },
-		-- event = "BufRead",
 	})
 
 	-- Telescope Fuzy Finder
@@ -231,10 +228,8 @@ return packer.startup(function(use)
 		end,
 	})
 
-	-- UtilSnip Telescope Extension
-	use({
-		"fhill2/telescope-ultisnips.nvim",
-	})
+	-- Telescope File browser
+	use({ "nvim-telescope/telescope-file-browser.nvim" })
 
 	-- NEOCLIP
 	use({
@@ -250,6 +245,11 @@ return packer.startup(function(use)
 		event = "BufRead",
 	})
 
+	-- Telescope-Dap: Integration for nvim-dap with telescope.nvim
+	use({
+		"nvim-telescope/telescope-dap.nvim",
+	})
+
 	-----------------------------------------------------------------------------------------------------------------
 	-- Lsp PLUGINS:
 	-----------------------------------------------------------------------------------------------------------------
@@ -259,29 +259,21 @@ return packer.startup(function(use)
 		config = function()
 			require("user.plugins.lsp")
 		end,
-		-- opt = true,
-		-- event = "BufRead",
 	})
 
 	-- Lsp-Installer -- simple to use language server installer
 	use({
 		"williamboman/nvim-lsp-installer",
-		-- opt = true,
-		-- event = "BufRead",
 	})
 
 	-- Nlsp-Settings: language server settings defined in json
 	use({
 		"tamago324/nlsp-settings.nvim",
-		opt = true,
-		event = "BufRead",
 	})
 
-	-- Null-ls -- for formatters and linters
+	-- Null-ls: for formatters and linters
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
-		opt = true,
-		event = "BufRead",
 	})
 
 	-- Function-Signature Function Parameters
@@ -332,18 +324,27 @@ return packer.startup(function(use)
 	})
 
 	-- ULtiSnips Snippet Engine
-	use({
-		"SirVer/ultisnips",
-		opt = true,
-		event = "BufRead",
-	})
+	-- use({
+	-- 	"SirVer/ultisnips",
+	-- 	opt = true,
+	-- 	event = "BufRead",
+	-- 	ft = { "jsx", "js" },
+	-- })
+
+	-- Ultisnips Get suggestions from ultisnips snippets
+	-- use({ "quangnguyen30192/cmp-nvim-ultisnips" })
 
 	-- React-Snippets React Snippets
-	use({
-		"mlaursen/vim-react-snippets",
-		opt = true,
-		event = "BufRead",
-	})
+	-- use({
+	-- 	"mlaursen/vim-react-snippets",
+	-- 	opt = true,
+	-- 	event = "BufRead",
+	-- })
+
+	-- UtilSnip Telescope Extension
+	-- use({
+	-- 	"fhill2/telescope-ultisnips.nvim",
+	-- })
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Cmp PLUGINS:
@@ -382,34 +383,31 @@ return packer.startup(function(use)
 	-- Signature-Help Add signature help to cmp
 	use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
 
-	-- Ultisnips Get suggestions from ultisnips snippets
-	use({ "quangnguyen30192/cmp-nvim-ultisnips" })
-
 	-- TABNINE
-	use({
-		"tzachar/cmp-tabnine",
-		run = "./install.sh",
-		requires = "hrsh7th/nvim-cmp",
-		config = function()
-			require("user.plugins.completions.tabnine")
-		end,
-		opt = true,
-		event = "BufRead",
-	})
+	-- use({
+	-- 	"tzachar/cmp-tabnine",
+	-- 	run = "./install.sh",
+	-- 	requires = "hrsh7th/nvim-cmp",
+	-- 	config = function()
+	-- 		require("user.plugins.completions.tabnine")
+	-- 	end,
+	-- 	opt = true,
+	-- 	event = "BufRead",
+	-- })
 
 	-- Copilot
-	use({
-		"github/copilot.vim",
-		config = function()
-			vim.cmd([[imap <silent><script><expr> <C-k> copilot#Accept("\<CR>")]])
-			vim.g.copilot_no_tab_map = true
-			vim.g.copilot_filetypes = {
-				["*"] = true,
-				gitcommit = false,
-				NeogitCommitMessage = false,
-			}
-		end,
-	})
+	-- use({
+	-- 	"github/copilot.vim",
+	-- 	config = function()
+	-- 		vim.cmd([[imap <silent><script><expr> <C-k> copilot#Accept("\<CR>")]])
+	-- 		vim.g.copilot_no_tab_map = true
+	-- 		vim.g.copilot_filetypes = {
+	-- 			["*"] = true,
+	-- 			gitcommit = false,
+	-- 			NeogitCommitMessage = false,
+	-- 		}
+	-- 	end,
+	-- })
 
 	-----------------------------------------------------------------------------------------------------------------
 	-- Treesitter PLUGINS:
@@ -421,8 +419,6 @@ return packer.startup(function(use)
 		config = function()
 			require("user.plugins.syntax.treesitter")
 		end,
-		-- opt = true,
-		-- event = "BufRead",
 	})
 
 	-- Treesitter-TextObj Syntax aware text-objects, select, move, swap, and peek support.
@@ -484,14 +480,14 @@ return packer.startup(function(use)
 	})
 
 	-- VR-COMMENTS-CONTEXT : Vr Function Context as Comments
-	use({
-		"haringsrob/nvim_context_vt",
-		config = function()
-			require("user.plugins.syntax.vrcontext")
-		end,
-		opt = true,
-		event = "BufRead",
-	})
+	-- use({
+	-- 	"haringsrob/nvim_context_vt",
+	-- 	config = function()
+	-- 		require("user.plugins.syntax.vrcontext")
+	-- 	end,
+	-- 	opt = true,
+	-- 	event = "BufRead",
+	-- })
 
 	-- SYMBOLS_OUTLINE
 	use({
@@ -530,6 +526,9 @@ return packer.startup(function(use)
 	-- Dap: Debug Adapter Protocol client
 	use({
 		"mfussenegger/nvim-dap",
+		config = function()
+			require("user.plugins.debugging.dap")
+		end,
 	})
 
 	-- Dap-ui: A UI for nvim-dap
@@ -540,11 +539,9 @@ return packer.startup(function(use)
 	-- Nvim-Dap-VR-text: adds virtual text support to nvim-dap.
 	use({
 		"theHamsta/nvim-dap-virtual-text",
-	})
-
-	-- Telescope-Dap: Integration for nvim-dap with telescope.nvim
-	use({
-		"nvim-telescope/telescope-dap.nvim",
+		config = function()
+			require("user.plugins.debugging.dapvr")
+		end,
 	})
 
 	-- fzf-lua: Improved fzf.vim written in lua
@@ -778,8 +775,6 @@ return packer.startup(function(use)
 	-- 	event = "BufRead",
 	-- })
 
-	-- checkout medium for this
-
 	--  -- JSON-SCHEME-STORE
 	-- use("b0o/schemastore.nvim")
 	--
@@ -788,7 +783,6 @@ return packer.startup(function(use)
 	--
 	--  -- HARPOON
 	-- use("ThePrimeagen/harpoon")
-	--
 	--
 	--  -- YODE
 	-- use("hoschi/yode-nvim")

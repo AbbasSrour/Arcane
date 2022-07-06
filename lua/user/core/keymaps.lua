@@ -10,13 +10,13 @@ M.commands = {}
 ---------------------------------------------------------------------------------------------------------------------------------
 M.autocmds = {
 	{
-		"BufWritePost",
-		":NvimTreeRefresh",
+		"ColorScheme",
+		require("user.utils.colorscheme").current_theme_colors(),
 		opts = {
 			pattern = "*",
 			group = nil,
 		},
-		description = "Refresh NvimTree on file save",
+		description = "Change the custom colors of the components",
 	},
 }
 
@@ -81,27 +81,59 @@ M.keymaps = {
 	{ "<Esc>", "<cmd>noh<CR>", description = "Hide Search Results", mode = { "n" }, opts },
 
 	------------------------------------------------ Debugger --------------------------------------------
-	{ "<F5>", ":lua require'dap'.continue()<CR>", description = "", mode = { "n" }, opts },
-	{ "<F3>", ":lua require'dap'.step_over()<CR>", description = "", mode = { "n" }, opts },
-	{ "<F2>", ":lua require'dap'.step_into()<CR>", description = "", mode = { "n" }, opts },
-	{ "<F12>", ":lua require'dap'.step_out()<CR>", description = "", mode = { "n" }, opts },
-	{ "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", description = "", mode = { "n" }, opts },
-	{
-		"<leader>B",
-		":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-		description = "",
-		mode = { "n" },
-		opts,
-	},
-	{
-		"<leader>lp",
-		":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
-		description = "",
-		mode = { "n" },
-		opts,
-	},
-	{ "<leader>dr", ":lua require'dap'.repl.open()<CR>", description = "", mode = { "n" }, opts },
-	{ "<leader>dt", ":lua require'dap-go'.debug_test()<CR>", description = "", mode = { "n" }, opts },
+	{ "<F5>", ":lua require'dap'.continue()<CR>", description = "Dap Continue", mode = { "n" }, opts },
+	{ "<F3>", ":lua require'dap'.step_over()<CR>", description = "Dap Step Over", mode = { "n" }, opts },
+	{ "<F2>", ":lua require'dap'.step_into()<CR>", description = "Dap Step Into", mode = { "n" }, opts },
+	{ "<F12>", ":lua require'dap'.step_out()<CR>", description = "Dap Step Out", mode = { "n" }, opts },
+	-- { "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", description = "", mode = { "n" }, opts },
+	-- {
+	-- 	"<leader>B",
+	-- 	":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+	-- 	description = "",
+	-- 	mode = { "n" },
+	-- 	opts,
+	-- },
+	-- {
+	-- 	"<leader>lp",
+	-- 	":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
+	-- 	description = "",
+	-- 	mode = { "n" },
+	-- 	opts,
+	-- },
+	-- { "<leader>dr", ":lua require'dap'.repl.open()<CR>", description = "", mode = { "n" }, opts },
+	-- { "<leader>dt", ":lua require'dap-go'.debug_test()<CR>", description = "", mode = { "n" }, opts },
+
+	-- utils.map('n', '<leader>dct', '<cmd>lua require"dap".continue()<CR>')
+	-- utils.map('n', '<leader>dsv', '<cmd>lua require"dap".step_over()<CR>')
+	-- utils.map('n', '<leader>dsi', '<cmd>lua require"dap".step_into()<CR>')
+	-- utils.map('n', '<leader>dso', '<cmd>lua require"dap".step_out()<CR>')
+	-- utils.map('n', '<leader>dtb', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
+	-- utils.map('n', '<leader>dsc', '<cmd>lua require"dap.ui.variables".scopes()<CR>')
+	-- utils.map('n', '<leader>dhh', '<cmd>lua require"dap.ui.variables".hover()<CR>')
+	-- utils.map('v', '<leader>dhv',
+	--           '<cmd>lua require"dap.ui.variables".visual_hover()<CR>')
+	--
+	-- utils.map('n', '<leader>duh', '<cmd>lua require"dap.ui.widgets".hover()<CR>')
+	-- utils.map('n', '<leader>duf',
+	--           "<cmd>lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>")
+	--
+	-- utils.map('n', '<leader>dsbr',
+	--           '<cmd>lua require"dap".set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>')
+	-- utils.map('n', '<leader>dsbm',
+	--           '<cmd>lua require"dap".set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>')
+	-- utils.map('n', '<leader>dro', '<cmd>lua require"dap".repl.open()<CR>')
+	-- utils.map('n', '<leader>drl', '<cmd>lua require"dap".repl.run_last()<CR>')
+	-- -- telescope-dap
+	-- utils.map('n', '<leader>dcc',
+	--           '<cmd>lua require"telescope".extensions.dap.commands{}<CR>')
+	-- utils.map('n', '<leader>dco',
+	--           '<cmd>lua require"telescope".extensions.dap.configurations{}<CR>')
+	-- utils.map('n', '<leader>dlb',
+	--           '<cmd>lua require"telescope".extensions.dap.list_breakpoints{}<CR>')
+	-- utils.map('n', '<leader>dv',
+	--           '<cmd>lua require"telescope".extensions.dap.variables{}<CR>')
+	-- utils.map('n', '<leader>df',
+	--           '<cmd>lua require"telescope".extensions.dap.frames{}<CR>')
 
 	------------------------------------------------ Lsp --------------------------------------------
 	{
@@ -295,6 +327,20 @@ M.WhichkeyMappings = {
 		w = { "<cmd>w!<CR>", "Save" },
 		q = { "<cmd>q<CR>", "Quit" },
 	},
+	d = {
+		name = "debugging",
+		b = { ":lua require'dap'.toggle_breakpoint()<CR>", "Toggle Breakpoint" },
+		B = {
+			":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+			"Set Breakpoint Condition",
+		},
+		s = {
+			":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>",
+			"Log Point Message",
+		},
+		r = { ":lua require'dap'.repl.open()<CR>", "Repl" },
+		t = { ":lua require'dap-go'.debug_test()<CR>", "Test" },
+	},
 	f = {
 		name = "LSP",
 		e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Line Diagnostic" },
@@ -349,6 +395,7 @@ M.WhichkeyMappings = {
 		b = { "<cmd>Legendary<cr>", "Keymaps" },
 		c = { "<cmd>Telescope commands<cr>", "Commands" },
 		C = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },
+		e = { "<cmd> Telescope file_browser<cr>", "File Explorer" },
 		f = { "<cmd>Telescope find_files<cr>", "Find files" },
 		t = { "<cmd>Telescope live_grep<cr>", "Find Text" },
 		r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },

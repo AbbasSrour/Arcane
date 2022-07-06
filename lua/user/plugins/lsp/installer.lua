@@ -37,11 +37,16 @@ local capabilities = require("user.plugins.lsp.handlers").capabilities
 local sumneko_opts = require("user.plugins.lsp.settings.sumneko_lua")
 
 for _, server in ipairs(lsp_installer.get_installed_servers()) do
-	require("lspconfig")[server.name].setup({
+	local opts = {
 		on_attach = on_attach,
 		capabilities = capabilities,
 		flags = {
 			debounce_text_changes = 150,
 		},
-	})
+	}
+	local has_custom_opts, server_custom_opts = pcall(require, "user.lsp.settings." .. server.name)
+	if has_custom_opts then
+		opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
+	end
+	require("lspconfig")[server.name].setup(opts)
 end
