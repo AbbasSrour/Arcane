@@ -232,18 +232,18 @@ return packer.startup(function(use)
 	use({ "nvim-telescope/telescope-file-browser.nvim" })
 
 	-- NEOCLIP
-	use({
-		"AckslD/nvim-neoclip.lua",
-		requires = {
-			{ "tami5/sqlite.lua", module = "sqlite" },
-			{ "nvim-telescope/telescope.nvim" },
-		},
-		config = function()
-			require("user.plugins.search.neoclip")
-		end,
-		opt = true,
-		event = "BufRead",
-	})
+	-- use({
+	-- 	"AckslD/nvim-neoclip.lua",
+	-- 	requires = {
+	-- 		{ "tami5/sqlite.lua", module = "sqlite" },
+	-- 		{ "nvim-telescope/telescope.nvim" },
+	-- 	},
+	-- 	config = function()
+	-- 		require("user.plugins.search.neoclip")
+	-- 	end,
+	-- 	opt = true,
+	-- 	event = "BufRead",
+	-- })
 
 	-- Telescope-Dap: Integration for nvim-dap with telescope.nvim
 	use({
