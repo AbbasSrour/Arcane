@@ -1,0 +1,6 @@
+require('arcane.vcs.gh-notifications')
+require('arcane.vcs.git-blame')
+require('arcane.vcs.gitlinker')
+require('arcane.vcs.gitsigns')
+require('arcane.vcs.octo')
+require('arcane.vcs.vim-gist')
