@@ -1,2 +1,2 @@
-require("arcane.search.telescope")
-require('arcane.search.projects')
+reload("arcane.search.telescope")
+reload('arcane.search.projects')

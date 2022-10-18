@@ -1,4 +1,5 @@
 -- Load impatient to speed up the config
+---@diagnostic disable-next-line: unused-local
 local status_ok = pcall(require, "impatient")
 
 -- Disable Builtin Plugins
@@ -29,13 +30,14 @@ vim.opt.lazyredraw = false
 
 -- Load Configs
 require('arcane.utils.reload')
-require("arcane.core")
-require('arcane.utils.colorscheme').current_theme()
-require("arcane.lsp")
+reload("arcane.core")
+reload("arcane.lsp")
 reload("arcane.ui")
-require("arcane.completion")
-require("arcane.debugger")
-require("arcane.general")
-require("arcane.syntax")
-require("arcane.search")
-require('arcane.vcs')
+reload("arcane.completion")
+reload("arcane.debugger")
+reload("arcane.general")
+reload("arcane.syntax")
+reload("arcane.search")
+reload('arcane.vcs')
+reload('arcane.utils.colorscheme')
+reload('arcane.utils.winbar')

@@ -311,27 +311,27 @@ M.current_theme_colors = function()
 end
 
 M.current_theme = function()
-  if time.hour >= 0 and time.hour < 7 then
-    vim.cmd([[
-	    try
-	      colorscheme onedark
-	      set background=dark
-	    catch /^Vim\%((\a\+)\)\=:E185/
-	      colorscheme default
-	      set background=dark
-	    endtry
-	    ]])
-  elseif time.hour >= 7 and time.hour < 10 then
-    vim.cmd([[
-	      try
-	        colorscheme rose-pine
-	        set background=light
-	      catch /^Vim\%((\a\+)\)\=:E185/
-	        colorscheme default
-	        set background=light
-	      endtry
-	      ]])
-  elseif time.hour >= 10 then
+  -- if time.hour >= 0 and time.hour < 7 then
+  --   vim.cmd([[
+	 --    try
+	 --      colorscheme onedark
+	 --      set background=dark
+	 --    catch /^Vim\%((\a\+)\)\=:E185/
+	 --      colorscheme default
+	 --      set background=dark
+	 --    endtry
+	 --    ]])
+  -- elseif time.hour >= 7 and time.hour < 10 then
+  --   vim.cmd([[
+	 --      try
+	 --        colorscheme rose-pine
+	 --        set background=light
+	 --      catch /^Vim\%((\a\+)\)\=:E185/
+	 --        colorscheme default
+	 --        set background=light
+	 --      endtry
+	 --      ]])
+  -- elseif time.hour >= 10 then
     vim.cmd([[
 			try
 			  colorscheme tokyonight
@@ -341,9 +341,11 @@ M.current_theme = function()
 			  set background=dark
 			endtry
 			]])
-  end
+  -- end
   M.current_theme_colors()
 end
+
+M.current_theme()
 
 M.tokyonight = function()
   vim.g.tokyonight_style = "storm"

@@ -1,11 +1,14 @@
-require("arcane.syntax.autopairs")
-require("arcane.syntax.autotag")
-require("arcane.syntax.comment")
-require("arcane.syntax.hexokinase")
-require("arcane.syntax.surround")
-require("arcane.syntax.tabout")
-require("arcane.syntax.todo-comment")
-require("arcane.syntax.toggleterm")
-require("arcane.syntax.treehopper")
-require("arcane.syntax.treesitter")
-require("arcane.syntax.ts-context")
+reload "arcane.syntax.autopairs"
+reload "arcane.syntax.autotag"
+reload "arcane.syntax.comment"
+reload "arcane.syntax.hexokinase"
+-- reload("arcane.syntax.hop")
+reload "arcane.syntax.surround"
+reload "arcane.syntax.tabout"
+reload "arcane.syntax.todo-comment"
+reload "arcane.syntax.toggleterm"
+-- reload("arcane.syntax.treehopper")
+reload("arcane.syntax.treesitter")
+reload("arcane.syntax.ts-context-vt")
+reload("arcane.syntax.ts-context")
+-- reload("arcane.syntax.treesitter-context")

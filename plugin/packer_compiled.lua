@@ -229,11 +229,6 @@ _G.packer_plugins = {
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
-  ["hop.nvim"] = {
-    loaded = true,
-    path = "/home/ares/.local/share/nvim/site/pack/packer/start/hop.nvim",
-    url = "https://github.com/phaazon/hop.nvim"
-  },
   ["impatient.nvim"] = {
     loaded = true,
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/impatient.nvim",
@@ -279,11 +274,6 @@ _G.packer_plugins = {
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/lsp_signature.nvim",
     url = "https://github.com/ray-x/lsp_signature.nvim"
   },
-  ["lua-dev.nvim"] = {
-    loaded = true,
-    path = "/home/ares/.local/share/nvim/site/pack/packer/start/lua-dev.nvim",
-    url = "https://github.com/folke/lua-dev.nvim"
-  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/lualine.nvim",
@@ -305,6 +295,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
+  },
+  ["neodev.nvim"] = {
+    loaded = true,
+    path = "/home/ares/.local/share/nvim/site/pack/packer/start/neodev.nvim",
+    url = "https://github.com/folke/neodev.nvim"
   },
   ["neoscroll.nvim"] = {
     loaded = true,
@@ -401,20 +396,10 @@ _G.packer_plugins = {
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
     url = "https://github.com/kyazdani42/nvim-tree.lua"
   },
-  ["nvim-treehopper"] = {
-    loaded = true,
-    path = "/home/ares/.local/share/nvim/site/pack/packer/start/nvim-treehopper",
-    url = "https://github.com/mfussenegger/nvim-treehopper"
-  },
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
-  },
-  ["nvim-treesitter-context"] = {
-    loaded = true,
-    path = "/home/ares/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
-    url = "https://github.com/romgrk/nvim-treesitter-context"
   },
   ["nvim-treesitter-textobjects"] = {
     loaded = true,
@@ -445,6 +430,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
+  },
+  nvim_context_vt = {
+    loaded = true,
+    path = "/home/ares/.local/share/nvim/site/pack/packer/start/nvim_context_vt",
+    url = "https://github.com/haringsrob/nvim_context_vt"
   },
   ["octo.nvim"] = {
     loaded = true,
@@ -480,11 +470,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/project.nvim",
     url = "https://github.com/ahmedkhalf/project.nvim"
-  },
-  ["registers.nvim"] = {
-    loaded = true,
-    path = "/home/ares/.local/share/nvim/site/pack/packer/start/registers.nvim",
-    url = "https://github.com/tversteeg/registers.nvim"
   },
   ["rose-pine"] = {
     loaded = true,
@@ -637,16 +622,16 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType conf ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "conf" }, _G.packer_plugins)]]
+vim.cmd [[au FileType txt ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "txt" }, _G.packer_plugins)]]
+vim.cmd [[au FileType lua ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "lua" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
 vim.cmd [[au FileType css ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "css" }, _G.packer_plugins)]]
 vim.cmd [[au FileType scss ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "scss" }, _G.packer_plugins)]]
 vim.cmd [[au FileType sass ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "sass" }, _G.packer_plugins)]]
 vim.cmd [[au FileType xml ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "xml" }, _G.packer_plugins)]]
 vim.cmd [[au FileType js ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "js" }, _G.packer_plugins)]]
 vim.cmd [[au FileType jsx ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "jsx" }, _G.packer_plugins)]]
-vim.cmd [[au FileType conf ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "conf" }, _G.packer_plugins)]]
-vim.cmd [[au FileType txt ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "txt" }, _G.packer_plugins)]]
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
-vim.cmd [[au FileType lua ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "lua" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 

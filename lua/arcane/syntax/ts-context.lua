@@ -3,7 +3,7 @@ if not status_ok then
   return
 end
 
-context.setup {
+context.setup ({
   enable = true,
   throttle = true,
   max_lines = 1,
@@ -21,7 +21,7 @@ context.setup {
   },
   exact_patterns = {
   },
-}
+})
 
 -- Commands
 -- TSContextEnable, TSContextDisable and TSContextToggle.

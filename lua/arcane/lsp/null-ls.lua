@@ -8,49 +8,27 @@ local diagnostics = null_ls.builtins.diagnostics
 local code_actions = null_ls.builtins.code_actions
 local completion = null_ls.builtins.completion
 
-null_ls.setup({
+null_ls.setup {
   debug = false,
   sources = {
+    -- Clangd
     formatting.google_java_format, -- Reformats Java source code according to Google Java Style.
+    -- Python
+    formatting.black.with { extra_args = { "--fast" } },
+    --Lua
     formatting.stylua, -- A fast and opinionated Lua formatter written in Rust. Highly recommended!
-    formatting.shfmt, -- A shell parser, formatter, and interpreter with bash support.
+    -- JavaScript
+    -- diagnostics.eslint_d,
+    -- formatting.eslint_d,
+    -- code_actions.eslint_d,
+    -- completion.eslint_d,
     formatting.prettier.with {
       extra_filetypes = { "toml" },
       extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
     },
-    formatting.black.with { extra_args = { "--fast" } },
-    formatting.stylua,
-    formatting.shfmt,
+    -- Shell
+    formatting.shfmt, -- A shell parser, formatter, and interpreter with bash support.
+    -- Misc
     diagnostics.shellcheck,
   },
-})
-
--- local unwrap = {
---   method = null_ls.methods.DIAGNOSTICS,
---   filetypes = { "rust" },
---   generator = {
---     fn = function(params)
---       local diagnostics = {}
---       -- sources have access to a params object
---       -- containing info about the current file and editor state
---       for i, line in ipairs(params.content) do
---         local col, end_col = line:find "unwrap()"
---         if col and end_col then
---           -- null-ls fills in undefined positions
---           -- and converts source diagnostics into the required format
---           table.insert(diagnostics, {
---             row = i,
---             col = col,
---             end_col = end_col,
---             source = "unwrap",
---             message = "hey " .. os.getenv("USER") .. ", don't forget to handle this",
---             severity = 2,
---           })
---         end
---       end
---       return diagnostics
---     end,
---   },
--- }
-
--- null_ls.register(unwrap)
+}

@@ -9,7 +9,7 @@ end
 -- Lsp Setup
 --------------------------------------------------------------------------------------------------------------------------------------
 M.setup = function()
-  local icons = require("arcane.utils.kind")
+  local icons = require "arcane.utils.kind"
   local signs = {
     { name = "DiagnosticSignError", text = icons.lsp.error },
     { name = "DiagnosticSignWarn", text = icons.lsp.warn },
@@ -20,6 +20,34 @@ M.setup = function()
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
   end
 
+  local function format(diagnostic)
+    local icon = "🦊"
+    local message = ""
+    if diagnostic.severity == vim.diagnostic.severity.ERROR then
+      icon = "🐻"
+    end
+
+    if diagnostic.severity == vim.diagnostic.severity.WARN then
+      icon = "🦊"
+    end
+
+    if diagnostic.severity == vim.diagnostic.severity.HINT then
+      icon = "🦉"
+    end
+
+    if diagnostic.severity == vim.diagnostic.severity.INFO then
+      icon = "🐭"
+    end
+
+    if diagnostic.message == nil then
+      message = ""
+    else
+      -- local message = string.format('%s [%s][%s] %s', icon, diagnostic.code, diagnostic.source, diagnostic.message)
+      message = string.format("%s %s: %s", icon, diagnostic.source:sub(1, -1), diagnostic.message:sub(1, -2))
+    end
+    return message
+  end
+
   local config = {
     update_in_insert = true,
     underline = true,
@@ -27,24 +55,19 @@ M.setup = function()
     signs = {
       active = signs,
     },
-    virtual_lines = false,
-    virtual_text = false,
-    -- virtual_text = {
-    --   -- spacing = 7,
-    --   -- update_in_insert = false,
-    --   -- severity_sort = true,
-    --   -- prefix = "<-",
-    --   prefix = " ●",
-    --   source = "if_many", -- Or "always"
-    --   -- format = function(diag)
-    --   --   return diag.message .. "blah"
-    --   -- end,
-    -- },
+    virtual_lines = true,
+    virtual_text = {
+      spacding = 7,
+      update_in_insert = false,
+      severity_sort = true,
+      prefix = "",
+      source = false,
+      format = format,
+    },
     float = {
       focusable = true,
       style = "minimal",
       border = "rounded",
-      -- border = {"▄","▄","▄","█","▀","▀","▀","█"},
       source = "if_many", -- Or "always"
       header = "",
       prefix = "",
@@ -61,7 +84,6 @@ M.setup = function()
     border = "rounded",
   })
 end
-
 
 --------------------------------------------------------------------------------------------------------------------------------------
 -- Functionalities
@@ -82,16 +104,16 @@ local function show_diagnostics_automatically()
     focusable = false,
     close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
     border = "rounded",
-    source = "always",
+    source = false,
     prefix = " ",
   }
   -- vim.o.updatetime = 300
-  vim.cmd([[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, opts)]])
+  vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, opts)]]
 end
 
 -- Add LightBulb For Code Actions
 local function show_lightbulb()
-  vim.cmd([[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]])
+  vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
 end
 
 -- add highlighting to functions and variables
@@ -104,7 +126,7 @@ local function lsp_highlight_document(client)
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
       augroup END
-    ]] ,
+    ]],
       false
     )
   end
@@ -120,38 +142,17 @@ end
 
 -- Format On Save
 local function Format_On_Save(client, bufnr)
-  if client.supports_method("textDocument/formatting") then
-    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+  if client.supports_method "textDocument/formatting" then
+    vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = augroup,
       buffer = bufnr,
       callback = function()
-        vim.lsp.buf.format({ bufnr = bufnr })
+        vim.lsp.buf.format { bufnr = bufnr }
       end,
     })
   end
 end
-
--- local function lsp_keymaps(bufnr)
--- local opts = { noremap = true, silent = true }
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>Telescope lsp_declarations<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
--- vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format({ async = true })' ]]
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "<M-f>", "<cmd>Format<cr>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "<M-a>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "<M-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
--- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
--- end
 
 local inline_hints = function(client, bufnr)
   require("lsp-inlayhints").on_attach(client, bufnr)
@@ -202,7 +203,7 @@ M.on_attach = function(client, bufnr)
   if client.name == "jdt.ls" then
     vim.lsp.codelens.refresh()
     if JAVA_DAP_ACTIVE then
-      require("jdtls").setup_dap({ hotcodereplace = "auto" })
+      require("jdtls").setup_dap { hotcodereplace = "auto" }
       require("jdtls.dap").setup_dap_main_class_configs()
     end
   end
@@ -226,7 +227,7 @@ M.on_attach = function(client, bufnr)
   --   client.server_capabilities.document_formatting = false
   -- end
 
-  -- show_lightbulb()
+  show_lightbulb()
   -- lsp_highlight_document(client)
   -- get_noti(client)
   -- show_diagnostics_automatically()
@@ -235,6 +236,6 @@ end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
-M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
 
 return M

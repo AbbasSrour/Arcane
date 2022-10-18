@@ -47,7 +47,7 @@ local plugin_count = {
 }
 local heading = {
   type = "text",
-  val = "┌─ " .. kind.misc.calendar .. " Today is " .. Info().date .. " ─┐",
+  val = "┌─ " .. kind.misc.calendar .. "  Today is " .. Info().date .. " ─┐",
   opts = {
     position = "center",
     hl = "String",

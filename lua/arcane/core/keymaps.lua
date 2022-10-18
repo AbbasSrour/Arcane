@@ -681,15 +681,14 @@ M.whichkey_mappings = {
     f = { "<cmd>lua require('spectre').open_file_search()<cr>", "Replace Buffer" },
   },
 
-  -- TODO
-  -- m = {
-  --   name = "Session",
-  --   s = { "<cmd>SaveSession<cr>", "Save" },
-  --   r = { "<cmd>RestoreSession<cr>", "Restore" },
-  --   x = { "<cmd>DeleteSession<cr>", "Delete" },
-  --   f = { "<cmd>Autosession search<cr>", "Find" },
-  --   d = { "<cmd>Autosession delete<cr>", "Find Delete" },
-  -- },
+  m = {
+    name = "Session",
+    c = { "<cmd>SessionManager load_curruent_dir_session<cr>", "Find Delete" },
+    f = { "<cmd>SessionManager load_session<cr>", "Find" },
+    s = { "<cmd>SessionManager save_current_session<cr>", "Save" },
+    l = { "<cmd>SessionManager load_last_session<cr>", "Load Last Session" },
+    x = { "<cmd>SessionManager delete_session<cr>", "Delete" },
+  },
 
   n = {
     name = "Surround",

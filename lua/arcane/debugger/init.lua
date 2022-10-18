@@ -1,2 +1,2 @@
-require("arcane.debugger.dap")
-require("arcane.debugger.dapvr")
+reload("arcane.debugger.dap")
+reload("arcane.debugger.dapvr")

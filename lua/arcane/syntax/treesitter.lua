@@ -31,6 +31,15 @@ configs.setup {
   context_commentstring = {
     enable = true,
     enable_autocmd = false,
+    config = {
+      typescript = "// %s",
+      css = "/* %s */",
+      scss = "/* %s */",
+      html = "<!-- %s -->",
+      svelte = "<!-- %s -->",
+      vue = "<!-- %s -->",
+      json = "",
+    },
   },
 
   autotag = {

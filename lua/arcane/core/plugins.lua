@@ -104,9 +104,6 @@ return packer.startup(function(use)
   -- vim slash enhancing in-buffer search experience
   use({ "junegunn/vim-slash" })
 
-  -- Motion jump anywhere in a document with as few keystrokes as possible
-  use({ "phaazon/hop.nvim" })
-
   -- REFACTORING The Refactoring library based off the Refactoring book by Martin Fowler
   -- use({ "ThePrimeagen/refactoring.nvim" })
 
@@ -213,7 +210,7 @@ return packer.startup(function(use)
   use({ "b0o/SchemaStore.nvim" })
 
   -- LudDev for easer nvim lua development
-  use({ "folke/lua-dev.nvim" })
+  use({ "folke/neodev.nvim" })
 
   -- FIDGET Lsp Loader Progress
   use({ "j-hui/fidget.nvim" })
@@ -357,11 +354,18 @@ return packer.startup(function(use)
   -- Tab out of things
   use({ "abecodes/tabout.nvim", require = { "nvim-treesitter" } })
 
+
+  -- Motion jump anywhere in a document with as few keystrokes as possible
+  -- use({ "phaazon/hop.nvim" })
+
   -- TreeHopper Plugin that provides region selection using hints on the abstract syntax tree of a document.
-  use({ "mfussenegger/nvim-treehopper" })
+  -- use({ "mfussenegger/nvim-treehopper" })
 
   -- Treesitter-Context: Show code context FIXME
-  use({ "romgrk/nvim-treesitter-context" })
+  -- use({ "romgrk/nvim-treesitter-context" })
+
+  -- VR-COMMENTS-CONTEXT : Vr Function Context as Comments
+  use({"haringsrob/nvim_context_vt"})
 
   -- Todo-Comments Highlight comments and notes
   use({ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" })
@@ -432,9 +436,6 @@ return packer.startup(function(use)
   -----------------------------------------------------------------------------------------------------------------
   -- Nvim-Gps: statusline component that shows what scope you are working inside
   -- use({ "SmiteshP/nvim-gps" })
-
-  -- VR-COMMENTS-CONTEXT : Vr Function Context as Comments
-  -- use({"haringsrob/nvim_context_vt"})
 
   -- Code Outline alternative
   -- use({ 'stevearc/aerial.nvim' })

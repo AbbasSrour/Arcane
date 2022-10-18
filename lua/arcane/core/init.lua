@@ -1,3 +1,3 @@
-require('arcane.core.keymaps')
-require('arcane.core.plugins')
-require('arcane.core.options')
+reload('arcane.core.keymaps')
+reload('arcane.core.plugins')
+reload('arcane.core.options')

@@ -1,1 +1,1 @@
-require("arcane.completion.cmp")
+reload("arcane.completion.cmp")

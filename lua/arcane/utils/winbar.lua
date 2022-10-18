@@ -1,5 +1,7 @@
 local M = {}
 
+local icons = require("arcane.utils.kind")
+
 M.winbar_filetype_exclude = {
   "help",
   "startify",
@@ -29,23 +31,44 @@ M.winbar_filetype_exclude = {
 }
 
 M.get_filename = function()
-  local filename = vim.fn.expand "%:t"
-  local extension = vim.fn.expand "%:e"
-  local f = require "user.functions"
+  local filename = vim.fn.expand("%:t")
+  local extension = vim.fn.expand("%:e")
+  local f = require("arcane.utils.functions")
 
   if not f.isempty(filename) then
     local file_icon, file_icon_color =
-    require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+      require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
 
     local hl_group = "FileIconColor" .. extension
 
     vim.api.nvim_set_hl(0, hl_group, { fg = file_icon_color })
     if f.isempty(file_icon) then
-      file_icon = ""
-      file_icon_color = ""
+      file_icon = icons.symbols_outline.File
     end
 
-    local navic_text = vim.api.nvim_get_hl_by_name("NavicText", true)
+    local buf_ft = vim.bo.filetype
+
+    if buf_ft == "dapui_breakpoints" then
+      file_icon = icons.misc.Bug
+    end
+
+    if buf_ft == "dapui_stacks" then
+      file_icon = icons.misc.Stack
+    end
+
+    if buf_ft == "dapui_scopes" then
+      file_icon = icons.misc.Scopes
+    end
+
+    if buf_ft == "dapui_watches" then
+      file_icon = icons.misc.Watches
+    end
+
+    if buf_ft == "dapui_console" then
+      file_icon = icons.misc.DebugConsole
+    end
+
+    local navic_text = vim.api.nvim_get_hl_by_name("Normal", true)
     vim.api.nvim_set_hl(0, "Winbar", { fg = navic_text.foreground })
 
     return " " .. "%#" .. hl_group .. "#" .. file_icon .. "%*" .. " " .. "%#Winbar#" .. filename .. "%*"
@@ -89,8 +112,8 @@ local get_gps = function()
     return ""
   end
 
-  if not require("user.functions").isempty(gps_location) then
-    return require("user.icons").ui.ChevronRight .. " " .. gps_location
+  if not require("arcane.utils.functions").isempty(gps_location) then
+    return icons.misc.ChevronRight .. " " .. gps_location
   else
     return ""
   end
@@ -108,7 +131,7 @@ M.get_winbar = function()
   if excludes() then
     return
   end
-  local f = require "user.functions"
+  local f = require("arcane.utils.functions")
   local value = M.get_filename()
 
   local gps_added = false
@@ -121,7 +144,7 @@ M.get_winbar = function()
   end
 
   if not f.isempty(value) and f.get_buf_option "mod" then
-    local mod = "%#LspCodeLens#" .. require("user.icons").ui.Circle .. "%*"
+    local mod = "%#LspCodeLens#" .. icons.misc.Circle .. "%*"
     if gps_added then
       value = value .. " " .. mod
     else
@@ -152,7 +175,7 @@ M.create_winbar = function()
         callback = function()
           local status_ok, _ = pcall(vim.api.nvim_buf_get_var, 0, "lsp_floating_window")
           if not status_ok then
-            require("user.winbar").get_winbar()
+            require("arcane.utils.winbar").get_winbar()
           end
         end,
       }

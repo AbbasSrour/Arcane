@@ -84,6 +84,9 @@ telescope.setup {
     man_pages = {
       theme = "ivy",
     },
+    projects = {
+      theme= "ivy"
+    }
   },
   extensions = {
     media_files = {
