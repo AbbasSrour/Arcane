@@ -21,6 +21,7 @@ local servers = {
   "yamlls",
   "bashls",
   "clangd",
+  "pyright"
 }
 
 local settings = {
@@ -72,21 +73,10 @@ for _, server in pairs(servers) do
     if not l_status_ok then
       return
     end
+    lua_dev.setup({})
     local sumneko_opts = require "arcane.lsp.settings.sumneko_lua"
     opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
-    opts = vim.tbl_deep_extend("force", require("neodev").setup(), opts, {
-      special = {
-        reload = "require",
-      },
-    })
-    local luadev = lua_dev.setup {
-      lspconfig = {
-        on_attach = opts.on_attach,
-        capabilities = opts.capabilities,
-        settings = opts.settings,
-      },
-    }
-    lspconfig.sumneko_lua.setup(luadev)
+    lspconfig.sumneko_lua.setup(opts)
     goto continue
   end
 

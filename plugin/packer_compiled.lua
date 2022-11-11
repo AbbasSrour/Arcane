@@ -431,11 +431,6 @@ _G.packer_plugins = {
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
-  nvim_context_vt = {
-    loaded = true,
-    path = "/home/ares/.local/share/nvim/site/pack/packer/start/nvim_context_vt",
-    url = "https://github.com/haringsrob/nvim_context_vt"
-  },
   ["octo.nvim"] = {
     loaded = true,
     path = "/home/ares/.local/share/nvim/site/pack/packer/start/octo.nvim",
@@ -622,16 +617,16 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType conf ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "conf" }, _G.packer_plugins)]]
-vim.cmd [[au FileType txt ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "txt" }, _G.packer_plugins)]]
 vim.cmd [[au FileType lua ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "lua" }, _G.packer_plugins)]]
-vim.cmd [[au FileType markdown ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
 vim.cmd [[au FileType css ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "css" }, _G.packer_plugins)]]
 vim.cmd [[au FileType scss ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "scss" }, _G.packer_plugins)]]
 vim.cmd [[au FileType sass ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "sass" }, _G.packer_plugins)]]
 vim.cmd [[au FileType xml ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "xml" }, _G.packer_plugins)]]
 vim.cmd [[au FileType js ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "js" }, _G.packer_plugins)]]
 vim.cmd [[au FileType jsx ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "jsx" }, _G.packer_plugins)]]
+vim.cmd [[au FileType conf ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "conf" }, _G.packer_plugins)]]
+vim.cmd [[au FileType txt ++once lua require("packer.load")({'vim-hexokinase'}, { ft = "txt" }, _G.packer_plugins)]]
+vim.cmd [[au FileType markdown ++once lua require("packer.load")({'markdown-preview.nvim'}, { ft = "markdown" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 

@@ -7,8 +7,9 @@ if not config_status_ok then
   return
 end
 
-local kind = require("arcane.utils.kind")
-local utils = require "nvim-tree.utils"
+local kind = reload("arcane.utils.kind")
+local utils = reload("nvim-tree.utils")
+local notify = reload('nvim-tree.notify')
 local tree_cb = nvim_tree_config.nvim_tree_callback
 
 ---@diagnostic disable-next-line: unused-local
@@ -20,10 +21,10 @@ local function notify_level(level)
   end
 end
 
-utils.notify.warn = notify_level(vim.log.levels.WARN)
-utils.notify.error = notify_level(vim.log.levels.ERROR)
-utils.notify.info = notify_level(vim.log.levels.INFO)
-utils.notify.debug = notify_level(vim.log.levels.DEBUG)
+notify.warn = notify_level(vim.log.levels.WARN)
+notify.error = notify_level(vim.log.levels.ERROR)
+notify.info = notify_level(vim.log.levels.INFO)
+notify.debug = notify_level(vim.log.levels.DEBUG)
 
 nvim_tree.setup {
   auto_reload_on_write = true,

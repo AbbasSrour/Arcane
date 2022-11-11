@@ -354,7 +354,6 @@ return packer.startup(function(use)
   -- Tab out of things
   use({ "abecodes/tabout.nvim", require = { "nvim-treesitter" } })
 
-
   -- Motion jump anywhere in a document with as few keystrokes as possible
   -- use({ "phaazon/hop.nvim" })
 
@@ -365,7 +364,7 @@ return packer.startup(function(use)
   -- use({ "romgrk/nvim-treesitter-context" })
 
   -- VR-COMMENTS-CONTEXT : Vr Function Context as Comments
-  use({"haringsrob/nvim_context_vt"})
+  -- use({"haringsrob/nvim_context_vt"})
 
   -- Todo-Comments Highlight comments and notes
   use({ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" })

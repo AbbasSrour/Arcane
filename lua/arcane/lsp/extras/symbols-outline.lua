@@ -4,7 +4,7 @@ if not status_ok then
 end
 
 local icons = require("arcane.utils.kind")
-local opts = {
+symbols_outline.setup({
   width = 40,
   keymaps = { -- These keymaps can be a string or a table for multiple keys
     close = { "<Esc>", "q" },
@@ -45,6 +45,4 @@ local opts = {
     Operator = { icon = icons.symbols_outline.Operator, hl = "CmpItemKindOperator" },
     TypeParameter = { icon = icons.symbols_outline.TypeParameter, hl = "CmpItemKindTypeParameter" },
   },
-}
-
-symbols_outline.setup(opts)
+})
