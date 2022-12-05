@@ -1,5 +1,5 @@
 -- Set Font
-vim.opt.guifont = "Operator Mono Lig Book,Apple Color Emoji,JetBrainsMono Nerd Font:h9"
+vim.opt.guifont = "Operator Mono Lig Book,Apple Color Emoji,JetBrainsMono Nerd Font:h11"
 if vim.g.neovide == true then
   vim.g.neovide_cursor_animation_length = 0.13
   vim.g.neovide_cursor_trail_length = 0.8

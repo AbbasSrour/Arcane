@@ -1,9 +1,9 @@
 -- Load impatient to speed up the config
 ---@diagnostic disable-next-line: unused-local
-local status_ok = pcall(require, "impatient")
+  local status_ok = pcall(require, "impatient")
 
 -- Disable Builtin Plugins
-local disabled_built_ins = {
+  local disabled_built_ins = {
   "netrw",
   "netrwPlugin",
   "netrwSettings",

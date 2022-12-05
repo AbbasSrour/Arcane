@@ -1,30 +1,17 @@
-local status_ok, mason = pcall(require, "mason")
-if not status_ok then
+local mason_status_ok, mason = pcall(require, "mason")
+if not mason_status_ok then
+  return
+end
+local mason_lspconfig_status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+if not mason_lspconfig_status_ok then
+  return
+end
+local mason_null_ls_status_ok, mason_null_ls = pcall(require, "mason-null-ls")
+if not mason_null_ls_status_ok then
   return
 end
 
-local status_ok_1, mason_lspconfig = pcall(require, "mason-lspconfig")
-if not status_ok_1 then
-  return
-end
-
-local servers = {
-  "cssls",
-  "cssmodules_ls",
-  "emmet_ls",
-  "html",
-  "jdtls",
-  "jsonls",
-  "pyright",
-  "sumneko_lua",
-  "tsserver",
-  "yamlls",
-  "bashls",
-  "clangd",
-  "pyright"
-}
-
-local settings = {
+mason.setup {
   ui = {
     border = "rounded",
     icons = {
@@ -37,9 +24,30 @@ local settings = {
   max_concurrent_installers = 4,
 }
 
-mason.setup(settings)
 mason_lspconfig.setup {
-  ensure_installed = servers,
+  ensure_installed = {
+    "html",
+    "emmet_ls",
+    "cssls",
+    "cssmodules_ls",
+    "tsserver",
+
+    "gopls",
+    "jdtls",
+    "clangd",
+
+    "sumneko_lua",
+    "pyright",
+    "bashls",
+
+    "jsonls",
+    "yamlls",
+  },
+  automatic_installation = true,
+}
+
+mason_null_ls.setup {
+  ensure_installed = { "stylua", "prettier", "eslint" },
   automatic_installation = true,
 }
 
@@ -50,22 +58,15 @@ end
 
 local opts = {}
 
-for _, server in pairs(servers) do
+for _, server in pairs(mason_lspconfig.get_installed_servers()) do
   opts = {
     on_attach = require("arcane.lsp.handlers").on_attach,
     capabilities = require("arcane.lsp.handlers").capabilities,
   }
 
-  server = vim.split(server, "@")[1]
-
-  if server == "jsonls" then
-    local jsonls_opts = require "arcane.lsp.settings.jsonls"
-    opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
-  end
-
-  if server == "yamlls" then
-    local yamlls_opts = require "arcane.lsp.settings.yamlls"
-    opts = vim.tbl_deep_extend("force", yamlls_opts, opts)
+  local has_custom_opts, server_custom_opts = pcall(require, "arcane.lsp.settings." .. server)
+  if has_custom_opts then
+    opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
   end
 
   if server == "sumneko_lua" then
@@ -73,35 +74,9 @@ for _, server in pairs(servers) do
     if not l_status_ok then
       return
     end
-    lua_dev.setup({})
-    local sumneko_opts = require "arcane.lsp.settings.sumneko_lua"
-    opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
-    lspconfig.sumneko_lua.setup(opts)
-    goto continue
-  end
-
-  if server == "tsserver" then
-    local tsserver_opts = require "arcane.lsp.settings.tsserver"
-    opts = vim.tbl_deep_extend("force", tsserver_opts, opts)
-  end
-
-  if server == "pyright" then
-    local pyright_opts = require "arcane.lsp.settings.pyright"
-    opts = vim.tbl_deep_extend("force", pyright_opts, opts)
-  end
-
-  if server == "emmet_ls" then
-    local emmet_ls_opts = require "arcane.lsp.settings.emmet_ls"
-    opts = vim.tbl_deep_extend("force", emmet_ls_opts, opts)
-  end
-
-  if server == "jdtls" then
-    goto continue
+    lua_dev.setup()
   end
 
   lspconfig[server].setup(opts)
   ::continue::
 end
-
--- TODO: add something to installer later
--- require("lspconfig").motoko.setup {}

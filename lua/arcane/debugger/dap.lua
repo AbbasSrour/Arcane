@@ -9,10 +9,9 @@ if not dap_ui_status_ok then
 end
 
 -- dapui.setup()
-dapui.setup {
+dapui.setup ({
   icons = { expanded = "▾", collapsed = "▸" },
   mappings = {
-    -- Use a table to apply multiple mappings
     expand = { "<CR>", "<2-LeftMouse>" },
     open = "o",
     remove = "d",
@@ -20,7 +19,7 @@ dapui.setup {
     repl = "r",
     toggle = "t",
   },
-  expand_lines = vim.fn.has "nvim-0.7",
+  expand_lines = true,
   layouts = {
     {
       elements = {
@@ -54,9 +53,9 @@ dapui.setup {
   render = {
     max_type_length = nil, -- Can be integer or nil.
   },
-}
+})
 
-local icons = require("arcane.utils.kind")
+local icons = require "arcane.utils.kind"
 
 vim.fn.sign_define("DapBreakpoint", { text = icons.lsp.debug, texthl = "DiagnosticSignError", linehl = "", numhl = "" })
 

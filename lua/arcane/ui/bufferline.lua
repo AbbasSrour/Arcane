@@ -3,7 +3,7 @@ if not status_ok then
   return
 end
 
-bufferline.setup({
+bufferline.setup {
   options = {
     numbers = "none",
     close_command = "Bdelete! %d",
@@ -11,8 +11,8 @@ bufferline.setup({
     left_mouse_command = "buffer %d",
     middle_mouse_command = nil,
     indicator = {
-      icon = '▎', -- this should be omitted if indicator style is not 'icon'
-      style = 'icon',
+      icon = "▎", -- this should be omitted if indicator style is not 'icon'
+      style = "icon",
     },
     buffer_close_icon = "", -- ''
     modified_icon = "●",
@@ -32,8 +32,9 @@ bufferline.setup({
     persist_buffer_sort = true,
     separator_style = "thin",
     enforce_regular_tabs = true,
-    always_show_bufferline = true,
+    always_show_bufferline = false,
   },
+
   highlights = {
     fill = {
       fg = { attribute = "fg", highlight = "#ff0000" },
@@ -70,17 +71,17 @@ bufferline.setup({
     duplicate_selected = {
       fg = { attribute = "fg", highlight = "TabLineSel" },
       bg = { attribute = "bg", highlight = "TabLineSel" },
-      italic = true
+      italic = true,
     },
     duplicate_visible = {
       fg = { attribute = "fg", highlight = "TabLine" },
       bg = { attribute = "bg", highlight = "TabLine" },
-      italic = true
+      italic = true,
     },
     duplicate = {
       fg = { attribute = "fg", highlight = "TabLine" },
       bg = { attribute = "bg", highlight = "TabLine" },
-      italic = true
+      italic = true,
     },
     modified = {
       fg = { attribute = "fg", highlight = "TabLine" },
@@ -108,4 +109,4 @@ bufferline.setup({
       bg = { attribute = "bg", highlight = "Normal" },
     },
   },
-})
+}

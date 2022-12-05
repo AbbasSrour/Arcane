@@ -1,6 +1,6 @@
 local M = {}
 
-local icons = require("arcane.utils.kind")
+local icons = require "arcane.utils.kind"
 
 M.winbar_filetype_exclude = {
   "help",
@@ -31,18 +31,18 @@ M.winbar_filetype_exclude = {
 }
 
 M.get_filename = function()
-  local filename = vim.fn.expand("%:t")
-  local extension = vim.fn.expand("%:e")
-  local f = require("arcane.utils.functions")
+  local filename = vim.fn.expand "%:t"
+  local extension = vim.fn.expand "%:e"
+  local functions = require "arcane.utils.functions"
 
-  if not f.isempty(filename) then
+  if not functions.isempty(filename) then
     local file_icon, file_icon_color =
       require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
 
     local hl_group = "FileIconColor" .. extension
 
     vim.api.nvim_set_hl(0, hl_group, { fg = file_icon_color })
-    if f.isempty(file_icon) then
+    if functions.isempty(file_icon) then
       file_icon = icons.symbols_outline.File
     end
 
@@ -131,7 +131,7 @@ M.get_winbar = function()
   if excludes() then
     return
   end
-  local f = require("arcane.utils.functions")
+  local f = require "arcane.utils.functions"
   local value = M.get_filename()
 
   local gps_added = false

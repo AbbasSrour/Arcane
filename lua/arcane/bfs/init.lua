@@ -4,8 +4,8 @@ require "split"
 
 local M = {}
 
-local config = require "user.bfs.config"
-local keymaps = require("user.bfs.keymaps")
+local config = require("arcane.bfs.config")
+local keymaps = require("arcane.bfs.keymaps")
 
 M.bopen = {}
 

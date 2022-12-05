@@ -573,12 +573,6 @@ M.whichkey_mappings = {
   f = {
     name = "LSP",
     a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-    c = { "<cmd>lua require('user.lsp').server_capabilities()<cr>", "Get Capabilities" },
-    C = {
-      name = "Config",
-      i = { "<cmd>LspInfo<cr>", "Info" },
-      I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
-    },
     d = { "<cmd>Telescope lsp_definitions<CR>", "Go To Definition" },
     e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Line Diagnostic" },
     f = { "<cmd>lua vim.lsp.buf.format({ async = true })<cr>", "Format" },
@@ -589,26 +583,17 @@ M.whichkey_mappings = {
     i = { "<cmd>Telescope lsp_implementations<CR>", "Go To implementation" },
     l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
     k = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Diagnostics" },
-    m = {
-      "<cmd>lua vim.diagnostic.goto_next({buffer=0})<CR>",
-      "Next Diagnostic",
-    },
-    n = {
-      "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>",
-      "Prev Diagnostic",
-    },
+    m = { "<cmd>lua vim.diagnostic.goto_next({buffer=0})<CR>","Next Diagnostic"},
+    n = { "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>","Prev Diagnostic"},
     o = { "<cmd>SymbolsOutline<cr>", "Outline" },
     p = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature Help" },
     q = { "<cmd>Trouble document_diagnostics<CR>", "Document Diagnostics" },
-    -- r = { "<cmd>Telescope lsp_references<CR>", "Go To References" },
-    r = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
+    r = { "<cmd>Telescope lsp_references<CR>", "Go To References" },
+    -- r = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
     s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-    S = {
-      "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-      "Workspace Symbols",
-    },
+    S = {"<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Workspace Symbols"},
     t = { "<cmd>Telescope lsp_type_definitions<CR>", "Get Type Definition" },
-    T = { '<cmd>lua require("user.functions").toggle_diagnostics()<cr>', "Toggle Diagnostics" },
+    T = { '<cmd>lua require("arcane.functions").toggle_diagnostics()<cr>', "Toggle Diagnostics" },
     u = { "<cmd>LuaSnipUnlinkCurrent<cr>", "Unlink Snippet" },
     v = { "<cmd>lua require('lsp_lines').toggle()<cr>", "Virtual Text" },
     w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
@@ -619,6 +604,12 @@ M.whichkey_mappings = {
       r = { "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Workspace Folder" },
     },
     x = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+  },
+
+  l = {
+    c = { "<cmd>lua require('arcane.lsp').server_capabilities()<cr>", "Get Capabilities" },
+    i = { "<cmd>LspInfo<cr>", "Info" },
+    I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
   },
 
   g = {
@@ -658,11 +649,11 @@ M.whichkey_mappings = {
     name = "Options",
     c = { '<cmd>lua vim.g.cmp_active=false<cr>', "Completion off" },
     C = { '<cmd>lua vim.g.cmp_active=true<cr>', "Completion on" },
-    w = { '<cmd>lua require("user.functions").toggle_option("wrap")<cr>', "Wrap" },
-    r = { '<cmd>lua require("user.functions").toggle_option("relativenumber")<cr>', "Relative" },
-    l = { '<cmd>lua require("user.functions").toggle_option("cursorline")<cr>', "Cursorline" },
-    s = { '<cmd>lua require("user.functions").toggle_option("spell")<cr>', "Spell" },
-    t = { '<cmd>lua require("user.functions").toggle_tabline()<cr>', "Tabline" },
+    w = { '<cmd>lua require("arcane.functions").toggle_option("wrap")<cr>', "Wrap" },
+    r = { '<cmd>lua require("arcane.functions").toggle_option("relativenumber")<cr>', "Relative" },
+    l = { '<cmd>lua require("arcane.functions").toggle_option("cursorline")<cr>', "Cursorline" },
+    s = { '<cmd>lua require("arcane.functions").toggle_option("spell")<cr>', "Spell" },
+    t = { '<cmd>lua require("arcane.functions").toggle_tabline()<cr>', "Tabline" },
   },
 
   p = {
@@ -757,8 +748,9 @@ M.whichkey_mappings = {
     p = { "<cmd>TSPlaygroundToggle<cr>", "Playground" },
     r = { "<cmd>TSToggle rainbow<cr>", "Rainbow" },
   },
+  
 
-  ["z"] = { "<cmd>ZenMode<cr>", "Zen" },
+  z = { "<cmd>ZenMode<cr>", "Zen" },
 
   ["/"] = { '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', "Comment" },
 
@@ -779,7 +771,7 @@ M.whichkey_m_mappings = {
   m = { '<cmd>lua require("harpoon.mark").add_file()<cr>', "Harpoon" },
   ["."] = { '<cmd>lua require("harpoon.ui").nav_next()<cr>', "Harpoon Next" },
   [","] = { '<cmd>lua require("harpoon.ui").nav_prev()<cr>', "Harpoon Prev" },
-  l = { "<cmd>lua require('user.bfs').open()<cr>", "Buffers" },
+  l = { "<cmd>lua require('arcane.bfs').open()<cr>", "Buffers" },
   j = { "<cmd>silent BookmarkNext<cr>", "Next" },
   s = { "<cmd>Telescope harpoon marks<cr>", "Search Files" },
   k = { "<cmd>silent BookmarkPrev<cr>", "Prev" },

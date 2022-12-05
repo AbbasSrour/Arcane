@@ -40,6 +40,6 @@ zen_mode.setup {
     require("lsp-inlayhints").toggle()
     vim.g.cmp_active = true
     vim.cmd [[LspStart]]
-    require("user.winbar").create_winbar()
+    require("arcane.utils.winbar").create_winbar()
   end,
 }

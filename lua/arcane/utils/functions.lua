@@ -43,6 +43,7 @@ function M.toggle_sniprun()
   end
 end
 
+-- Remove an augroup
 function M.remove_augroup(name)
   if vim.fn.exists("#" .. name) == 1 then
     vim.cmd("au! " .. name)

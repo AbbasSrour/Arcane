@@ -113,6 +113,8 @@ return packer.startup(function(use)
   -- WebApi Interface
   use({ "mattn/webapi-vim" })
 
+  -- a game to learn vim
+  use({'ThePrimeagen/vim-be-good'})
   -----------------------------------------------------------------------------------------------------------------
   -- UI Plugins:
   -----------------------------------------------------------------------------------------------------------------
@@ -197,6 +199,9 @@ return packer.startup(function(use)
   -- Null-ls: for formatters and linters
   use({ "jose-elias-alvarez/null-ls.nvim" })
 
+  -- Integrates null_ls with mason
+  use({"jayp0521/mason-null-ls.nvim"})
+
   -- Lsp-Signature Function Parameters Helper
   use({ "ray-x/lsp_signature.nvim" })
 
@@ -223,10 +228,11 @@ return packer.startup(function(use)
 
   -- Variable type inline hints
   use({ "lvimuser/lsp-inlayhints.nvim" })
+
   -- use "simrat39/inlay-hints.nvim"
 
   -- renders diagnostics using virtual lines on top of the real line of code.
-  use({ "https://git.sr.ht/~whynothugo/lsp_lines.nvim" })
+  -- use({ "https://git.sr.ht/~whynothugo/lsp_lines.nvim" })
 
   -- Java
   use({ "mfussenegger/nvim-jdtls" })
@@ -331,7 +337,7 @@ return packer.startup(function(use)
   use({ "JoosepAlviste/nvim-ts-context-commentstring" })
 
   -- TS-RAINBOW-BRACKETS
-  use({ "p00f/nvim-ts-rainbow" })
+  -- use({ "p00f/nvim-ts-rainbow" })
 
   -- View treesitter information directly in Neovim!
   use({ "nvim-treesitter/playground" })
