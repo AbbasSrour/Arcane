@@ -146,10 +146,10 @@ end
 
 -- Add Inline Hints
 local inline_hints = function(client, bufnr)
-local status_inlayhints_ok, inlayhints = pcall(require, "lsp-inlayhints")
-if not status_inlayhints_ok then
-  return
-end
+  local status_inlayhints_ok, inlayhints = pcall(require, "lsp-inlayhints")
+  if not status_inlayhints_ok then
+    return
+  end
   inlayhints.on_attach(client, bufnr, false)
 end
 
@@ -226,6 +226,8 @@ M.on_attach = function(client, bufnr)
   -- get_noti(client)
   show_diagnostics_automatically()
   format_on_save(client, bufnr)
+
+  vim.diagnostic.config({ virtual_lines = false })
 
   if client.name == "jdt.ls" then
     vim.lsp.codelens.refresh()

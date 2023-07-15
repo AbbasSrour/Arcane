@@ -1,4 +1,5 @@
 M = {}
+
 M.server_capabilities = function()
   local active_clients = vim.lsp.get_active_clients()
   local active_client_map = {}
@@ -13,7 +14,6 @@ M.server_capabilities = function()
       return "capabilites for: " .. item
     end,
   }, function(choice)
-    -- print(active_client_map[choice])
     print(vim.inspect(vim.lsp.get_active_clients()[active_client_map[choice]].server_capabilities.executeCommandProvider))
     vim.pretty_print(vim.lsp.get_active_clients()[active_client_map[choice]].server_capabilities)
   end)
@@ -25,10 +25,10 @@ reload("arcane.lsp.null-ls")
 reload('arcane.lsp.extras.fidget')
 reload('arcane.lsp.extras.illuminate')
 reload('arcane.lsp.extras.lightbulb')
--- reload('arcane.lsp.extras.lsp-inlayhints')
 reload("arcane.lsp.extras.lsp-signature")
--- reload('arcane.lsp.extras.lsp_lines')
+reload('arcane.lsp.extras.lsp-inlayhints')
 reload('arcane.lsp.extras.navic')
 reload('arcane.lsp.extras.symbols-outline')
+reload('arcane.lsp.extras.lsp_lines')
 
 return M

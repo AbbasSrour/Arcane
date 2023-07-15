@@ -257,96 +257,6 @@ M.color_palettes = {
   },
 }
 
-local function onedark_theme()
-  local styles = { dark = 1, darker = 2, cool = 3, deep = 4, warm = 5, warmer = 6, light = 7 }
-  -- local index = styles[vim.g.onedark_config.style] -- FIXME:
-  local index = styles["cool"]
-  return index
-end
-
-M.component_colors = {
-  onedark = {
-    treesitter = M.color_palettes.onedark.green[onedark_theme()],
-    scrollbar = M.color_palettes.onedark.bg2[onedark_theme()],
-    git = {
-      add = M.color_palettes.onedark.green[onedark_theme()],
-      delete = M.color_palettes.onedark.red[onedark_theme()],
-      change = M.color_palettes.onedark.orange[onedark_theme()],
-      github = M.color_palettes.onedark.black[onedark_theme()],
-    },
-  },
-  rose_pine = {
-    treesitter = M.color_palettes.rose_pine.moon.green,
-    scrollbar = M.color_palettes.rose_pine.moon.love,
-    git = {
-      add = M.color_palettes.rose_pine.moon.green,
-      delete = M.color_palettes.rose_pine.moon.red,
-      change = M.color_palettes.rose_pine.moon.orange,
-      github = M.color_palettes.rose_pine.moon.black,
-    },
-  },
-  tokyonight = {
-    treesitter = M.color_palettes.tokyonight.green,
-    scrollbar = M.color_palettes.tokyonight.terminal_black, -- bg_br
-    git = {
-      add = M.color_palettes.tokyonight.green,
-      delete = M.color_palettes.tokyonight.red,
-      change = M.color_palettes.tokyonight.orange,
-      github = M.color_palettes.tokyonight.bg,
-    },
-  },
-}
-
-M.current_theme_component_colors = {}
-
-M.current_theme_colors = function()
-  local current_theme = vim.g.colors_name
-  if current_theme == "rose-pine" then
-    M.current_theme_component_colors = M.component_colors.rose_pine
-  elseif current_theme == "tokyonight" then
-    M.current_theme_component_colors = M.component_colors.tokyonight
-  elseif current_theme == "onedark" then
-    M.current_theme_component_colors = M.component_colors.onedark
-  end
-end
-
-M.current_theme = function()
-  -- if time.hour >= 0 and time.hour < 7 then
-  --   vim.cmd([[
-	 --    try
-	 --      colorscheme onedark
-	 --      set background=dark
-	 --    catch /^Vim\%((\a\+)\)\=:E185/
-	 --      colorscheme default
-	 --      set background=dark
-	 --    endtry
-	 --    ]])
-  -- elseif time.hour >= 7 and time.hour < 10 then
-  --   vim.cmd([[
-	 --      try
-	 --        colorscheme rose-pine
-	 --        set background=light
-	 --      catch /^Vim\%((\a\+)\)\=:E185/
-	 --        colorscheme default
-	 --        set background=light
-	 --      endtry
-	 --      ]])
-  -- elseif time.hour >= 10 then
-    vim.cmd([[
-			try
-			  colorscheme tokyonight
-			  set background=dark
-			catch /^Vim\%((\a\+)\)\=:E185/
-			  colorscheme default
-			  set background=dark
-			endtry
-			]])
-  -- end
-  M.current_theme_colors()
-end
-
-M.current_theme()
-
 M.tokyonight = function()
   vim.g.tokyonight_style = "storm"
   vim.g.tokyonight_cterm_colors = false
@@ -507,5 +417,98 @@ M.catppuccin = function()
     },
   })
 end
+
+local function onedark_theme()
+  local styles = { dark = 1, darker = 2, cool = 3, deep = 4, warm = 5, warmer = 6, light = 7 }
+  -- local index = styles[vim.g.onedark_config.style] -- FIXME:
+  local index = styles["cool"]
+  return index
+end
+
+M.component_colors = {
+  onedark = {
+    treesitter = M.color_palettes.onedark.green[onedark_theme()],
+    scrollbar = M.color_palettes.onedark.bg2[onedark_theme()],
+    git = {
+      add = M.color_palettes.onedark.green[onedark_theme()],
+      delete = M.color_palettes.onedark.red[onedark_theme()],
+      change = M.color_palettes.onedark.orange[onedark_theme()],
+      github = M.color_palettes.onedark.black[onedark_theme()],
+    },
+  },
+  rose_pine = {
+    treesitter = M.color_palettes.rose_pine.moon.green,
+    scrollbar = M.color_palettes.rose_pine.moon.love,
+    git = {
+      add = M.color_palettes.rose_pine.moon.green,
+      delete = M.color_palettes.rose_pine.moon.red,
+      change = M.color_palettes.rose_pine.moon.orange,
+      github = M.color_palettes.rose_pine.moon.black,
+    },
+  },
+  tokyonight = {
+    treesitter = M.color_palettes.tokyonight.green,
+    scrollbar = M.color_palettes.tokyonight.terminal_black, -- bg_br
+    git = {
+      add = M.color_palettes.tokyonight.green,
+      delete = M.color_palettes.tokyonight.red,
+      change = M.color_palettes.tokyonight.orange,
+      github = M.color_palettes.tokyonight.bg,
+    },
+  },
+}
+
+M.current_theme_component_colors = {}
+
+M.current_theme_colors = function()
+  local current_theme = vim.g.colors_name
+  if current_theme == "rose-pine" then
+    M.current_theme_component_colors = M.component_colors.rose_pine
+  elseif current_theme == "tokyonight" then
+    M.current_theme_component_colors = M.component_colors.tokyonight
+  elseif current_theme == "onedark" then
+    M.current_theme_component_colors = M.component_colors.onedark
+  else
+    M.current_theme_component_colors = M.component_colors.tokyonight
+  end
+end
+
+M.current_theme = function()
+  -- if time.hour >= 0 and time.hour < 7 then
+  --   vim.cmd([[
+	 --    try
+	 --      colorscheme onedark
+	 --      set background=dark
+	 --    catch /^Vim\%((\a\+)\)\=:E185/
+	 --      colorscheme default
+	 --      set background=dark
+	 --    endtry
+	 --    ]])
+  -- elseif time.hour >= 7 and time.hour < 10 then
+  --   vim.cmd([[
+	 --      try
+	 --        colorscheme rose-pine
+	 --        set background=light
+	 --      catch /^Vim\%((\a\+)\)\=:E185/
+	 --        colorscheme default
+	 --        set background=light
+	 --      endtry
+	 --      ]])
+  -- elseif time.hour >= 10 then
+    vim.cmd([[
+			try
+			  colorscheme tokyonight
+			  set background=dark
+			catch /^Vim\%((\a\+)\)\=:E185/
+			  colorscheme default
+			  set background=dark
+			endtry
+			]])
+  -- end
+  M.current_theme_colors()
+end
+
+M.current_theme()
+
 
 return M

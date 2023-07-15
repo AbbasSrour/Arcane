@@ -1,9 +1,9 @@
 -- Load impatient to speed up the config
 ---@diagnostic disable-next-line: unused-local
-  local status_ok = pcall(require, "impatient")
+local status_ok = pcall(require, "impatient")
 
 -- Disable Builtin Plugins
-  local disabled_built_ins = {
+local disabled_built_ins = {
   "netrw",
   "netrwPlugin",
   "netrwSettings",
@@ -28,16 +28,20 @@ for _, plugin in pairs(disabled_built_ins) do
 end
 vim.opt.lazyredraw = false
 
--- Load Configs
+
 require('arcane.utils.reload')
+require('arcane.utils.prequire')
+
+
 reload("arcane.core")
-reload("arcane.lsp")
-reload("arcane.ui")
+reload("arcane.syntax")
 reload("arcane.completion")
 reload("arcane.debugger")
 reload("arcane.general")
-reload("arcane.syntax")
+reload("arcane.lsp")
 reload("arcane.search")
+reload("arcane.ui")
 reload('arcane.vcs')
-reload('arcane.utils.colorscheme')
+
+reload("arcane.utils.colorscheme")
 reload('arcane.utils.winbar')

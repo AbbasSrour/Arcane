@@ -15,7 +15,8 @@ telescope.load_extension("dap")
 telescope.load_extension("media_files")
 telescope.load_extension('projects')
 
-telescope.setup {
+---@diagnostic disable-next-line: redundant-parameter
+telescope.setup({
   pickers = {
     live_grep = {
       theme = "ivy",
@@ -90,16 +91,14 @@ telescope.setup {
   },
   extensions = {
     media_files = {
-      -- filetypes whitelist
-      -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
       filetypes = { "png", "webp", "jpg", "jpeg" },
-      find_cmd = "rg", -- find command (defaults to `fd`)
+      find_cmd = "rg", -- or rg
     },
     fzf = {
-      fuzzy = true, -- false will only do exact matching
-      override_generic_sorter = true, -- override the generic sorter
-      override_file_sorter = true, -- override the file sorter
-      case_mode = "smart_case", -- or "ignore_case" or "respect_case", the default case_mode is "smart_case"
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case", -- or "ignore_case" or "respect_case"
     },
     file_browser = {
       theme = "ivy",
@@ -154,9 +153,9 @@ telescope.setup {
       "%.sqlite3",
       "%.ipynb",
       "node_modules/*",
-      -- "%.jpg",
-      -- "%.jpeg",
-      -- "%.png",
+      "%.jpg",
+      "%.jpeg",
+      "%.png",
       "%.svg",
       "%.otf",
       "%.ttf",
@@ -277,4 +276,4 @@ telescope.setup {
       },
     },
   },
-}
+})

@@ -8,10 +8,7 @@ if not snip_status_ok then
   return
 end
 
--- local tabnine_status_ok, _ = pcall(require, "user.tabnine")
--- if not tabnine_status_ok then
---   return
--- end
+local icons = require("arcane.utils.kind")
 
 local buffer_fts = {
   "markdown",
@@ -33,19 +30,14 @@ local compare = require("cmp.config.compare")
 
 require("luasnip/loaders/from_vscode").lazy_load()
 
--- local check_backspace = function()
---   local col = vim.fn.col "." - 1
---   return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
--- end
+-- luasnip.filetype_extend("python", "django")
+-- luasnip.filetype_extend("javascript", "vue.vue")
 
 local check_backspace = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
-local icons = require("arcane.utils.kind")
-
-local kind_icons = icons
 
 vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
 vim.api.nvim_set_hl(0, "CmpItemKindTabnine", { fg = "#CA42F0" })
@@ -54,8 +46,10 @@ vim.api.nvim_set_hl(0, "CmpItemKindCrate", { fg = "#F64D00" })
 
 vim.g.cmp_active = true
 
+---@diagnostic disable-next-line: redundant-parameter
 cmp.setup({
   enabled = function()
+---@diagnostic disable-next-line: redundant-parameter
     local buftype = vim.api.nvim_buf_get_option(0, "buftype")
     if buftype == "prompt" then
       return false
@@ -106,7 +100,6 @@ cmp.setup({
         nvim_lua = "", -- " (LUA)"
         luasnip = "", -- " (SNP)"
         buffer = "", -- " (BUF)"
-        -- cmp_tabnine = "", -- " (TBN)"
         path = "", -- " (PATH)"
         emoji = "",
       })[entry.source.name]
@@ -145,8 +138,14 @@ cmp.setup({
     { name = "lab.quick_data", keyword_length = 4, group_index = 2 },
 		{ name = "ultisnips" },
 		{ name = "nvim_lsp_signature_help" },
+    {
+      name = 'omni',
+      option = {
+        disable_omnifuncs = { 'v:lua.vim.lsp.omnifunc' }
+      }
+    }
   },
-  
+
   sorting = {
     priority_weight = 2,
     comparators = {
@@ -162,12 +161,12 @@ cmp.setup({
       compare.order,
     },
   },
-  
+
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
     select = false,
   },
-  
+
   window = {
     -- documentation = false,
     documentation = {
@@ -307,8 +306,7 @@ cmp.setup.cmdline(":", {
 cmp.setup.cmdline("/", {
 	sources = cmp.config.sources(
 		{ { name = "nvim_lsp_document_symbol" } },
-		{ { name = "buffer" } },
-		{ { name = "nvim_lsp_document_symbol" } }
+		{ { name = "buffer" } }
 	),
 })
 

@@ -1,6 +1,9 @@
 return {
   settings = {
     Lua = {
+      completion = {
+        callSnippet = "Replace"
+      },
       type = {
         -- weakUnionCheck = true,
         -- weakNilCheck = true,

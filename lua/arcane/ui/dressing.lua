@@ -1,5 +1,5 @@
-local status_ok, dressing = pcall(require, "dressing")
-if not status_ok then
+local dressing = prequire('dressing')
+if dressing == nil then
   return
 end
 

@@ -4,3 +4,4 @@ if not l_status_ok then
 end
 
 lsp_lines.setup()
+lsp_lines.toggle()

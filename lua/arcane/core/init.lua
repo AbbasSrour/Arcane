@@ -1,3 +1,5 @@
-reload('arcane.core.keymaps')
 reload('arcane.core.plugins')
 reload('arcane.core.options')
+reload('arcane.core.autocmds')
+reload('arcane.core.commands')
+reload('arcane.core.keymaps')

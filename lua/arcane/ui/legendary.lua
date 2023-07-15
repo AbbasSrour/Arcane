@@ -10,7 +10,8 @@ legendary.setup({
   which_key={
     auto_register = true
   },
+
   keymaps = require("arcane.core.keymaps").keymaps,
-  commands = require("arcane.core.keymaps").commands,
-  autocmds = require("arcane.core.keymaps").autocmds,
+  commands = require("arcane.core.commands").commands,
+  autocmds = require("arcane.core.autocmds").autocmds,
 })

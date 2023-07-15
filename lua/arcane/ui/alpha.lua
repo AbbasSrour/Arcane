@@ -1,11 +1,12 @@
 local M = {}
-local status_ok, alpha = pcall(require, "alpha")
-if not status_ok then
+local alpha = prequire('alpha')
+if not alpha then
   return
 end
+
 local kind = require("arcane.utils.kind")
 
--- My Header
+------------------------ Heading -------------------------
 local header = {
   type = "text",
   val = require("arcane.utils.banners").dashboard(),
@@ -15,7 +16,6 @@ local header = {
   },
 }
 
--- My Heading
 local function Info()
   local plugins = ""
   local date = ""
@@ -45,6 +45,7 @@ local plugin_count = {
     hl = "String",
   },
 }
+
 local heading = {
   type = "text",
   val = "┌─ " .. kind.misc.calendar .. "  Today is " .. Info().date .. " ─┐",
@@ -54,7 +55,7 @@ local heading = {
   },
 }
 
--- My Footer
+------------------------ Footer -------------------------
 local fortune = require("alpha.fortune")()
 local footer = {
   type = "text",

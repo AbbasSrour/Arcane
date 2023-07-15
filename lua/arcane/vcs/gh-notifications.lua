@@ -15,7 +15,6 @@ github_notify.setup({
   mappings = {
     mark_read = "<CR>",
     hide = "d", -- remove from Telescope picker, but don't mark as read
-    -- open_in_browser = 'o', (WIP)
   },
   prompt_mappings = {
     mark_all_read = "<C-r>",
