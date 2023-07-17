@@ -66,20 +66,20 @@ end
 
 
 for _, server in pairs(mason_lspconfig.get_installed_servers()) do
-  local default_opts = {}
-  local server_opts = {}
-  local server_custom_opts, has_custom_opts = prequire("arcane.lsp.settings." .. server, false)
-
-  default_opts = {
+  local server_opts
+  local default_opts = {
     on_attach = require("arcane.lsp.handlers").on_attach,
     capabilities = require("arcane.lsp.handlers").capabilities,
   }
+  local custom_opts, has_custom_opts = prequire("arcane.lsp.settings." .. server, false)
 
   if has_custom_opts then
-    server_opts = vim.tbl_deep_extend("force", server_custom_opts, default_opts)
+    server_opts = vim.tbl_deep_extend("force", custom_opts, default_opts)
+  else
+    server_opts = default_opts
   end
 
-  if server == "sumneko_lua" then
+  if server == "lua_ls" then
     lua_dev.setup()
   end
 

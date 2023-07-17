@@ -1,8 +1,8 @@
-  local M = {}
+local M = {}
 
 local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_cmp_ok then
-        return
+  return
 end
 
 local status_cmp_utils, utils = pcall(require, "arcane.utils")
@@ -17,16 +17,16 @@ M.setup = function()
   local icons = require "arcane.utils.kind"
   local signs = {
     { name = "DiagnosticSignError", text = icons.lsp.error },
-    { name = "DiagnosticSignWarn", text = icons.lsp.warn },
-    { name = "DiagnosticSignHint", text = icons.lsp.hint },
-    { name = "DiagnosticSignInfo", text = icons.lsp.info },
+    { name = "DiagnosticSignWarn",  text = icons.lsp.warn },
+    { name = "DiagnosticSignHint",  text = icons.lsp.hint },
+    { name = "DiagnosticSignInfo",  text = icons.lsp.info },
   }
   for _, sign in ipairs(signs) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
   end
 
   local function format_message(diagnostic)
-    -- Icon 
+    -- Icon
     local icon = "🦊"
     if diagnostic.severity == vim.diagnostic.severity.ERROR then
       icon = "🐻"
@@ -192,8 +192,8 @@ end
 function M.enable_format_on_save()
   vim.cmd [[
     augroup format_on_save
-      autocmd! 
-      autocmd BufWritePre * lua vim.lsp.buf.format({ async = false }) 
+      autocmd!
+      autocmd BufWritePre * lua vim.lsp.buf.format({ async = false })
     augroup end
   ]]
   vim.notify "Enabled format on save"
@@ -201,7 +201,7 @@ end
 
 -- Disable Format on Save
 function M.disable_format_on_save()
-   null_ls.functions.remove_augroup("format_on_save")
+  null_ls.functions.remove_augroup("format_on_save")
   vim.notify "Disabled format on save"
 end
 
@@ -224,7 +224,7 @@ M.on_attach = function(client, bufnr)
   show_lightbulb()
   -- lsp_highlight_document(client)
   -- get_noti(client)
-  show_diagnostics_automatically()
+  -- show_diagnostics_automatically()
   format_on_save(client, bufnr)
 
   vim.diagnostic.config({ virtual_lines = false })
