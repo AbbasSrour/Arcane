@@ -21,7 +21,7 @@ local function Info()
   local date = ""
   if vim.fn.has("linux") == 1 or vim.fn.has("mac") == 1 then
     local handle = io.popen(
-      'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer/" | grep pack | head -n -2 | wc -l | tr -d "\n" '
+      'fd -d 1 . $HOME"/.local/share/nvim/lazy/" | wc -l'
     )
     plugins = handle:read("*a")
     handle:close()
@@ -39,7 +39,7 @@ end
 
 local plugin_count = {
   type = "text",
-  val = "└─ " .. kind.symbols_outline.Module .. "  " .. Info().plugins .. " plugins in total ─┘",
+  val = "└─ " .. kind.symbols_outline.Module .. "   " .. Info().plugins .. " plugins in total ─┘",
   opts = {
     position = "center",
     hl = "String",
