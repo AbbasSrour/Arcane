@@ -4,11 +4,8 @@ if not status_ok then
 end
 
 local mappings  = require("arcane.core.keymaps").whichkey_mappings
-local opts      = require("arcane.core.keymaps").whichkey_opts
 local mmappings = require("arcane.core.keymaps").whichkey_m_mappings
-local mopts     = require("arcane.core.keymaps").whichkey_m_opts
 local vmappings = require("arcane.core.keymaps").whichkey_v_mappings
-local vopts     = require("arcane.core.keymaps").whichkey_v_opts
 
 local setup = {
   plugins = {
@@ -66,6 +63,6 @@ local setup = {
 }
 
 which_key.setup(setup)
-which_key.register(mappings, opts)
-which_key.register(vmappings, vopts)
-which_key.register(mmappings, mopts)
+which_key.add(mappings)
+which_key.add(vmappings)
+which_key.add(mmappings)

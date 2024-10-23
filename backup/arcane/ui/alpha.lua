@@ -7,65 +7,66 @@ end
 local kind = require("arcane.utils.kind")
 
 ------------------------ Heading -------------------------
-local banner = {
+local header = {
   type = "text",
-  val = require("arcane.utils.banners").rand_banner(),
+  val = require("arcane.utils.banners").dashboard(),
   opts = {
     position = "center",
     hl = "Comment",
   },
 }
 
-local function get_plugin_count()
+local function Info()
   local plugins = ""
-
+  local date = ""
   if vim.fn.has("linux") == 1 or vim.fn.has("mac") == 1 then
     local handle = io.popen(
       'fd -d 1 . $HOME"/.local/share/nvim/lazy/" | wc -l'
     )
     plugins = handle:read("*a")
     handle:close()
-    plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
-  else
-    plugins = "N/A"
-  end
 
-  return plugins
-end
-
-local function get_date()
-  local date = ""
-
-  if vim.fn.has("linux") == 1 or vim.fn.has("mac") == 1 then
     local thingy = io.popen('echo "$(date +%a) $(date +%d) $(date +%b)" | tr -d "\n"')
     date = thingy:read("*a")
     thingy:close()
+    plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
   else
+    plugins = "N/A"
     date = "  whatever "
   end
-
-  return date
+  return { date = date, plugins = plugins }
 end
-
-local heading = {
-  type = "text",
-  val = "┌─ " .. kind.misc.calendar .. "  Today is " .. get_date() .. " ─┐",
-  opts = {
-    position = "center",
-    hl = "String",
-  },
-}
 
 local plugin_count = {
   type = "text",
-  val = "└─ " .. kind.symbols_outline.Module .. "   " .. get_plugin_count() .. " plugins in total ─┘",
+  val = "└─ " .. kind.symbols_outline.Module .. "   " .. Info().plugins .. " plugins in total ─┘",
   opts = {
     position = "center",
     hl = "String",
   },
 }
 
------------------------- Actions -------------------------
+local heading = {
+  type = "text",
+  val = "┌─ " .. kind.misc.calendar .. "  Today is " .. Info().date .. " ─┐",
+  opts = {
+    position = "center",
+    hl = "String",
+  },
+}
+
+------------------------ Footer -------------------------
+local fortune = require("alpha.fortune")()
+local footer = {
+  type = "text",
+  val = fortune,
+  opts = {
+    position = "center",
+    hl = "Comment",
+    hl_shortcut = "Comment",
+  },
+}
+
 local function button(sc, txt, keybind)
   local sc_ = sc:gsub("%s", ""):gsub("SPC", "<leader>")
   local opts = {
@@ -109,45 +110,8 @@ local buttons = {
   },
 }
 
------------------------- Footer -------------------------
-local get_lazy_plugins = function()
-  local stats = require("lazy").stats()
-  local ms = math.floor(stats.startuptime) .. " ms"
-
-  local txt = "  Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. msaa
-  local txt_count = #txt
-
-  local border = string.rep(txt_count, "-")
-
-  return {
-    border,
-    txt,
-    border
-  }
-end
-
-local lazy_plugins = {
-    type = "group",
-    val = get_lazy_plugins(),
-    opts = {
-        spacing = 1,
-    }
-}
-
-local fortune = require("alpha.fortune")()
-local footer = {
-  type = "text",
-  val = fortune,
-  opts = {
-    position = "center",
-    hl = "Comment",
-    hl_shortcut = "Comment",
-  },
-}
-
------------------------- Config -------------------------
 local section = {
-  banner = banner,
+  header = header,
   buttons = buttons,
   plugin_count = plugin_count,
   heading = heading,
@@ -157,20 +121,18 @@ local section = {
 local opts = {
   layout = {
     { type = "padding", val = 1 },
-    section.banner,
+    section.header,
     { type = "padding", val = 2 },
     section.heading,
     section.plugin_count,
     { type = "padding", val = 1 },
     section.buttons,
-    lazy_plugins,
     section.footer,
   },
   opts = {
     margin = 5,
   },
 }
-
 alpha.setup(opts)
 
 return M

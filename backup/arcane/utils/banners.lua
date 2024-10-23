@@ -1,6 +1,6 @@
 local M = {}
 
-M.rand_banner = function()
+M.dashboard = function()
 	math.randomseed(os.time())
 	local headers = {
 		{

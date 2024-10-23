@@ -29,19 +29,16 @@ end
 vim.opt.lazyredraw = false
 
 
-require('arcane.utils.reload')
-require('arcane.utils.prequire')
-
-
+require('arcane.libs')
 reload("arcane.core")
-reload("arcane.syntax")
-reload("arcane.completion")
-reload("arcane.debugger")
-reload("arcane.general")
-reload("arcane.lsp")
-reload("arcane.search")
+-- reload("arcane.syntax")
+-- reload("arcane.completion")
+-- reload("arcane.debugger")
+-- reload("arcane.general")
+-- reload("arcane.lsp")
+-- reload("arcane.search")
 reload("arcane.ui")
-reload('arcane.vcs')
-
-reload("arcane.utils.colorscheme")
-reload('arcane.utils.winbar')
+-- reload('arcane.vcs')
+--
+-- reload("arcane.utils.colorscheme")
+-- reload('arcane.utils.winbar')
